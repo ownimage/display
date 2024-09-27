@@ -1,0 +1,9 @@
+Put the directory behind a username/password ... this can be using ionos features
+Aim to make a gallery app ASAP
+Add readme
+
+Collect all images
+Create python script to in util directory
+    remove spaces
+    generate images.json with all the names in an array
+Deploy as webapp
