@@ -1,8 +1,11 @@
 // This function will be called every 5 seconds
 var count = 0;
-function myFunction() {
+var image = "202404-_DSC_5113.jpg.jpg"
+
+async function myFunction() {
     console.log("This function runs every 1 seconds");
     changeBodyContent();
+    await fetchHTML();
     count++;
 }
 
@@ -11,8 +14,20 @@ setInterval(myFunction, 1000);
 
 function changeBodyContent() {
     document.body.innerHTML = "<h1>New Content</h1><p>This is the new content of the body tag. " + count + "</p>"
-    + "<img src=\"images/202404-_DSC_5066.jpg.jpg\" width=\"800\" height=\"600\">"
+    + "<h2 id=\"content\">change me</h2>"
+    + "<img src=\"images/" + image + "\" width=\"800\" height=\"600\">"
 }
 
-// Call the function to change the content
-changeBodyContent();
+async function fetchHTML() {
+    try {
+        const response = await fetch('content.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        t = await response.text();
+        image = JSON.parse(t).image;
+    } catch (error) {
+        console.error('Error fetching the HTML file:', error);
+    }
+}
+
