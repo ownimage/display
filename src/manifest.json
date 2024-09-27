@@ -1,0 +1,11 @@
+{
+    "name": "Display",
+    "short_name": "display",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#0175C2",
+    "description": "A home display.",
+    "orientation": "landscape-primary",
+    "prefer_related_applications": false
+}

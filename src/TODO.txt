@@ -2,5 +2,5 @@ Put the directory behind a username/password ... this can be using ionos feature
 Aim to make a gallery app ASAP
 Add readme
 
-Deploy as webapp
-make fullscreen
+Create deploy to ionos script
+need to separate css from index.html
