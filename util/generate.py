@@ -7,8 +7,8 @@ It then creates the content.json with a list of all the files in the directory
 import os
 import json
 
-images_path = "./images"
-content_json_path = 'content.json'
+images_path = "../display/src/images"
+content_json_path = '../display/src/content.json'
 
 with open(content_json_path, 'r') as file:
     content = json.load(file)
