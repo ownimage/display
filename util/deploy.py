@@ -13,10 +13,12 @@ def put_dir(sftp, source, dest):
         for dir in dirs:
             try:
                 sftp.mkdir(os.path.join(dest, ''.join(root.rsplit(source))[1:], dir))
+                print(f'Created directory: {dir}')
             except:
                 pass
         for file in files:
             sftp.put(os.path.join(root, file), os.path.join(dest, ''.join(root.rsplit(source))[1:], file))
+            print(f'Created file: {file}')
 
 
 try:

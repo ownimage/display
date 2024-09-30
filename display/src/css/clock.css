@@ -1,0 +1,9 @@
+.clock {
+    text-align: center;
+    color: white;
+    font-size: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
