@@ -1,5 +1,3 @@
-
-
 class Clock {
     constructor() {
     }
@@ -39,13 +37,16 @@ class Clock {
             dial += `${this.drawTick(angle, 20, 4, 200)}`;
         }
 
+        const clock_normal_size = 480;
+        const scale = Math.min(window.innerWidth, window.innerHeight) / clock_normal_size;
+
         document.body.innerHTML = `
-        <svg id="clock" height="400" width="400" xmlns="http://www.w3.org/2000/svg">
-            <g transform="translate(200,200)">
+        <svg id="clock" height="${window.innerHeight}" width="${window.innerWidth}" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(${window.innerWidth/2},${window.innerHeight/2}) scale(${scale})">
+                ${dial}
                 ${this.drawHand('hour', 120, 10, 10, 5, 2)}
                 ${this.drawHand('minute', 175, 10, 30, 5, 2)}
                 ${this.drawHand('second', 200, 10, 50, 0, 0)}
-                ${dial}
             </g>
         </svg>
         `
