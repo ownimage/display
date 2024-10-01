@@ -1,5 +1,8 @@
 body, html {
     height: 100%;
     margin: 0;
-    background-color: black; /* Set the background color to black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
 }
