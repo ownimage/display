@@ -1,6 +1,5 @@
 class Clock {
     constructor() {
-        this.log = ""
     }
 
     updateDisplay() {
@@ -42,7 +41,6 @@ class Clock {
         const clock_desired_size = Math.min(window.innerHeight, window.innerWidth);
         const scale = clock_desired_size / clock_normal_size;
 
-// <h1 id='log'>Log</h1> translate(${window.innerWidth/2},${window.innerHeight/2})
         document.body.innerHTML = `
         <svg id="clock" height="${clock_desired_size}" width="${clock_desired_size}" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})">
