@@ -33,16 +33,6 @@ try:
     # Create an SFTP session
     sftp = ssh.open_sftp()
 
-    # # Change to the desired directory
-    # # sftp.chdir('/path/to/directory')
-    #
-    # # List the contents of the directory
-    # directory_contents = sftp.listdir()
-    #
-    # # Print the contents
-    # for item in directory_contents:
-    #     print(item)
-
     put_dir(sftp, '../display/src', '/')
 
 except:

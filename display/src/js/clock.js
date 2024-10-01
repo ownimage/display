@@ -1,5 +1,6 @@
 class Clock {
     constructor() {
+        this.log = ""
     }
 
     updateDisplay() {
@@ -32,17 +33,19 @@ class Clock {
 
     setupDisplay() {
         var dial = ""
-        for (var i = 1; i <= 12; i++) {
+        for (var i = 0; i <= 12; i++) {
             var angle = i*30-90;
             dial += `${this.drawTick(angle, 20, 4, 200)}`;
         }
 
-        const clock_normal_size = 480;
-        const scale = Math.min(window.innerWidth, window.innerHeight) / clock_normal_size;
+        const clock_normal_size = 440;
+        const clock_desired_size = Math.min(window.innerHeight, window.innerWidth);
+        const scale = clock_desired_size / clock_normal_size;
 
+// <h1 id='log'>Log</h1> translate(${window.innerWidth/2},${window.innerHeight/2})
         document.body.innerHTML = `
-        <svg id="clock" height="${window.innerHeight}" width="${window.innerWidth}" xmlns="http://www.w3.org/2000/svg">
-            <g transform="translate(${window.innerWidth/2},${window.innerHeight/2}) scale(${scale})">
+        <svg id="clock" height="${clock_desired_size}" width="${clock_desired_size}" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})">
                 ${dial}
                 ${this.drawHand('hour', 120, 10, 10, 5, 2)}
                 ${this.drawHand('minute', 175, 10, 30, 5, 2)}
@@ -50,6 +53,7 @@ class Clock {
             </g>
         </svg>
         `
+//        this.log = `${window.innerHeight} ${window.innerWidth} ${scale}`;
     }
 }
 
