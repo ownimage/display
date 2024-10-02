@@ -1,17 +1,11 @@
 class Gallery {
-    constructor() {
+
+    constructor(gallery, speed) {
         this.count = 0;
-        this.gallery = '';
+        this.gallery = gallery;
         this.images = [];
         this.onscreen = 1;
-        this.speed = 0;
-    }
-
-    async myFunction() {
-        console.log("This function runs every 1 seconds");
-        this.changeBodyContent();
-        await this.fetchHTML();
-        this.count++;
+        this.speed = speed;
     }
 
     rotate_image() {
@@ -24,31 +18,11 @@ class Gallery {
     async create_display() {
         document.body.innerHTML = "<img id=\"0\" src=\"images/" + this.gallery + "/" + this.images[0] + "\" class=\"fullsize-image\">" +
         "<img id=\"1\" src=\"images/" + this.gallery + "/" + this.images[1] + "\" class=\"fullsize-image\">";
-        console.log(this.get_onscreen_image());
         this.get_onscreen_image().style.display = 'none';
         this.get_offscreen_image().style.display = 'none';
     }
 
-    async fetch_content_json() {
-        try {
-            console.log('fetch_content_json');
-            const response = await fetch('content.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const t = await response.text();
-            const j = JSON.parse(t);
-            this.process_json(j);
-            console.log('display created');
-        } catch (error) {
-            console.error('Error fetching the HTML file:', error);
-        }
-    }
-
     process_json(json) {
-        console.log(json);
-        this.speed = json.speed;
-        this.gallery = json.gallery;
         this.images = json.galleries[this.gallery];
     }
 
@@ -76,17 +50,19 @@ class Gallery {
     async scheduled_rotate() {
         if (this.images.length != 0) {
             this.rotate_image()
-            setInterval(() => this.rotate_image(), this.speed);
+            this.rotateInterval = setInterval(() => this.rotate_image(), this.speed);
         }
     }
 
+    stop() {
+        clearInterval(this.rotateInterval);
+    }
+
     async run() {
-        await this.fetch_content_json()
-            .then(() => this.create_display())
+        await fetch_content_json('content.json')
+            .then(j => {this.process_json(j); this.create_display();})
             .then(() => this.scheduled_rotate());
         console.log('done');
     }
 }
 
-const gallery = new Gallery();
-gallery.run();

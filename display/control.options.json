@@ -1,0 +1,22 @@
+{
+  "defaults": {
+    "gallery": {
+      "gallery": "test",
+      "speed": 5000
+    },
+    "clock": {
+      "type": "analog"
+    }
+  },
+  "schedule": [
+    { "h":  0, "m": 0, "type": "app", "app":  "clock", "options":  { "type":  "digital"}},
+    { "h":  7, "m": 30, "type": "app", "app":  "gallery", "options":  { "gallery":  "2024"}},
+    { "h":  8, "m": 0, "type": "program", "name":  "info"},
+    { "h":  22, "m": 20, "type": "app", "app":  "clock", "options":  { "type":  "digital"}}
+  ],
+  "program": [
+    { "m": 0, "s": 10, "app": "clock"},
+    { "m": 0, "s": 50, "app":  "gallery", "options":  { "gallery":  "2024"}}
+  ]
+
+}

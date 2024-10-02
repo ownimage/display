@@ -5,21 +5,20 @@ class Clock {
     updateDisplay() {
         const now = new Date();
 
-        const hours = now.getHours().toString().padStart(2, '0');
-        const hours_angle = hours * 30 - 90;
-        const hours_transform = `rotate(${hours_angle})`
-        document.getElementById('hour').setAttribute('transform', hours_transform);
+        const seconds = now.getSeconds();
+        const seconds_angle = seconds * 6 - 90;
+        const seconds_transform = `rotate(${seconds_angle})`
+        document.getElementById('second').setAttribute('transform', seconds_transform);
 
-        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const minutes = now.getMinutes();
         const minutes_angle = minutes * 6 - 90;
         const minutes_transform = `rotate(${minutes_angle})`
         document.getElementById('minute').setAttribute('transform', minutes_transform);
 
-
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        const seconds_angle = seconds * 6 - 90;
-        const seconds_transform = `rotate(${seconds_angle})`
-        document.getElementById('second').setAttribute('transform', seconds_transform);
+        const hours = now.getHours();
+        const hours_angle = (hours + minutes/60) * 30 - 90;
+        const hours_transform = `rotate(${hours_angle})`
+        document.getElementById('hour').setAttribute('transform', hours_transform);
     }
 
     drawHand(id, length, width, tail=0, tip_width=0, tail_width=0) {
@@ -50,12 +49,18 @@ class Clock {
                 ${this.drawHand('second', 200, 10, 50, 0, 0)}
             </g>
         </svg>
-        `
-//        this.log = `${window.innerHeight} ${window.innerWidth} ${scale}`;
+        `;
+    }
+
+    async run() {
+        this.setupDisplay();
+        this.updateDisplay();
+        this.intervalId = setInterval(() => this.updateDisplay(), 1000);
+    }
+
+    stop() {
+        clearInterval(this.intervalId);
     }
 }
 
-const clock = new Clock();
-clock.setupDisplay();
-clock.updateDisplay();
-setInterval(() => clock.updateDisplay(), 1000);
+

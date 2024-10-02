@@ -1,0 +1,12 @@
+{
+  "app": "clock",
+  "gallery": {
+    "gallery": "test",
+    "speed": 5000
+  },
+  "moon": {
+    "appId": "7221bffb-3370-42fc-8d56-1ff3c6ab0802",
+    "appSecret": "ad94005b317d577f725a27b80c6895135fc4ff444a3bda0e4e432adea437d4dc7e94980912256c030c2e643e21e9d54f353978d3f6f94ef065f650314e64ad59a6827abf29633013b705304d680d0296e020324f6e3f2fa0ef1ca326c0c59c694e302dfd784a621ce5f5f4aefab8dc06",
+    "url": "https://astronomyapi.com/dashboard/"
+  }
+}
