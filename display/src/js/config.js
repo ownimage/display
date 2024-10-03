@@ -1,14 +1,15 @@
 class Config {
-    constructor() {
-    }
 
+    constructor(contentDiv) {
+        this.contentDiv = contentDiv;
+    }
 
     getName() {
         return 'config';
     }
 
     setupDisplay() {
-        controller.getContentElement().innerHTML =
+        this.contentDiv.innerHTML =
 `
 <div id='config' class='m-3'>
     <button type='button' class='btn btn-primary float-end' onclick='controller.back(event)'>Return</button>

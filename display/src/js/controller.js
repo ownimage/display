@@ -15,8 +15,8 @@ class Controller {
         this.allApps = [
             new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
             new Clock(contentDiv),
-            new Config(),
-            new ConsoleLog()
+            new Config(contentDiv),
+            new ConsoleLog(contentDiv)
         ];
 
         this.appDictionary = {};

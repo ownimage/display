@@ -1,13 +1,14 @@
 class ConsoleLog {
-    constructor() {
-    }
 
+    constructor(contentDiv) {
+        this.contentDiv = contentDiv;
+    }
     getName() {
         return 'consoleLog';
     }
 
     setupDisplay() {
-        controller.getContentElement().innerHTML =
+        this.contentDiv.innerHTML =
 `
 <div class='consoleLog'>
     <h1 class='p-3'>console.log <button type='button' class='btn btn-primary float-end'>Return</button></h1>
