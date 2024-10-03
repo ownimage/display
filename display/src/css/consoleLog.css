@@ -1,0 +1,8 @@
+div.consoleLog {
+    width: 100%;
+}
+
+div.consoleLog h1, div.consoleLog p {
+   color: white;
+   block: none;
+}

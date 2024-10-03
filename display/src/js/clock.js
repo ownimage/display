@@ -1,5 +1,6 @@
 class Clock {
-    constructor() {
+    constructor(contentDiv) {
+        this.contentDiv = contentDiv;
     }
 
     updateDisplay() {
@@ -40,7 +41,8 @@ class Clock {
         const clock_desired_size = Math.min(window.innerHeight, window.innerWidth);
         const scale = clock_desired_size / clock_normal_size;
 
-        document.body.innerHTML = `
+        this.contentDiv.innerHTML = `
+        <div class="clock" onTouchStart="controller.handleClick()">
         <svg id="clock" height="${clock_desired_size}" width="${clock_desired_size}" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})">
                 ${dial}
@@ -49,6 +51,7 @@ class Clock {
                 ${this.drawHand('second', 200, 10, 50, 0, 0)}
             </g>
         </svg>
+        </div>
         `;
     }
 

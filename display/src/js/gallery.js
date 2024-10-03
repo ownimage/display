@@ -1,11 +1,12 @@
 class Gallery {
 
-    constructor(gallery, speed) {
-        this.count = 0;
+    constructor(contentDiv, gallery, speed) {
+        this.contentDiv = contentDiv;
         this.gallery = gallery;
+        this.speed = speed;
+        this.count = 0;
         this.images = [];
         this.onscreen = 1;
-        this.speed = speed;
     }
 
     rotate_image() {
@@ -16,7 +17,7 @@ class Gallery {
     }
 
     async create_display() {
-        document.body.innerHTML = "<img id=\"0\" src=\"images/" + this.gallery + "/" + this.images[0] + "\" class=\"fullsize-image\">" +
+        this.contentDiv.innerHTML = "<img id=\"0\" src=\"images/" + this.gallery + "/" + this.images[0] + "\" class=\"fullsize-image\">" +
         "<img id=\"1\" src=\"images/" + this.gallery + "/" + this.images[1] + "\" class=\"fullsize-image\">";
         this.get_onscreen_image().style.display = 'none';
         this.get_offscreen_image().style.display = 'none';

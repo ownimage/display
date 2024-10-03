@@ -2,9 +2,6 @@
     color: white
     block: none
 }
-#clock {
-    display: block;
-}
 #hour {
     fill: white;
     stroke: black;
