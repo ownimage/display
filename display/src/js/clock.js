@@ -23,15 +23,15 @@ class Clock {
     }
 
     drawHand(id, length, width, tail=0, tip_width=0, tail_width=0) {
-        return `<polygon id="${id}" points="${-tail},${-tail_width} ${-tail},${tail_width} 0,${width} ${length},${tip_width} ${length},${-tip_width} 0,-${width}"/>`;
+        return `<polygon id='${id}' points='${-tail},${-tail_width} ${-tail},${tail_width} 0,${width} ${length},${tip_width} ${length},${-tip_width} 0,-${width}'/>`;
     }
 
     drawTick(angle, length=10, width=2, diameter=190) {
-        return `<polygon class="tick" points="${-length},${-width} ${length},${-width} ${length},${width} ${-length},${width}" transform="rotate(${angle}) translate(${diameter},0)"/>`;
+        return `<polygon class='tick' points='${-length},${-width} ${length},${-width} ${length},${width} ${-length},${width}' transform='rotate(${angle}) translate(${diameter},0)'/>`;
     }
 
     setupDisplay() {
-        var dial = ""
+        var dial = ''
         for (var i = 0; i <= 12; i++) {
             var angle = i*30-90;
             dial += `${this.drawTick(angle, 20, 4, 200)}`;
@@ -42,9 +42,9 @@ class Clock {
         const scale = clock_desired_size / clock_normal_size;
 
         this.contentDiv.innerHTML = `
-        <div id="clock">
-        <svg height="${clock_desired_size}" width="${clock_desired_size}" xmlns="http://www.w3.org/2000/svg">
-            <g transform="translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})">
+        <div id='clock'>
+        <svg height='${clock_desired_size}' width='${clock_desired_size}' xmlns='http://www.w3.org/2000/svg'>
+            <g transform='translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})'>
                 ${dial}
                 ${this.drawHand('hour', 120, 10, 10, 5, 2)}
                 ${this.drawHand('minute', 175, 10, 30, 5, 2)}
