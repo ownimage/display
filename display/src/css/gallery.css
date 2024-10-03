@@ -6,3 +6,8 @@
     max-width: 100%;
     max-height: 100%;
 }
+div.gallery {
+    background: black;
+    height: 100%;
+    width: 100%;
+}

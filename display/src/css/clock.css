@@ -1,6 +1,5 @@
-#log {
-    color: white
-    block: none
+#clock {
+    background: black;
 }
 #hour {
     fill: white;

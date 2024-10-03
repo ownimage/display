@@ -17,8 +17,13 @@ class Gallery {
     }
 
     async create_display() {
-        this.contentDiv.innerHTML = "<img id=\"0\" src=\"images/" + this.gallery + "/" + this.images[0] + "\" class=\"fullsize-image\">" +
-        "<img id=\"1\" src=\"images/" + this.gallery + "/" + this.images[1] + "\" class=\"fullsize-image\">";
+        this.contentDiv.innerHTML =
+`
+<div class='gallery'>
+    <img id='0' src='images/${this.gallery}/${this.images[0]}' class='fullsize-image'>
+    <img id='1' src='images/${this.gallery}/${this.images[1]}' class='fullsize-image'>
+</div>
+`;
         this.get_onscreen_image().style.display = 'none';
         this.get_offscreen_image().style.display = 'none';
     }

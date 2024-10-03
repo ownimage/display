@@ -42,8 +42,8 @@ class Clock {
         const scale = clock_desired_size / clock_normal_size;
 
         this.contentDiv.innerHTML = `
-        <div class="clock">
-        <svg id="clock" height="${clock_desired_size}" width="${clock_desired_size}" xmlns="http://www.w3.org/2000/svg">
+        <div id="clock">
+        <svg height="${clock_desired_size}" width="${clock_desired_size}" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})">
                 ${dial}
                 ${this.drawHand('hour', 120, 10, 10, 5, 2)}

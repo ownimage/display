@@ -6,8 +6,10 @@ class ConsoleLog {
     setupDisplay() {
         controller.getContentElement().innerHTML = `
         <div class="consoleLog">
-            <h1>console.log</h1>
-            ${controller.getLog()}
+            <h1 class="p-3">console.log <button type="button" class="btn btn-primary float-end">Return</button></h1>
+            <div class="p-3">
+                ${controller.getLog()}
+            </div>
         </div>
     `}
 

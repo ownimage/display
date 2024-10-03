@@ -88,7 +88,7 @@ class Controller {
         const height = window.innerHeight;
         const relX = mouseX/width;
         const relY = mouseY/height;
-        this.changeApp('consoleLog');
+        this.changeApp('gallery');
     }
 
     getLog() {
