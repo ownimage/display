@@ -12,20 +12,18 @@ class Controller {
 
         const contentDiv = this.getContentElement();
 
-        const gallery = new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed);
-        const clock = new Clock(contentDiv);
-        const config = new Config();
-        const consoleLog = new ConsoleLog();
+        this.allApps = [
+            new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
+            new Clock(contentDiv),
+            new Config(),
+            new ConsoleLog()
+        ];
 
-        this.apps = {
-            'gallery': gallery,
-            'clock': clock,
-            'config': config,
-            'consoleLog': consoleLog,
-        };
+        this.appDictionary = {};
+        this.allApps.forEach(app => this.appDictionary[app.getName()] = app);
 
-        this.currentApp = this.apps[control.app];
-        this.currentApp = this.apps['config'];
+        this.currentApp = this.appDictionary[control.app];
+        this.currentApp = this.appDictionary['config'];
         this.currentApp.run();
     }
 
@@ -61,7 +59,7 @@ class Controller {
     async changeApp(appName, options) {
         this.previousApp = this.currentApp;
         this.currentApp.stop(); // is this valid syntax
-        this.currentApp = this.apps[appName];
+        this.currentApp = this.appDictionary[appName];
         this.currentApp.run();
     }
 

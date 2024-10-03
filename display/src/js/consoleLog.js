@@ -3,7 +3,7 @@ class ConsoleLog {
     }
 
     getName() {
-        return 'configLog';
+        return 'consoleLog';
     }
 
     setupDisplay() {
