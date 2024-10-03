@@ -2,6 +2,9 @@ class ConsoleLog {
     constructor() {
     }
 
+    getName() {
+        return 'configLog';
+    }
 
     setupDisplay() {
         controller.getContentElement().innerHTML =
@@ -12,7 +15,8 @@ class ConsoleLog {
         ${controller.getLog()}
     </div>
 </div>
-    `}
+`;
+    }
 
     async run() {
         this.setupDisplay();

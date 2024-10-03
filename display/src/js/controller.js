@@ -9,21 +9,23 @@ class Controller {
         this.redirectConsoleLog();
 
         const control = await fetch_content_json('control.json');
-        console.log(`control=${JSON.stringify(control)}`)
 
         const contentDiv = this.getContentElement();
 
-        const consoleLog = new ConsoleLog();
         const gallery = new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed);
         const clock = new Clock(contentDiv);
+        const config = new Config();
+        const consoleLog = new ConsoleLog();
 
         this.apps = {
-            'consoleLog': consoleLog,
             'gallery': gallery,
             'clock': clock,
+            'config': config,
+            'consoleLog': consoleLog,
         };
 
         this.currentApp = this.apps[control.app];
+        this.currentApp = this.apps['config'];
         this.currentApp.run();
     }
 
@@ -32,12 +34,11 @@ class Controller {
     }
 
     redirectConsoleLog() {
-        const originalLog = console.log;
+       const originalLog = console.log;
        console.log = (message) => {
             originalLog(message);
             this.logArray.push(message);
         };
-
         console.log('Test message');
     }
 
@@ -58,7 +59,7 @@ class Controller {
     }
 
     async changeApp(appName, options) {
-        console.log('changeApp');
+        this.previousApp = this.currentApp;
         this.currentApp.stop(); // is this valid syntax
         this.currentApp = this.apps[appName];
         this.currentApp.run();
@@ -70,15 +71,14 @@ class Controller {
     }
 
     handleClick(event) {
-        console.log(event.constructor.name);
         let mouseX = 0;
         let mouseY = 0;
 
-        if (event.constructor.name == "PointerEvent") {
+        if (event.constructor.name == 'PointerEvent') {
             mouseX = event.pageX;
             mouseY = event.pageY;
         }
-        else if (event.constructor.name == "TouchEvent") {
+        else if (event.constructor.name == 'TouchEvent') {
             mouseX = event.touches[0].clientX;
             mouseY = event.touches[0].clientY;
         }
@@ -88,11 +88,34 @@ class Controller {
         const height = window.innerHeight;
         const relX = mouseX/width;
         const relY = mouseY/height;
-        this.changeApp('gallery');
+
+        if (relY > 0.5) { // bottom half of screen
+            this.changeApp('config');
+        }
+        else if (relX < 0.5) { // left half of top
+            this.showPreviousApp();
+        }
+        else { // right half of top
+            this.showNextApp();
+        }
+
+    }
+
+    showNextApp() {
+        console.log('showNextApp');
+    }
+
+    showPreviousApp() {
+        console.log('showPreviousApp');
+    }
+
+    back(event){
+        event.stopPropagation();
+        this.changeApp('clock');
     }
 
     getLog() {
-        let out = "";
+        let out = '';
         for (const log of this.logArray) {
             out += `<p>${log}</p>`
         }
@@ -103,10 +126,3 @@ class Controller {
 
 const controller = new Controller();
 controller.run();
-
-
-
-//console.log('past run');
-//setTimeout(() => console.log('timeout'), 1000);
-//setTimeout(() => controller.changeApp('gallery'), 5000);
-//setTimeout(() => controller.changeApp('clock'), 20000);

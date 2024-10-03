@@ -9,6 +9,10 @@ class Gallery {
         this.onscreen = 1;
     }
 
+    getName() {
+        return 'gallery';
+    }
+
     rotate_image() {
         if (this.images.length != 0) {
             this.display_image(this.count % this.images.length);

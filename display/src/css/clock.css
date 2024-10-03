@@ -1,5 +1,14 @@
 #clock {
     background: black;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+#clock div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #hour {
     fill: white;

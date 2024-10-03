@@ -3,6 +3,10 @@ class Clock {
         this.contentDiv = contentDiv;
     }
 
+    getName() {
+        return 'clock';
+    }
+
     updateDisplay() {
         const now = new Date();
 
@@ -41,8 +45,10 @@ class Clock {
         const clock_desired_size = Math.min(window.innerHeight, window.innerWidth);
         const scale = clock_desired_size / clock_normal_size;
 
-        this.contentDiv.innerHTML = `
-        <div id='clock'>
+        this.contentDiv.innerHTML =
+`
+<div id='clock'>
+    <div>
         <svg height='${clock_desired_size}' width='${clock_desired_size}' xmlns='http://www.w3.org/2000/svg'>
             <g transform='translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})'>
                 ${dial}
@@ -51,8 +57,9 @@ class Clock {
                 ${this.drawHand('second', 200, 10, 50, 0, 0)}
             </g>
         </svg>
-        </div>
-        `;
+    <div>
+</div>
+`;
     }
 
     async run() {
