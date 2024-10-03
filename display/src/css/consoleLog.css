@@ -5,4 +5,5 @@ div.consoleLog {
 div.consoleLog h1, div.consoleLog p {
    color: white;
    block: none;
+   font-family: 'Courier New', Courier, monospace;
 }

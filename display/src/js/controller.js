@@ -65,19 +65,29 @@ class Controller {
     }
 
     addHandlers() {
-        document.onclick = (event) => this.handleClick(event);
+        this.getContentElement().setAttribute('onclick', 'controller.handleClick(event)');
         this.getContentElement().setAttribute('onTouchStart', 'controller.handleClick(event)');
     }
 
     handleClick(event) {
-        console.log(event.clientX + " " + event.clientY);
-//        const width = document.documentElement.clientWidth;
-//        const height = document.documentElement.clientHeight;
-//        const mouseX = event.pageX;
-//        const mouseY = event.pageY;
-//        const relX = mouseX/width;
-//        const relY = mouseY/height;
-//        console.log(`relX=${relX} relY=${relY}`);
+        console.log(event.constructor.name);
+        let mouseX = 0;
+        let mouseY = 0;
+
+        if (event.constructor.name == "PointerEvent") {
+            mouseX = event.pageX;
+            mouseY = event.pageY;
+        }
+        else if (event.constructor.name == "TouchEvent") {
+            mouseX = event.touches[0].clientX;
+            mouseY = event.touches[0].clientY;
+        }
+        else return;
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const relX = mouseX/width;
+        const relY = mouseY/height;
         this.changeApp('consoleLog');
     }
 
