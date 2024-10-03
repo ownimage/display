@@ -2,6 +2,7 @@ class Controller {
     constructor() {
         this.contentId = 'content';
         this.logArray = [];
+        this.currentAppNum = 0;
     }
 
     async run() {
@@ -22,9 +23,22 @@ class Controller {
         this.appDictionary = {};
         this.allApps.forEach(app => this.appDictionary[app.getName()] = app);
 
-        this.currentApp = this.appDictionary[control.app];
-        this.currentApp = this.appDictionary['config'];
+        this.currentApp = this.appDictionary[this.getCurrentAppName()];
         this.currentApp.run();
+    }
+
+    getCurrentAppName() {
+        return this.allApps[this.currentAppNum % this.allApps.length].getName();
+    }
+
+    showNextApp() {
+        this.currentAppNum = (this.currentAppNum + 1) % this.allApps.length;
+        this.changeApp(this.getCurrentAppName());
+    }
+
+    showPreviousApp() {
+        this.currentAppNum = (this.currentAppNum + this.allApps.length - 1) % this.allApps.length;
+        this.changeApp(this.getCurrentAppName());
     }
 
     getContentElement() {
@@ -97,14 +111,6 @@ class Controller {
             this.showNextApp();
         }
 
-    }
-
-    showNextApp() {
-        console.log('showNextApp');
-    }
-
-    showPreviousApp() {
-        console.log('showPreviousApp');
     }
 
     back(event){
