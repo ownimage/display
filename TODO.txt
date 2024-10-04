@@ -1,0 +1,10 @@
+Add readme
+
+can I dynamically add the stylesheets?
+Can I generate config pages
+
+should have an analog clock
+should have an overall dimmer
+need to have config options for apps
+on ipad when running as an app the quote bar does not go all the way to the bottom
+have a way of excluding from next app

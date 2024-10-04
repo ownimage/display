@@ -1,4 +1,0 @@
-Add readme
-
-can I dynamically add the stylesheets?
-Can I generate config pages

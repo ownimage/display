@@ -3,6 +3,7 @@ class Controller {
         this.contentId = 'content';
         this.logArray = [];
         this.currentAppNum = 0;
+        this.handleEventsActive = true;
     }
 
     async run() {
@@ -64,28 +65,32 @@ class Controller {
             , 5000);
     }
 
-    async changeApp(appName, options) {
-        this.previousApp = this.currentApp;
-        this.currentApp.stop(); // is this valid syntax
-        this.currentApp = this.appDictionary[appName];
-        this.currentApp.run();
-    }
-
     addHandlers() {
         this.getContentElement().setAttribute('onclick', 'controller.handleClick(event)');
         this.getContentElement().setAttribute('onTouchStart', 'controller.handleClick(event)');
     }
 
     handleClick(event) {
-        event.stopPropagation();
-        let i = Common.eventToTouchArea(event)
-        console.log(`Touched area ${Common.eventToTouchArea(event)}`);
-        if (i !== null) [
-            () => this.showPreviousApp(),
-            () => this.showNextApp(),
-            () => this.changeApp('appSwitcher'),
-            () => this.changeApp('consoleLog')
-        ][i]();
+        if (this.handleEventsActive) {
+            event.stopPropagation();
+            let i = Common.eventToTouchArea(event)
+            console.log(`Touched area ${Common.eventToTouchArea(event)}`);
+            if (i !== null) [
+                () => this.showPreviousApp(),
+                () => this.showNextApp(),
+                () => this.changeApp('appSwitcher'),
+                () => this.changeApp('consoleLog')
+            ][i]();
+        }
+    }
+
+    async changeApp(appName, event) {
+        if (event) event.stopPropagation();
+        this.handleEventsActive = true;
+        this.previousApp = this.currentApp;
+        this.currentApp.stop(); // is this valid syntax
+        this.currentApp = this.appDictionary[appName];
+        this.currentApp.run();
     }
 
     showNextApp() {
@@ -102,6 +107,12 @@ class Controller {
         event.stopPropagation();
         this.changeApp('clock');
         console.log('back');
+    }
+
+    showConfig(event, appName) {
+        event.stopPropagation();
+        this.handleEventsActive = false;
+        this.appDictionary[appName].showConfigPage();
     }
 
     getLog() {

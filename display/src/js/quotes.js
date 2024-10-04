@@ -20,8 +20,7 @@ class Quotes {
         this.contentDiv.innerHTML =
 `
 
-<div id='quote' class='pt-3'>
-    <p></p>
+<div id='quote' class='pt-3 container'>
     <h1 class='text-center'>Quote:</h1>
 
     <div class="px-4 py-5 my-5 text-center">

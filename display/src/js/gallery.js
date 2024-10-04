@@ -3,6 +3,7 @@ class Gallery {
     constructor(contentDiv, gallery, speed) {
         this.contentDiv = contentDiv;
         this.gallery = gallery;
+        this.galleries = []
         this.speed = speed;
         this.count = 0;
         this.images = [];
@@ -37,7 +38,13 @@ class Gallery {
     }
 
     process_json(json) {
-        this.images = json.galleries[this.gallery];
+        this.galleries = json.galleries;
+        this.setGallery(this.gallery)
+    }
+
+    setGallery(gallery) {
+        this.gallery = gallery;
+        this.images = this.galleries[this.gallery];
     }
 
     get_onscreen_image() {
@@ -66,6 +73,37 @@ class Gallery {
             this.rotate_image()
             this.rotateInterval = setInterval(() => this.rotate_image(), this.speed);
         }
+    }
+
+    supportsConfig() {
+        return true;
+    }
+
+    showConfigPage() {
+        console.log(`galleries ${JSON.stringify(Object.keys(this.galleries))}`);
+        this.contentDiv.innerHTML =
+`
+<div id='galleryConfig' class='pt-3 container'>
+    <h1>Gallery Config Page</h1>
+    ${this.getGalleriesSelectionBox()}
+    <button type='button' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
+</div>
+`;
+        document.getElementById('gallerySelect').addEventListener('change', (event) => {
+            this.setGallery(event.target.value);
+        });
+    }
+    
+    getGalleriesSelectionBox() {
+        var html = `
+<select id='gallerySelect' class='form-select' aria-label='Default select example'>
+  <option selected>Select gallery</option>
+`;
+        Object.keys(this.galleries).forEach(g => html += `<option value='${g}'>${g}</option>`)
+        html += `
+    </select>
+`;
+        return html;
     }
 
     stop() {
