@@ -3,6 +3,7 @@ class Gallery {
     constructor(contentDiv, gallery, speed) {
         this.contentDiv = contentDiv;
         this.gallery = gallery;
+        this.isInit = false;
         this.galleries = []
         this.speed = speed;
         this.count = 0;
@@ -79,13 +80,14 @@ class Gallery {
         return true;
     }
 
-    showConfigPage() {
+    async showConfigPage() {
+        await this.init();
         console.log(`galleries ${JSON.stringify(Object.keys(this.galleries))}`);
         this.contentDiv.innerHTML =
 `
 <div id='galleryConfig' class='pt-3 container'>
     <h1>Gallery Config Page</h1>
-    ${this.getGalleriesSelectionBox()}
+    Gallery: ${this.getGalleriesSelectionBox()}
     <button type='button' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
 </div>
 `;
@@ -99,7 +101,7 @@ class Gallery {
 <select id='gallerySelect' class='form-select' aria-label='Default select example'>
   <option selected>Select gallery</option>
 `;
-        Object.keys(this.galleries).forEach(g => html += `<option value='${g}'>${g}</option>`)
+        Object.keys(this.galleries).forEach(g => html += `<option value='${g}'${g == this.gallery ? 'selected' : ''}>${g}</option>`)
         html += `
     </select>
 `;
@@ -112,9 +114,18 @@ class Gallery {
 
     async run() {
         await Common.fetch_content_json('gallery.json')
-            .then(j => {this.process_json(j); this.create_display();})
-            .then(() => this.scheduled_rotate());
+        await this.init();
+        this.create_display();
+        this.scheduled_rotate();
         console.log('done');
+    }
+
+    async init() {
+        if (!this.isInit) {
+            this.isInit = true;
+            await Common.fetch_content_json('gallery.json')
+                .then(j => this.process_json(j));
+        }
     }
 }
 
