@@ -16,12 +16,20 @@ class Config {
         this.contentDiv.innerHTML =
 `
 <div id='config' class='pt-3 container'>
-    <button type='button' class='btn btn-primary float-end' onclick='controller.showConfig(event, "gallery")'
-       onTouchStart='controller.showConfig(event, "gallery")' >Config Gallery</button>
-    <button type='button' class='btn btn-primary float-end' onclick='controller.changeApp("consoleLog")'>console.log</button>
-    <h1>config</h1>
+    <h1 class='text-center'>Config Page</h1>
+    <div class='row mt-3'>
+       <div class='col-6'>
+            <p class='float-end'>Brightness: </p>
+        </div>
+        <div class='col-6'>
+            <input id='opacity' type='range' class='custom-range' min='20' max='100'>
+        </div>
+        <button type='button btn-block' class='btn btn-primary mt-3' onclick='controller.changeApp("appSwitcher", event)'>OK</button>
+    </div>
 </div>
 `;
+
+        document.getElementById('opacity').addEventListener('input', (event) => controller.setOpacity(event.target.value/100));
     }
 
     async run() {
@@ -31,5 +39,7 @@ class Config {
     stop() {
     }
 }
+
+
 
 

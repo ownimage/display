@@ -87,6 +87,7 @@ class Controller {
     async changeApp(appName, event) {
         if (event) event.stopPropagation();
         this.handleEventsActive = true;
+        if (appName == 'config') this.handleEventsActive = false;
         this.previousApp = this.currentApp;
         this.currentApp.stop(); // is this valid syntax
         this.currentApp = this.appDictionary[appName];
@@ -122,6 +123,44 @@ class Controller {
         }
         return out;
     }
+
+    setOpacity(opacity) {
+        this.getContentElement().style.opacity = opacity;
+    }
+
+//        async showConfigPage() {
+//        this.contentDiv.innerHTML =
+//`
+//<div id='galleryConfig' class='pt-3 container'>
+//    <h1 class='text-center'>Gallery Config Page</h1>
+//    <div class='row mt-3'>
+//        <div class='col-6'>
+//            <p class='float-end'>Gallery: </p>
+//        </div>
+//        <div class='col-6'>
+//            ${this.getGalleriesSelectionBox()}
+//        </div>
+//    </div>
+//    <div class='row mt-3'>
+//        <div class='col-6'>
+//            <p class='float-end'>Speed: </p>
+//        </div>
+//        <div class='col-6'>
+//            <input id='speed' type='range' class='custom-range' min='3000' max='30000' value='${this.speed}'>
+//        </div>
+//        <button type='button btn-block' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
+//    </div>
+//</div>
+//`;
+//        document.getElementById('gallerySelect').addEventListener('change', (event) => {
+//            this.setGallery(event.target.value);
+//        });
+//        document.getElementById('speed').addEventListener('change', (event) => {
+//            this.speed = event.target.value;
+//        });
+//    }
+//`;
+//    }
 
 }
 
