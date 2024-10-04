@@ -6,6 +6,10 @@ class Weather {
         return 'weather';
     }
 
+    getTitle() {
+        return 'Weather';
+    }
+
     setupDisplay() {
         document.body.innerHTML =
 `

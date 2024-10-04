@@ -7,6 +7,10 @@ class Clock {
         return 'clock';
     }
 
+    getTitle() {
+        return 'Clock';
+    }
+
     updateDisplay() {
         const now = new Date();
 

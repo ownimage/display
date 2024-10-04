@@ -8,6 +8,10 @@ class Config {
         return 'config';
     }
 
+    getTitle() {
+        return 'Configuration';
+    }
+
     setupDisplay() {
         this.contentDiv.innerHTML =
 `

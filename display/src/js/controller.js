@@ -9,36 +9,30 @@ class Controller {
         this.addHandlers();
         this.redirectConsoleLog();
 
-        const control = await Common.fetch_content_json('control.json');
+        const control = await Common.fetch_content_json('controller.json');
 
         const contentDiv = this.getContentElement();
 
-        this.allApps = [
-            new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
+        this.appList = [
+            new AppSwitcher(contentDiv),
             new Clock(contentDiv),
             new Config(contentDiv),
-            new ConsoleLog(contentDiv)
+            new ConsoleLog(contentDiv),
+            new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
+            new Quotes(contentDiv),
         ];
 
         this.appDictionary = {};
-        this.allApps.forEach(app => this.appDictionary[app.getName()] = app);
+        this.appList.forEach(app => this.appDictionary[app.getName()] = app);
+        
+        this.appDictionary['appSwitcher'].setAppList(this.appList);
 
         this.currentApp = this.appDictionary[this.getCurrentAppName()];
         this.currentApp.run();
     }
 
     getCurrentAppName() {
-        return this.allApps[this.currentAppNum % this.allApps.length].getName();
-    }
-
-    showNextApp() {
-        this.currentAppNum = (this.currentAppNum + 1) % this.allApps.length;
-        this.changeApp(this.getCurrentAppName());
-    }
-
-    showPreviousApp() {
-        this.currentAppNum = (this.currentAppNum + this.allApps.length - 1) % this.allApps.length;
-        this.changeApp(this.getCurrentAppName());
+        return this.appList[this.currentAppNum % this.appList.length].getName();
     }
 
     getContentElement() {
@@ -86,12 +80,22 @@ class Controller {
         event.stopPropagation();
         let i = Common.eventToTouchArea(event)
         console.log(`Touched area ${Common.eventToTouchArea(event)}`);
-        if (i) [
+        if (i !== null) [
             () => this.showPreviousApp(),
             () => this.showNextApp(),
-            () => this.changeApp('config'),
+            () => this.changeApp('appSwitcher'),
             () => this.changeApp('consoleLog')
         ][i]();
+    }
+
+    showNextApp() {
+        this.currentAppNum = (this.currentAppNum + 1) % this.appList.length;
+        this.changeApp(this.getCurrentAppName());
+    }
+
+    showPreviousApp() {
+        this.currentAppNum = (this.currentAppNum + this.appList.length - 1) % this.appList.length;
+        this.changeApp(this.getCurrentAppName());
     }
 
     back(event){
