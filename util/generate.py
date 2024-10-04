@@ -1,7 +1,7 @@
 """
 This script interrogates the images directory.
 It renames any files to remove spaces.
-It then creates the content.json with a list of all the files in the directory
+It then creates the gallery.json with a list of all the files in the directory
 """
 
 import json
@@ -13,7 +13,7 @@ import paramiko
 from paramiko.sftp_attr import SFTPAttributes
 
 test_gallery_path = "../display/src/images/test"
-content_json_path = '../display/src/content.json'
+content_json_path = '../display/src/gallery.json'
 
 user = os.environ.get('FTP_USER')
 password = os.environ.get('FTP_PASSWORD')

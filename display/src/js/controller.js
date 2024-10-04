@@ -9,7 +9,7 @@ class Controller {
         this.addHandlers();
         this.redirectConsoleLog();
 
-        const control = await fetch_content_json('control.json');
+        const control = await Common.fetch_content_json('control.json');
 
         const contentDiv = this.getContentElement();
 
@@ -83,45 +83,27 @@ class Controller {
     }
 
     handleClick(event) {
-        let mouseX = 0;
-        let mouseY = 0;
-
-        if (event.constructor.name == 'PointerEvent') {
-            mouseX = event.pageX;
-            mouseY = event.pageY;
-        }
-        else if (event.constructor.name == 'TouchEvent') {
-            mouseX = event.touches[0].clientX;
-            mouseY = event.touches[0].clientY;
-        }
-        else return;
-
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        const relX = mouseX/width;
-        const relY = mouseY/height;
-
-        if (relY > 0.5) { // bottom half of screen
-            this.changeApp('config');
-        }
-        else if (relX < 0.5) { // left half of top
-            this.showPreviousApp();
-        }
-        else { // right half of top
-            this.showNextApp();
-        }
-
+        event.stopPropagation();
+        let i = Common.eventToTouchArea(event)
+        console.log(`Touched area ${Common.eventToTouchArea(event)}`);
+        if (i) [
+            () => this.showPreviousApp(),
+            () => this.showNextApp(),
+            () => this.changeApp('config'),
+            () => this.changeApp('consoleLog')
+        ][i]();
     }
 
     back(event){
         event.stopPropagation();
         this.changeApp('clock');
+        console.log('back');
     }
 
     getLog() {
         let out = '';
-        for (const log of this.logArray) {
-            out += `<p>${log}</p>`
+        for (let i = this.logArray.length - 1; i >= 0; i--) {
+            out += `<p>${this.logArray[i]}</p>`
         }
         return out;
     }

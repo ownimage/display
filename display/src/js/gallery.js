@@ -69,7 +69,7 @@ class Gallery {
     }
 
     async run() {
-        await fetch_content_json('content.json')
+        await Common.fetch_content_json('gallery.json')
             .then(j => {this.process_json(j); this.create_display();})
             .then(() => this.scheduled_rotate());
         console.log('done');

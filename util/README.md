@@ -17,7 +17,6 @@ This will copy the contents of the `display\src` directory to the ftp server.
 # generate
 `python generate.py`
 
-This will take the copy of `content.json` from the `display\src` directory, and update the `galleries` section with the gallery information that is on the ftp server.
 
 ## Versions
 Python 3.10.6
