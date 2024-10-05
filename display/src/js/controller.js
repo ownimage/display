@@ -15,6 +15,7 @@ class Controller {
         const contentDiv = this.getContentElement();
 
         this.appList = [
+            new AppList(contentDiv),
             new AppSwitcher(contentDiv),
             new Clock(contentDiv),
             new Config(contentDiv),
@@ -26,6 +27,7 @@ class Controller {
         this.appDictionary = {};
         this.appList.forEach(app => this.appDictionary[app.getName()] = app);
         
+        this.appDictionary['appList'].setAppList(this.appList);
         this.appDictionary['appSwitcher'].setAppList(this.appList);
 
         this.currentApp = this.appDictionary[this.getCurrentAppName()];
@@ -85,9 +87,8 @@ class Controller {
     }
 
     async changeApp(appName, event) {
-        if (event) event.stopPropagation();
         this.handleEventsActive = true;
-        if (appName == 'config') this.handleEventsActive = false;
+        if (appName == 'config') this.handleEventsActive = false; // this is a bodge
         this.previousApp = this.currentApp;
         this.currentApp.stop(); // is this valid syntax
         this.currentApp = this.appDictionary[appName];
@@ -106,14 +107,25 @@ class Controller {
 
     back(event){
         event.stopPropagation();
+        this.handleEventsActive = false;
         this.changeApp('clock');
         console.log('back');
     }
 
-    showConfig(event, appName) {
-        event.stopPropagation();
+    showConfig(appName) {
         this.handleEventsActive = false;
         this.appDictionary[appName].showConfigPage();
+    }
+
+    appAction(appName, actionString, event) {
+        if (event) event.stopPropagation();
+        if (actionString == 'show') {
+            this.changeApp(appName, event);
+        }
+        else if (actionString = 'showConfig') {
+            this.showConfig(appName);
+        }
+        else console.log(`Invalid call to appAction('${appName}', '${actionString}')`)
     }
 
     getLog() {
