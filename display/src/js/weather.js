@@ -1,5 +1,6 @@
 class Weather {
     constructor() {
+         this.hasConfigPage = false;
     }
 
     getName() {

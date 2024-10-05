@@ -2,6 +2,7 @@ class Gallery {
 
     constructor(contentDiv, gallery, speed) {
         this.contentDiv = contentDiv;
+         this.hasConfigPage = true;
         this.gallery = gallery;
         this.isInit = false;
         this.galleries = []

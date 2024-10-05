@@ -1,10 +1,10 @@
 class AppList {
 
-    constructor(contentDiv, filter, action) {
+    constructor(contentDiv, filter, actionString) {
     // filter is of form boolean filter(app) // note the parameter is an app not an appName
     // action is of the form action(app)
         this.contentDiv = contentDiv;
-        this.filter = (app) => { return app.getName() == 'gallery' };
+        this.filter = filter;
         this.actionString = 'showConfig';
     }
 

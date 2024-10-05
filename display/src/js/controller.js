@@ -1,6 +1,7 @@
 class Controller {
     constructor() {
         this.contentId = 'content';
+         this.hasConfigPage = false;
         this.logArray = [];
         this.currentAppNum = 0;
         this.handleEventsActive = true;
@@ -15,7 +16,6 @@ class Controller {
         const contentDiv = this.getContentElement();
 
         this.appList = [
-            new AppList(contentDiv),
             new AppSwitcher(contentDiv),
             new Clock(contentDiv),
             new Config(contentDiv),
@@ -27,8 +27,8 @@ class Controller {
         this.appDictionary = {};
         this.appList.forEach(app => this.appDictionary[app.getName()] = app);
         
-        this.appDictionary['appList'].setAppList(this.appList);
         this.appDictionary['appSwitcher'].setAppList(this.appList);
+        this.appDictionary['config'].setAppList(this.appList);
 
         this.currentApp = this.appDictionary[this.getCurrentAppName()];
         this.currentApp.run();
@@ -88,7 +88,6 @@ class Controller {
 
     async changeApp(appName, event) {
         this.handleEventsActive = true;
-        if (appName == 'config') this.handleEventsActive = false; // this is a bodge
         this.previousApp = this.currentApp;
         this.currentApp.stop(); // is this valid syntax
         this.currentApp = this.appDictionary[appName];

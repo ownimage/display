@@ -2,6 +2,7 @@ class Quotes {
 
     constructor(contentDiv) {
         this.contentDiv = contentDiv;
+        this.hasConfigPage = false;
         this.speed = 20000;
         this.count = 0;
         this.quotes = [{q: 'Nothing to see here.', a: 'Officer Barbrady'}];

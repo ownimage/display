@@ -2,6 +2,7 @@ class ConsoleLog {
 
     constructor(contentDiv) {
         this.contentDiv = contentDiv;
+         this.hasConfigPage = false;
     }
     getName() {
         return 'consoleLog';
