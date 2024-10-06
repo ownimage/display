@@ -1,10 +1,10 @@
-class Clock {
+class Clock extends Base {
 
     constructor(contentDiv) {
+        super('clock', true)
         this.contentDiv = contentDiv;
         this.hasAppPage = true;
         this.hasConfigPage = false;
-        this.name = 'clock';
         this.title = 'Clock';
     }
 
