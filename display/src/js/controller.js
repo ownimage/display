@@ -28,11 +28,12 @@ class Controller {
 
         this.appDictionary = {};
         this.appList.forEach(app => this.appDictionary[app.name] = app);
-        
+
         this.appDictionary['appSwitcher'].setAppList(this.appList);
         this.appDictionary['config'].setAppList(this.appList);
 
         this.currentApp = this.appDictionary[this.getCurrentAppName()];
+//        this.currentApp = this.appDictionary['weather'];
         this.currentApp.run();
     }
 

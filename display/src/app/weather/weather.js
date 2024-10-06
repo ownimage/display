@@ -6,20 +6,56 @@ class Weather extends Base  {
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.title = 'Weather';
+
+        this.isInit = false;
+
+        this.url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chester-le-street?unitGroup=metric&key=TNYUBN3FLWYRKV8SGQ8UGG945&contentType=json'
+
     }
 
     setupDisplay() {
-        document.body.innerHTML =
+        this.contentDiv.innerHTML =
 `
-<div class='elfsight-app-4f411016-6dcc-416b-8cce-a0ca4c7edb53' data-elfsight-app-lazy></div>
+<div id='weather' class='p-3 container'>
+    <h1 class='text-center'>${this.weather.resolvedAddress}</h1>
+<div class='container mt-5 mb-3'>
+    <p>Current temperature: ${this.weather.currentConditions.temp}</p>
+    <p>Wind Speed: ${this.weather.currentConditions.windspeed}</p>
+    <p>Wind Gust: ${this.weather.currentConditions.windgust}</p>
+    <p>Wind Dir: ${this.weather.currentConditions.winddir}</p>
+    <p>Pressure: ${this.weather.currentConditions.pressure}</p>
+    <p>Cloud Coverr: ${this.weather.currentConditions.cloudcover}</p>
+    <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
+    <img src='app/weather/icons/${this.weather.currentConditions.icon}.png'</img>
+    <p>Href ${window.location.href}></p>
+</div>
+</div>
+
+
 `}
 
     async run() {
+        await this.init();
         this.setupDisplay();
     }
 
     stop() {
     }
+
+    async init() {
+        if (!this.isInit) {
+            this.isInit = true;
+            let url = (window.location.href.startsWith('http://localhost:')) ? '' : this.url;
+            await this.fetch_content_json(url).then(j => this.process_json(j));
+        }
+    }
+
+    process_json(json) {
+        this.weather = json
+    }
+
+    // icons from https://github.com/visualcrossing/WeatherIcons
+    //curl 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chester-le-street?unitGroup=metric&key=TNYUBN3FLWYRKV8SGQ8UGG945&contentType=json'
 }
 
 

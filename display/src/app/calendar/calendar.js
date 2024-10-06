@@ -9,7 +9,7 @@ class Calendar extends Base  {
     }
 
     setupDisplay() {
-        document.body.innerHTML =
+        this.contentDiv.innerHTML =
 `
 `}
 
