@@ -1,10 +1,10 @@
-class Quotes {
+class Quotes extends Base{
 
     constructor(contentDiv) {
+        super('quotes', false);
         this.contentDiv = contentDiv;
         this.hasAppPage = true;
         this.hasConfigPage = false;
-        this.name = 'quotes';
         this.title = 'Quotes';
 
         this.speed = 20000;
