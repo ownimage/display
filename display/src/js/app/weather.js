@@ -8,14 +8,6 @@ class Weather {
         this.name = 'weather';
         this.title = 'Weather';
 
-    getName() {
-        return 'weather';
-    }
-
-    getTitle() {
-        return 'Weather';
-    }
-
     setupDisplay() {
         document.body.innerHTML =
 `

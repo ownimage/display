@@ -8,14 +8,6 @@ class Config extends AppList {
         this.title = 'Configuration';
     }
 
-
-    getName() {
-        return 'config';
-    }
-
-    getTitle() {
-        return 'Configuration';
-    }
 }
 
 

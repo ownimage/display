@@ -25,7 +25,7 @@ class Controller {
         ];
 
         this.appDictionary = {};
-        this.appList.forEach(app => this.appDictionary[app.getName()] = app);
+        this.appList.forEach(app => this.appDictionary[app.name] = app);
         
         this.appDictionary['appSwitcher'].setAppList(this.appList);
         this.appDictionary['config'].setAppList(this.appList);
@@ -35,7 +35,7 @@ class Controller {
     }
 
     getCurrentAppName() {
-        return this.appList[this.currentAppNum % this.appList.length].getName();
+        return this.appList[this.currentAppNum % this.appList.length].name;
     }
 
     getContentElement() {

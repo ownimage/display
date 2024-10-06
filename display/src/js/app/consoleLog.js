@@ -8,13 +8,6 @@ class ConsoleLog {
         this.title = 'Console Log';
     }
 
-    getName() {
-        return 'consoleLog';
-    }
-
-    getTitle() {
-        return 'Console Log';
-    }
 
     setupDisplay() {
         this.contentDiv.innerHTML =

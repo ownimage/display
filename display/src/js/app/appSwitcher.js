@@ -8,14 +8,6 @@
         this.title = 'Applications'
     }
 
-
-    getName() {
-        return 'appSwitcher';
-    }
-
-    getTitle() {
-        return 'Applications';
-    }
 }
 
 

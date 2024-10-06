@@ -24,7 +24,7 @@ class AppList { // abstract class
         this.contentDiv.innerHTML =
 `
 <div id='config' class='p-3 container'>
-    <h1 class='text-center'>${this.getTitle()}</h1>
+    <h1 class='text-center'>${this.title}</h1>
 <div class='container mt-5 mb-3'>
     <div class='row'>
 ${this.generateCards()}
@@ -50,11 +50,11 @@ ${this.generateCards()}
         return `
         <div class='col-md-4'>
             <div class='card text-white bg-secondary mb-3'
-                    onclick='AppList.handleEvent(event, "${app.getName()}", "${this.actionString}")'
-                    onTouchStart='AppList.handleEvent(event, "${app.getName()}", "${this.actionString}")'>
-                <img src='icon/${app.getName()}.jpg' class='card-img-top' alt='${app.getTitle()}'>
+                    onclick='AppList.handleEvent(event, "${app.name}", "${this.actionString}")'
+                    onTouchStart='AppList.handleEvent(event, "${app.name}", "${this.actionString}")'>
+                <img src='icon/${app.name}.jpg' class='card-img-top' alt='${app.title}'>
                 <div class='mt-5'>
-                    <h3 class='heading text-center'>${app.getTitle()}</h3>
+                    <h3 class='heading text-center'>${app.title}</h3>
                 </div>
             </div>
         </div>

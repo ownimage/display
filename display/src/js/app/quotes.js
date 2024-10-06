@@ -13,14 +13,6 @@ class Quotes {
         this.api_url = 'https://zenquotes.io/api/quotes'
     }
 
-    getName() {
-        return 'quotes';
-    }
-
-    getTitle() {
-        return 'Quotes';
-    }
-
     setupDisplay() {
         this.contentDiv.innerHTML =
 `

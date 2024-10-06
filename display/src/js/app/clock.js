@@ -8,14 +8,6 @@ class Clock {
         this.title = 'Clock';
     }
 
-    getName() {
-        return 'clock';
-    }
-
-    getTitle() {
-        return 'Clock';
-    }
-
     updateDisplay() {
         const now = new Date();
 

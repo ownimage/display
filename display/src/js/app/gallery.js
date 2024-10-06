@@ -18,14 +18,6 @@ class Gallery {
         this.onscreen = 1; // used of onscreen offscreen rendering
 }
 
-    getName() {
-        return 'gallery';
-    }
-
-    getTitle() {
-        return 'Gallery';
-    }
-
     rotate_image() {
         if (this.images.length != 0) {
             this.display_image(this.count % this.images.length);
