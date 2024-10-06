@@ -1,10 +1,10 @@
-class ConsoleLog {
+class ConsoleLog extends Base{
 
     constructor(contentDiv) {
+        super('consoleLog', true)
         this.contentDiv = contentDiv;
         this.hasAppPage = true;
         this.hasConfigPage = false;
-        this.name = 'consoleLog';
         this.title = 'Console Log';
     }
 
