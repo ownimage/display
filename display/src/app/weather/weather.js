@@ -27,7 +27,10 @@ class Weather extends Base  {
     <p>Cloud Coverr: ${this.weather.currentConditions.cloudcover}</p>
     <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
     <img src='app/weather/icons/${this.weather.currentConditions.icon}.png'</img>
-    <p>Href ${window.location.href}></p>
+    <p>Solar Conditions: ${this.weather.currentConditions.conditions}</p>
+    <p>Sunrise: ${this.weather.currentConditions.sunrise}</p>
+    <p>Sunset: ${this.weather.currentConditions.sunset}</p>
+    <p>MoonPhase: ${this.weather.currentConditions.moonphase}</p>
 </div>
 </div>
 
