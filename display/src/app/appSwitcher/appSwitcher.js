@@ -1,10 +1,9 @@
  class AppSwitcher extends AppList {
 
     constructor(contentDiv) {
-        super(contentDiv, (app) => {return app.hasAppPage}, 'show');
+        super('appSwitcher', false, contentDiv, (app) => {return app.hasAppPage}, 'show');
         this.hasAppPage = false;
         this.hasConfigPage = false;
-        this.name = 'appSwitcher';
         this.title = 'Applications'
     }
 

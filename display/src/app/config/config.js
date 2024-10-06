@@ -1,7 +1,7 @@
 class Config extends AppList {
 
     constructor(contentDiv) {
-        super(contentDiv, (app) => {return app.hasConfigPage}, 'showConfig');
+        super('config', false, contentDiv, (app) => {return app.hasConfigPage}, 'showConfig');
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.name = 'config';
