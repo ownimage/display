@@ -1,3 +1,4 @@
+<<<<<<<< Updated upstream:display/src/app/calendar/calendar.js
 class Weather extends Base  {
 
     constructor(contentDiv) {
@@ -6,6 +7,18 @@ class Weather extends Base  {
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.title = 'Calendar';
+    }
+========
+class Weather extends Base {
+
+    constructor(contentDiv) {
+        super('weather', false)
+        this.contentDiv = contentDiv;
+        this.hasAppPage = true;
+        this.hasConfigPage = false;
+        this.title = 'Weather';
+>>>>>>>> Stashed changes:display/src/app/weather/weather.js
+
     }
 
     setupDisplay() {
