@@ -1,9 +1,9 @@
-class Gallery {
+class Gallery extends Base{
 
     constructor(contentDiv, gallery, speed) {
+        super('gallery', true);
         this.hasAppPage = true;
         this.hasConfigPage = true;
-        this.name = 'gallery';
         this.title = 'Gallery';
 
         this.contentDiv = contentDiv;
