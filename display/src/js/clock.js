@@ -1,9 +1,11 @@
 class Clock {
+
     constructor(contentDiv) {
         this.contentDiv = contentDiv;
-        this.name = 'clock'
-        this.title = 'Clock'
+        this.hasAppPage = true;
         this.hasConfigPage = false;
+        this.name = 'clock';
+        this.title = 'Clock';
     }
 
     getName() {

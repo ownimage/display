@@ -2,8 +2,12 @@ class ConsoleLog {
 
     constructor(contentDiv) {
         this.contentDiv = contentDiv;
-         this.hasConfigPage = false;
+        this.hasAppPage = true;
+        this.hasConfigPage = false;
+        this.name = 'consoleLog';
+        this.title = 'Console Log';
     }
+
     getName() {
         return 'consoleLog';
     }

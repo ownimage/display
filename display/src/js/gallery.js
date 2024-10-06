@@ -1,16 +1,22 @@
 class Gallery {
 
     constructor(contentDiv, gallery, speed) {
+        this.hasAppPage = true;
+        this.hasConfigPage = true;
+        this.name = 'gallery';
+        this.title = 'Gallery';
+
         this.contentDiv = contentDiv;
-         this.hasConfigPage = true;
         this.gallery = gallery;
-        this.isInit = false;
-        this.galleries = []
         this.speed = speed;
+
+        this.isInit = false;
+
         this.count = 0;
+        this.galleries = []
         this.images = [];
-        this.onscreen = 1;
-    }
+        this.onscreen = 1; // used of onscreen offscreen rendering
+}
 
     getName() {
         return 'gallery';

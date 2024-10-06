@@ -1,7 +1,12 @@
 class Weather {
-    constructor() {
-         this.hasConfigPage = false;
-    }
+
+}
+    constructor(contentDiv) {
+        this.contentDiv = contentDiv;
+        this.hasAppPage = true;
+        this.hasConfigPage = false;
+        this.name = 'weather';
+        this.title = 'Weather';
 
     getName() {
         return 'weather';
