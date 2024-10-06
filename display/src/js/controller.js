@@ -17,6 +17,7 @@ class Controller {
 
         this.appList = [
             new AppSwitcher(contentDiv),
+            new Calendar(contentDiv),
             new Clock(contentDiv),
             new Config(contentDiv),
             new ConsoleLog(contentDiv),
