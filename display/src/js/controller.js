@@ -22,6 +22,7 @@ class Controller {
             new ConsoleLog(contentDiv),
             new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
             new Quotes(contentDiv),
+            new Weather(contentDiv),
         ];
 
         this.appDictionary = {};
