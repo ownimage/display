@@ -14,7 +14,7 @@ function requestFullScreen() {
 
 // Function to hide the address bar
 function hideAddressBar() {
-    window.scrollTo(0, 1);
+//    window.scrollTo(0, 1);
 }
 
 // Call functions on page load
