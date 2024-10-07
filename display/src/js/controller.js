@@ -33,7 +33,7 @@ class Controller {
         this.appDictionary['config'].setAppList(this.appList);
 
         this.currentApp = this.appDictionary[this.getCurrentAppName()];
-        this.currentApp = this.appDictionary['consoleLog'];
+        this.currentApp = this.appDictionary['calendar'];
         this.currentApp.run();
     }
 
@@ -144,5 +144,6 @@ class Controller {
 
 }
 
+
 const controller = new Controller();
-controller.run();
+setTimeout(() => controller.run(), 1000);
