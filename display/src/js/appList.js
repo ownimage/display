@@ -53,7 +53,7 @@ ${this.generateCards()}
             <div class='card text-white bg-secondary mb-3'
                     onclick='AppList.handleEvent(event, "${app.name}", "${this.actionString}")'
                     onTouchStart='AppList.handleEvent(event, "${app.name}", "${this.actionString}")'>
-                <img src='icon/${app.name}.jpg' class='card-img-top' alt='${app.title}'>
+                <img src='app/${app.name}/${app.name}.jpg' class='card-img-top' alt='${app.title}'>
                 <div class='mt-5'>
                     <h3 class='heading text-center'>${app.title}</h3>
                 </div>
