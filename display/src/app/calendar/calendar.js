@@ -47,14 +47,14 @@ class Calendar extends Base {
     }
 
     maybeEnableButtons() {
-        if (this.gapiInited && this.gisInited) {
-            document.getElementById('authorize_button').style.visibility = 'visible';
-        }
+//        if (this.gapiInited && this.gisInited) {
+//            document.getElementById('authorize_button').style.visibility = 'visible';
+//        }
+        return;
     }
 
     handleAuthClick(event) {
-        if (event) { event.stopPropagation(); }
-        document.getElementById('authorize_button').style.visibility = 'hidden';
+//        document.getElementById('authorize_button').style.visibility = 'hidden';
         if (this.skipAuth) {
             this.listUpcomingEvents();
             return;
