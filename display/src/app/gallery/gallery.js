@@ -130,7 +130,6 @@ class Gallery extends Base{
     }
 
     async run() {
-        await Common.fetch_content_json('gallery.json')
         await this.init();
         this.create_display();
         this.scheduled_rotate();
@@ -140,7 +139,7 @@ class Gallery extends Base{
     async init() {
         if (!this.isInit) {
             this.isInit = true;
-            await Common.fetch_content_json('gallery.json')
+            await this.fetch_content_json()
                 .then(j => this.process_json(j));
         }
     }
