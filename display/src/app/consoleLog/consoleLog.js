@@ -12,7 +12,7 @@ class ConsoleLog extends Base{
     setupDisplay() {
         this.contentDiv.innerHTML =
 `
-<div class='consoleLog pt-3 container'>
+<div class='consoleLog pt-3 container-fluid'>
     <h1 class='p-3'>console.log <button type='button' class='btn btn-primary float-end'>Return</button></h1>
     <div class='p-3'>
         ${controller.getLog()}

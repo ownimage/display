@@ -17,7 +17,7 @@ class Quotes extends Base{
         this.contentDiv.innerHTML =
 `
 
-<div id='quote' class='pt-3 container'>
+<div id='quote' class='pt-3 container-fluid'>
     <h1 class='text-center'>Quote:</h1>
 
     <div class="px-4 py-5 my-5 text-center">
@@ -29,14 +29,13 @@ class Quotes extends Base{
         </div>
     </div>
 
-
-</div>
-<div class="fixed-bottom">
-    <div
-         class="text-center p-3"
-         style="background-color: rgba(0, 0, 0, 0.2)"
-         >
-         <p>Quotes from https://zenquotes.io/api/quotes</p>
+    <div class="fixed-bottom">
+        <div
+             class="text-center p-3"
+             style="background-color: rgba(0, 0, 0, 0.2)"
+             >
+             <p>Quotes from https://zenquotes.io/api/quotes</p>
+        </div>
     </div>
 </div>
 `;
