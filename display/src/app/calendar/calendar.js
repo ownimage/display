@@ -53,7 +53,12 @@ class Calendar extends Base {
     }
 
     handleAuthClick(event) {
-        event.stopPropagation();
+        if (event) { event.stopPropagation(); }
+        document.getElementById('authorize_button').style.visibility = 'hidden';
+        if (this.skipAuth) {
+            this.listUpcomingEvents();
+            return;
+        }
         this.tokenClient.callback = async (resp) => {
             if (resp.error !== undefined) {
                 throw (resp);
@@ -69,6 +74,7 @@ class Calendar extends Base {
     }
 
     async listUpcomingEvents() {
+        this.skipAuth = true;
         let response;
         try {
             response = await gapi.client.calendar.events.list({
@@ -106,6 +112,8 @@ class Calendar extends Base {
         this.setupDisplay();
         this.gapiLoaded();
         this.gisLoaded();
+        this.maybeEnableButtons();
+        this.handleAuthClick();
     }
 
     stop() {
