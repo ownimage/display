@@ -11,7 +11,7 @@ class Controller extends Base {
         this.handleEventsActive = true;
     }
 
-    async run() {
+    async run(apps) {
         this.addHandlers();
         this.redirectConsoleLog();
 
@@ -24,34 +24,14 @@ class Controller extends Base {
         this.appList = [];
         this.appDictionary = {};
 
-        let apps = ['appSwitcher', 'config', 'calendar', 'clock', 'consoleLog', 'gallery', 'quotes', 'weather'];
         let promises = [];
         apps.forEach(app => {
             promises.push(this.loadScript(`app/${app}/${app}.js`));
-//               .then(() => this.appDictionary[app] = new this.appDictionary[app](this.getContentElement()));
         });
         await Promise.all(promises);
 
-
-//        this.appList = [
-//            new AppSwitcher(contentDiv),
-//            new Calendar(contentDiv),
-//            new Clock(contentDiv),
-//            new Config(contentDiv),
-//            new ConsoleLog(contentDiv),
-//            new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
-//            new Quotes(contentDiv),
-//            new Weather(contentDiv),
-//        ];
-//
-//        this.appList.forEach(app => this.appDictionary[app.name] = app);
-
-        this.appDictionary['appSwitcher'].setAppList(this.appList);
-        this.appDictionary['config'].setAppList(this.appList);
-
-        this.currentApp = this.appDictionary[this.getCurrentAppName()];
-        this.currentApp = this.appDictionary['calendar'];
-        this.currentApp.run();
+//        this.changeApp(this.getCurrentAppName());
+        this.changeApp('calendar');
     }
 
     register(app) {
@@ -108,11 +88,12 @@ class Controller extends Base {
     }
 
     async changeApp(appName, event) {
+        if (event) { event.stopPropagation();}
         this.handleEventsActive = true;
         this.previousApp = this.currentApp;
-        this.currentApp.stop(); // is this valid syntax
+        if (this.currentApp) { this.currentApp.stop(); }
         this.currentApp = this.appDictionary[appName];
-        this.currentApp.run();
+        this.currentApp.run({'appList': this.appList});
     }
 
     showNextApp() {
@@ -162,7 +143,4 @@ class Controller extends Base {
 
 }
 
-
-
 const controller = new Controller();
-setTimeout(() => controller.run(), 1000);
