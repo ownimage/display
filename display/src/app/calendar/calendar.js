@@ -17,12 +17,15 @@ class Calendar extends Base {
     setupDisplay() {
         this.getContentElement().innerHTML =
 `
-<h1>Upcoming Google Calendar Events</h1>
-<button id="authorize_button" style="visibility: hidden;" onTouchStart="calendar.handleAuthClick(event)" onclick="calendar.handleAuthClick(event)">Authorize</button>
-<div id="events"></div>
+<div class='container'>
+    <h1>Upcoming Google Calendar Events</h1>
+    <button type='button' class='btn btn-primary' onTouchStart='calendar.gapiLoaded(event)' onclick='calendar.gapiLoaded(event)'>Authorize</button>
+    <div id='events'></div>
+</div>
 `}
 
-    gapiLoaded() {
+    gapiLoaded(event) {
+        if (event) { event.stopPropagation(); }
         console.log('gapiLoaded');
         gapi.load('client', () => this.initializeGapiClient());
     }
@@ -31,7 +34,7 @@ class Calendar extends Base {
         console.log('initializeGapiClient');
         await gapi.client.init({
             apiKey: 'AIzaSyDKUfxX-7Z_uv6qBc6LTNZy8mQNMMJ2JQs',
-            discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
         });
         this.gisLoaded()
     }
@@ -57,7 +60,6 @@ class Calendar extends Base {
 
     handleAuthClick(event) {
         console.log('handleAuthClick');
-        document.getElementById('authorize_button').style.visibility = 'hidden';
         if (this.skipAuth) {
             this.listUpcomingEvents();
             return;
@@ -122,9 +124,6 @@ class Calendar extends Base {
     async run() {
         console.log('run');
         this.setupDisplay();
-        this.gapiLoaded();
-        this.gisLoaded();
-        this.maybeEnableButtons();
         this.handleAuthClick();
     }
 
