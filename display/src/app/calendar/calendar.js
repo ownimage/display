@@ -5,7 +5,6 @@ class Calendar extends Base {
     constructor(contentDiv) {
         super('calendar')
         calendar = this;
-        this.contentDiv = contentDiv;
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.title = 'Calendar';
