@@ -23,37 +23,40 @@ class Calendar extends Base {
 `}
 
     gapiLoaded() {
+        console.log('gapiLoaded');
         gapi.load('client', () => this.initializeGapiClient());
-        this.clientLoaded = true;
     }
 
     async initializeGapiClient() {
+        console.log('initializeGapiClient');
         await gapi.client.init({
             apiKey: 'AIzaSyDKUfxX-7Z_uv6qBc6LTNZy8mQNMMJ2JQs',
             discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
         });
-        this.gapiInited = true;
-        this.maybeEnableButtons();
+        this.gisLoaded()
     }
 
     gisLoaded() {
+        console.log('gisLoaded');
         this.tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: '621701457931-ufnkse0r4vhhr2h6csbemdmcj8hrbii6.apps.googleusercontent.com',
             scope: 'https://www.googleapis.com/auth/calendar.readonly',
             callback: '', // defined later
         });
         this.gisInited = true;
-        this.maybeEnableButtons();
+        this.handleAuthClick();
     }
 
-    maybeEnableButtons() {
-        if (this.gapiInited && this.gisInited) {
-            document.getElementById('authorize_button').style.visibility = 'visible';
-        }
-        return;
-    }
+//    maybeEnableButtons() {
+//        console.log('maybeEnableButtons');
+//        if (this.gapiInited && this.gisInited) {
+//            document.getElementById('authorize_button').style.visibility = 'visible';
+//        }
+//        return;
+//    }
 
     handleAuthClick(event) {
+        console.log('handleAuthClick');
         document.getElementById('authorize_button').style.visibility = 'hidden';
         if (this.skipAuth) {
             this.listUpcomingEvents();
@@ -74,6 +77,7 @@ class Calendar extends Base {
     }
 
     async listUpcomingEvents() {
+        console.log('listUpcomingEvents');
         this.skipAuth = true;
         let response;
         try {
@@ -107,14 +111,16 @@ class Calendar extends Base {
 
     }
 
-    init() {
-        this.loadScript('https://accounts.google.com/gsi/client', () => this.gapiLoaded());
-        this.loadScript('https://apis.google.com/js/api.js', () => this.gisLoaded());
+    async init() {
+        console.log('init');
+        await this.loadScript('https://apis.google.com/js/api.js');
+        await this.loadScript('https://accounts.google.com/gsi/client', () => this.gapiLoaded());
+
     }
 
 
     async run() {
-
+        console.log('run');
         this.setupDisplay();
         this.gapiLoaded();
         this.gisLoaded();
@@ -129,8 +135,8 @@ class Calendar extends Base {
 
 (()=>{
     let calendar = new Calendar();
-    calendar.init();
-    controller.register(new Calendar() );
+    calendar.init()
+    .then(() => controller.register(new Calendar() ));
 })();
 
 
