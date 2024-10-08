@@ -1,7 +1,12 @@
-class Controller {
+class Controller extends Base {
+
     constructor() {
+        super('controller)');
         this.contentId = 'content';
+        this.hasAppPage = true;
         this.hasConfigPage = false;
+        this.title = 'Controller';
+
         this.logArray = [];
         this.currentAppNum = 0;
         this.handleEventsActive = true;
