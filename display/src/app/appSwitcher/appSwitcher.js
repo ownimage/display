@@ -9,5 +9,6 @@
 
 }
 
+controller.register(new AppSwitcher() );
 
 

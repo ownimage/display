@@ -1,6 +1,6 @@
 class Gallery extends Base{
 
-    constructor(contentDiv, gallery, speed) {
+    constructor(contentDiv, gallery='test', speed=3000) {
         super('gallery', true);
         this.hasAppPage = true;
         this.hasConfigPage = true;
@@ -26,7 +26,7 @@ class Gallery extends Base{
     }
 
     async create_display() {
-        this.contentDiv.innerHTML =
+        this.getContentElement().innerHTML =
 `
 <div class='gallery'>
     <img id='0' src='images/${this.gallery}/${this.images[0]}' class='fullsize-image'>
@@ -82,7 +82,7 @@ class Gallery extends Base{
     async showConfigPage() {
         await this.init();
         console.log(`galleries ${JSON.stringify(Object.keys(this.galleries))}`);
-        this.contentDiv.innerHTML =
+        this.getContentElement().innerHTML =
 `
 <div id='galleryConfig' class='pt-3 container'>
     <h1 class='text-center'>Gallery Config Page</h1>
@@ -144,4 +144,6 @@ class Gallery extends Base{
         }
     }
 }
+
+controller.register(new Gallery() );
 

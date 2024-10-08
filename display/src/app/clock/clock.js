@@ -46,7 +46,7 @@ class Clock extends Base {
         const clock_desired_size = Math.min(window.innerHeight, window.innerWidth);
         const scale = clock_desired_size / clock_normal_size;
 
-        this.contentDiv.innerHTML =
+        this.getContentElement().innerHTML =
 `
 <div id='clock'>
     <div>
@@ -73,5 +73,7 @@ class Clock extends Base {
         clearInterval(this.intervalId);
     }
 }
+
+controller.register(new Clock() );
 
 

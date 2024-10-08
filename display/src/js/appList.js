@@ -22,7 +22,7 @@ class AppList extends Base { // abstract class
     }
 
     setupDisplay() {
-        this.contentDiv.innerHTML =
+        this.getContentElement().innerHTML =
 `
 <div id='config' class='p-3 container'>
     <h1 class='text-center'>${this.title}</h1>

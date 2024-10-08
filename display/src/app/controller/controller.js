@@ -2,7 +2,6 @@ class Controller extends Base {
 
     constructor() {
         super('controller)');
-        this.contentId = 'content';
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.title = 'Controller';
@@ -13,17 +12,6 @@ class Controller extends Base {
     }
 
     async run() {
-        await this.loadScript('js/appList.js');
-
-        await this.loadScript('app/appSwitcher/appSwitcher.js');
-        await this.loadScript('app/config/config.js');
-        await this.loadScript('app/calendar/calendar.js');
-        await this.loadScript('app/clock/clock.js');
-        await this.loadScript('app/consoleLog/consoleLog.js');
-        await this.loadScript('app/gallery/gallery.js');
-        await this.loadScript('app/quotes/quotes.js');
-        await this.loadScript('app/weather/weather.js');
-
         this.addHandlers();
         this.redirectConsoleLog();
 
@@ -31,19 +19,32 @@ class Controller extends Base {
 
         const contentDiv = this.getContentElement();
 
-        this.appList = [
-            new AppSwitcher(contentDiv),
-            new Calendar(contentDiv),
-            new Clock(contentDiv),
-            new Config(contentDiv),
-            new ConsoleLog(contentDiv),
-            new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
-            new Quotes(contentDiv),
-            new Weather(contentDiv),
-        ];
+        await this.loadScript('js/appList.js');
 
+        this.appList = [];
         this.appDictionary = {};
-        this.appList.forEach(app => this.appDictionary[app.name] = app);
+
+        let apps = ['appSwitcher', 'config', 'calendar', 'clock', 'consoleLog', 'gallery', 'quotes', 'weather'];
+        let promises = [];
+        apps.forEach(app => {
+            promises.push(this.loadScript(`app/${app}/${app}.js`));
+//               .then(() => this.appDictionary[app] = new this.appDictionary[app](this.getContentElement()));
+        });
+        await Promise.all(promises);
+
+
+//        this.appList = [
+//            new AppSwitcher(contentDiv),
+//            new Calendar(contentDiv),
+//            new Clock(contentDiv),
+//            new Config(contentDiv),
+//            new ConsoleLog(contentDiv),
+//            new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
+//            new Quotes(contentDiv),
+//            new Weather(contentDiv),
+//        ];
+//
+//        this.appList.forEach(app => this.appDictionary[app.name] = app);
 
         this.appDictionary['appSwitcher'].setAppList(this.appList);
         this.appDictionary['config'].setAppList(this.appList);
@@ -53,12 +54,13 @@ class Controller extends Base {
         this.currentApp.run();
     }
 
-    getCurrentAppName() {
-        return this.appList[this.currentAppNum % this.appList.length].name;
+    register(app) {
+        this.appList.push(app);
+        this.appDictionary[app.name] = app;
     }
 
-    getContentElement() {
-        return document.getElementById(this.contentId);
+    getCurrentAppName() {
+        return this.appList[this.currentAppNum % this.appList.length].name;
     }
 
     redirectConsoleLog() {

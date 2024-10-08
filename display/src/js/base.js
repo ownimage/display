@@ -5,6 +5,9 @@ class Base {
         if (hasStylesheet) { this.addStylesheet(); }
     }
 
+   getContentElement() {
+        return document.getElementById('content');
+    }
 
     loadScript(url, callback=()=>{})
     {

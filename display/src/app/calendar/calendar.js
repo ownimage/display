@@ -16,8 +16,8 @@ class Calendar extends Base {
     }
 
     setupDisplay() {
-        this.contentDiv.innerHTML =
-            `
+        this.getContentElement().innerHTML =
+`
 <h1>Upcoming Google Calendar Events</h1>
 <button id="authorize_button" style="visibility: hidden;" onTouchStart="calendar.handleAuthClick(event)" onclick="calendar.handleAuthClick(event)">Authorize</button>
 <div id="events"></div>
@@ -129,5 +129,7 @@ class Calendar extends Base {
     }
 
 }
+
+controller.register(new Calendar() );
 
 
