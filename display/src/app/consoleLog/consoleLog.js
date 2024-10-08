@@ -1,16 +1,14 @@
-class ConsoleLog extends Base{
+class ConsoleLog extends Base {
 
-    constructor(contentDiv) {
+    constructor() {
         super('consoleLog', true)
-        this.contentDiv = contentDiv;
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.title = 'Console Log';
     }
 
-
     setupDisplay() {
-        this.contentDiv.innerHTML =
+        this.getContentElement().innerHTML =
 `
 <div class='consoleLog pt-3 container-fluid'>
     <h1 class='p-3'>console.log <button type='button' class='btn btn-primary float-end'>Return</button></h1>
@@ -28,5 +26,7 @@ class ConsoleLog extends Base{
     stop() {
     }
 }
+
+controller.register(new ConsoleLog() );
 
 

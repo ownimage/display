@@ -10,6 +10,8 @@ class Config extends AppList {
 
 }
 
+controller.register(new Config() );
+
 
 
 

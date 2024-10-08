@@ -14,7 +14,7 @@ class Weather extends Base  {
     }
 
     setupDisplay() {
-        this.contentDiv.innerHTML =
+        this.getContentElement().innerHTML =
 `
 <div id='weather' class='p-3 container'>
     <h1 class='text-center'>${this.weather.resolvedAddress}</h1>
@@ -62,4 +62,4 @@ class Weather extends Base  {
     //curl 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chester-le-street?unitGroup=metric&key=TNYUBN3FLWYRKV8SGQ8UGG945&contentType=json'
 }
 
-
+controller.register(new Weather() );

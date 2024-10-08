@@ -14,7 +14,7 @@ class Quotes extends Base{
     }
 
     setupDisplay() {
-        this.contentDiv.innerHTML =
+        this.getContentElement().innerHTML =
 `
 
 <div id='quote' class='pt-3 container-fluid'>
@@ -70,5 +70,7 @@ class Quotes extends Base{
         clearInterval(this.rotateInterval);
     }
 }
+
+controller.register(new Quotes() );
 
 

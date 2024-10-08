@@ -17,28 +17,24 @@ class AppList extends Base { // abstract class
         return 'Application List';
     }
 
-    setAppList(appList) { // this is a set of instances not names
-        this.appList = appList;
-    }
-
-    setupDisplay() {
-        this.contentDiv.innerHTML =
+    setupDisplay(appList) {
+        this.getContentElement().innerHTML =
 `
 <div id='config' class='p-3 container'>
     <h1 class='text-center'>${this.title}</h1>
 <div class='container mt-5 mb-3'>
     <div class='row'>
-${this.generateCards()}
+${this.generateCards(appList)}
     </div>
 </div>
 </div>
 `;
     }
 
-    generateCards() {
+    generateCards(appList) {
         let html = '';
-        if (this.appList) {
-            for (const app of this.appList) {
+        if (appList) {
+            for (const app of appList) {
                 if (this.filter(app)) {
                     html += this.generateCard(app);
                 }
@@ -66,8 +62,9 @@ ${this.generateCards()}
         controller.appAction(appName, actionString, event);
     }
 
-    async run() {
-        this.setupDisplay();
+    async run(config={'appList': []}) {
+
+        this.setupDisplay(config.appList);
     }
 
     stop() {

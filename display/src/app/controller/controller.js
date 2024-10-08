@@ -1,13 +1,17 @@
-class Controller {
+class Controller extends Base {
+
     constructor() {
-        this.contentId = 'content';
+        super('controller)');
+        this.hasAppPage = true;
         this.hasConfigPage = false;
+        this.title = 'Controller';
+
         this.logArray = [];
         this.currentAppNum = 0;
         this.handleEventsActive = true;
     }
 
-    async run() {
+    async run(apps) {
         this.addHandlers();
         this.redirectConsoleLog();
 
@@ -15,34 +19,28 @@ class Controller {
 
         const contentDiv = this.getContentElement();
 
-        this.appList = [
-            new AppSwitcher(contentDiv),
-            new Calendar(contentDiv),
-            new Clock(contentDiv),
-            new Config(contentDiv),
-            new ConsoleLog(contentDiv),
-            new Gallery(contentDiv, control.gallery.gallery, control.gallery.speed),
-            new Quotes(contentDiv),
-            new Weather(contentDiv),
-        ];
+        await this.loadScript('js/appList.js');
 
+        this.appList = [];
         this.appDictionary = {};
-        this.appList.forEach(app => this.appDictionary[app.name] = app);
 
-        this.appDictionary['appSwitcher'].setAppList(this.appList);
-        this.appDictionary['config'].setAppList(this.appList);
+        let promises = [];
+        apps.forEach(app => {
+            promises.push(this.loadScript(`app/${app}/${app}.js`));
+        });
+        await Promise.all(promises);
 
-        this.currentApp = this.appDictionary[this.getCurrentAppName()];
-        this.currentApp = this.appDictionary['calendar'];
-        this.currentApp.run();
+//        this.changeApp(this.getCurrentAppName());
+        this.changeApp('calendar');
+    }
+
+    register(app) {
+        this.appList.push(app);
+        this.appDictionary[app.name] = app;
     }
 
     getCurrentAppName() {
         return this.appList[this.currentAppNum % this.appList.length].name;
-    }
-
-    getContentElement() {
-        return document.getElementById(this.contentId);
     }
 
     redirectConsoleLog() {
@@ -90,11 +88,12 @@ class Controller {
     }
 
     async changeApp(appName, event) {
+        if (event) { event.stopPropagation();}
         this.handleEventsActive = true;
         this.previousApp = this.currentApp;
-        this.currentApp.stop(); // is this valid syntax
+        if (this.currentApp) { this.currentApp.stop(); }
         this.currentApp = this.appDictionary[appName];
-        this.currentApp.run();
+        this.currentApp.run({'appList': this.appList});
     }
 
     showNextApp() {
@@ -144,6 +143,4 @@ class Controller {
 
 }
 
-
 const controller = new Controller();
-setTimeout(() => controller.run(), 1000);

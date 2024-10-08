@@ -1,8 +1,26 @@
 class Base {
 
-    constructor(name, hasStylesheet) {
+    constructor(name, hasStylesheet=false) {
         this.name = name;
         if (hasStylesheet) { this.addStylesheet(); }
+    }
+
+   getContentElement() {
+        return document.getElementById('content');
+    }
+
+    loadScript(url, callback=()=>{})
+    {
+        return new Promise((resolve, reject) => {
+            var callbackResolve = () => { callback(); resolve(); };
+            var head = document.head;
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = url;
+            script.onreadystatechange = callbackResolve
+            script.onload = callbackResolve
+            head.appendChild(script);
+        });
     }
 
     addStylesheet() {
