@@ -13,6 +13,10 @@ class Controller extends Base {
     }
 
     async run() {
+        await this.loadScript('js/appList.js');
+        await this.loadScript('app/appSwitcher/appSwitcher.js');
+        await this.loadScript('app/config/config.js');
+
         this.addHandlers();
         this.redirectConsoleLog();
 
@@ -148,6 +152,7 @@ class Controller extends Base {
     }
 
 }
+
 
 
 const controller = new Controller();
