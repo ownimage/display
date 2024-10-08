@@ -14,8 +14,15 @@ class Controller extends Base {
 
     async run() {
         await this.loadScript('js/appList.js');
+
         await this.loadScript('app/appSwitcher/appSwitcher.js');
         await this.loadScript('app/config/config.js');
+        await this.loadScript('app/calendar/calendar.js');
+        await this.loadScript('app/clock/clock.js');
+        await this.loadScript('app/consoleLog/consoleLog.js');
+        await this.loadScript('app/gallery/gallery.js');
+        await this.loadScript('app/quotes/quotes.js');
+        await this.loadScript('app/weather/weather.js');
 
         this.addHandlers();
         this.redirectConsoleLog();
