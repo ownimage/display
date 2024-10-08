@@ -42,7 +42,6 @@ class Calendar extends Base {
             scope: 'https://www.googleapis.com/auth/calendar.readonly',
             callback: '', // defined later
         });
-        this.apiLoaded = true
         this.gisInited = true;
         this.maybeEnableButtons();
     }
@@ -108,14 +107,13 @@ class Calendar extends Base {
 
     }
 
+    init() {
+        this.loadScript('https://accounts.google.com/gsi/client', () => this.gapiLoaded());
+        this.loadScript('https://apis.google.com/js/api.js', () => this.gisLoaded());
+    }
+
 
     async run() {
-        if (!this.clientLoaded) {
-            this.loadScript('https://accounts.google.com/gsi/client', () => this.gapiLoaded());
-        }
-        if (!this.apiLoaded) {
-            this.loadScript('https://apis.google.com/js/api.js', () => this.gisLoaded());
-        }
 
         this.setupDisplay();
         this.gapiLoaded();
@@ -129,6 +127,10 @@ class Calendar extends Base {
 
 }
 
-controller.register(new Calendar() );
+(()=>{
+    let calendar = new Calendar();
+    calendar.init();
+    controller.register(new Calendar() );
+})();
 
 
