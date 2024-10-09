@@ -10,8 +10,6 @@ class Calendar extends Base {
         this.title = 'Calendar';
 
         this.tokenClient = null;
-        this.gapiInited = false;
-        this.gisInited = false;
     }
 
     setupDisplay() {
@@ -19,10 +17,20 @@ class Calendar extends Base {
 `
 <div class='container'>
     <h1>Upcoming Google Calendar Events</h1>
-    <button type='button' class='btn btn-primary' onTouchStart='calendar.gapiLoaded(event)' onclick='calendar.gapiLoaded(event)'>Authorize</button>
+    <button id='button' type='button' class='btn btn-primary' onTouchStart='calendar.gapiLoaded(event)' onclick='calendar.gapiLoaded(event)'>Authorize</button>
     <div id='events'></div>
 </div>
 `}
+
+    setButtonVisible(visible=true) {
+        if (visible) {
+            document.getElementById('button').classList.remove('d-none');
+        }
+        else {
+            document.getElementById('button').classList.add('d-none');
+        }
+
+    }
 
     gapiLoaded(event) {
         if (event) { event.stopPropagation(); }
@@ -46,24 +54,11 @@ class Calendar extends Base {
             scope: 'https://www.googleapis.com/auth/calendar.readonly',
             callback: '', // defined later
         });
-        this.gisInited = true;
         this.handleAuthClick();
     }
 
-//    maybeEnableButtons() {
-//        console.log('maybeEnableButtons');
-//        if (this.gapiInited && this.gisInited) {
-//            document.getElementById('authorize_button').style.visibility = 'visible';
-//        }
-//        return;
-//    }
-
     handleAuthClick(event) {
         console.log('handleAuthClick');
-        if (this.skipAuth) {
-            this.listUpcomingEvents();
-            return;
-        }
         this.tokenClient.callback = async (resp) => {
             if (resp.error !== undefined) {
                 throw (resp);
@@ -75,12 +70,13 @@ class Calendar extends Base {
             this.tokenClient.requestAccessToken({ prompt: 'consent' });
         } else {
             this.tokenClient.requestAccessToken({ prompt: '' });
+            this.setButtonVisible(false);
+            this.listUpcomingEvents();
         }
     }
 
     async listUpcomingEvents() {
         console.log('listUpcomingEvents');
-        this.skipAuth = true;
         let response;
         try {
             response = await gapi.client.calendar.events.list({
@@ -116,15 +112,13 @@ class Calendar extends Base {
     async init() {
         console.log('init');
         await this.loadScript('https://apis.google.com/js/api.js');
-        await this.loadScript('https://accounts.google.com/gsi/client', () => this.gapiLoaded());
-
+        await this.loadScript('https://accounts.google.com/gsi/client');
     }
 
 
     async run() {
         console.log('run');
         this.setupDisplay();
-        this.handleAuthClick();
     }
 
     stop() {

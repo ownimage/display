@@ -1,13 +1,24 @@
 class Base {
 
-    constructor(name, hasStylesheet=false) {
+   constructor(name, hasStylesheet=false) {
         this.name = name;
         if (hasStylesheet) { this.addStylesheet(); }
-    }
+   }
 
    getContentElement() {
         return document.getElementById('content');
-    }
+   }
+
+   async showConfigPage() {
+        this.getContentElement().innerHTML = this.configPage();
+   }
+
+    configPage() {
+    return `
+<div  class='pt-3 container'>
+    <h1 class='text-center'>No Config Page Defined</h1>
+</div>
+`;}
 
     loadScript(url, callback=()=>{})
     {
