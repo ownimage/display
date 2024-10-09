@@ -4,7 +4,7 @@
         super('appSwitcher', false, contentDiv, (app) => {return app.hasAppPage}, 'show');
         this.hasAppPage = false;
         this.hasConfigPage = false;
-        this.title = 'Applications'
+        this.title = 'Application List'
     }
 
 }

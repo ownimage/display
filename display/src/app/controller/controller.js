@@ -31,7 +31,8 @@ class Controller extends Base {
         await Promise.all(promises);
 
 //        this.changeApp(this.getCurrentAppName());
-        this.changeApp('calendar');
+//        this.changeApp('calendar');
+        this.changeApp('appSwitcher');
     }
 
     register(app) {

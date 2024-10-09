@@ -17,10 +17,16 @@ class Calendar extends Base {
 `
 <div class='container'>
     <h1>Upcoming Google Calendar Events</h1>
-    <button id='button' type='button' class='btn btn-primary' onTouchStart='calendar.gapiLoaded(event)' onclick='calendar.gapiLoaded(event)'>Authorize</button>
+    <button id='button' type='button' class='btn btn-primary' onTouchStart='calendar.refreshToken(event)' onclick='calendar.refreshToken(event)'>Refresh</button>
     <div id='events'></div>
 </div>
 `}
+
+    refreshToken(event) {
+        if (event) { event.stopPropagation(); }
+        console.log('refreshToken');
+        this.handleAuthClick();
+    }
 
     setButtonVisible(visible=true) {
         if (visible) {
@@ -54,11 +60,13 @@ class Calendar extends Base {
             scope: 'https://www.googleapis.com/auth/calendar.readonly',
             callback: '', // defined later
         });
-        this.handleAuthClick();
+
     }
 
     handleAuthClick(event) {
         console.log('handleAuthClick');
+        if (event) { event.stopPropagation(); }
+
         this.tokenClient.callback = async (resp) => {
             if (resp.error !== undefined) {
                 throw (resp);
@@ -67,15 +75,16 @@ class Calendar extends Base {
         };
 
         if (gapi.client.getToken() === null) {
+            this.setButtonVisible(true);
             this.tokenClient.requestAccessToken({ prompt: 'consent' });
         } else {
             this.tokenClient.requestAccessToken({ prompt: '' });
-            this.setButtonVisible(false);
             this.listUpcomingEvents();
         }
     }
 
     async listUpcomingEvents() {
+        this.setButtonVisible(false);
         console.log('listUpcomingEvents');
         let response;
         try {
@@ -113,12 +122,14 @@ class Calendar extends Base {
         console.log('init');
         await this.loadScript('https://apis.google.com/js/api.js');
         await this.loadScript('https://accounts.google.com/gsi/client');
+        this.gapiLoaded();
     }
 
 
     async run() {
         console.log('run');
         this.setupDisplay();
+        this.handleAuthClick();
     }
 
     stop() {
@@ -129,7 +140,7 @@ class Calendar extends Base {
 (()=>{
     let calendar = new Calendar();
     calendar.init()
-    .then(() => controller.register(new Calendar() ));
+    .then( () => controller.register(calendar) );
 })();
 
 
