@@ -36,6 +36,7 @@ class Controller extends Base {
 
     register(app) {
         this.appList.push(app);
+        this.appList.sort((a, b) => a.name.localeCompare(b.name));
         this.appDictionary[app.name] = app;
     }
 
