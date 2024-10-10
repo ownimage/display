@@ -7,18 +7,23 @@ class Calendar extends Base {
         calendar = this;
         this.hasAppPage = true;
         this.hasConfigPage = false;
-        this.title = 'Calendar';
+        this.title = 'Calendar App';
 
         this.tokenClient = null;
+        this.eventPage = `<div class='col-12'><h1>No events to show.</h1></div>`;
     }
 
     setupDisplay() {
         this.getContentElement().innerHTML =
 `
 <div class='container'>
-    <h1>Upcoming Google Calendar Events</h1>
-    <button id='button' type='button' class='btn btn-primary' onTouchStart='calendar.refreshToken(event)' onclick='calendar.refreshToken(event)'>Refresh</button>
-    <div id='events'></div>
+    <div class='col-12'>
+        <h1>Upcoming Google Calendar Events</h1>
+        <button id='button' type='button' class='btn btn-danger w-100' onTouchStart='calendar.refreshToken(event)' onclick='calendar.refreshToken(event)'>Login</button>
+    </div>
+    <div id='events'>
+        ${this.eventPage}
+    </div>
 </div>
 `}
 
@@ -97,6 +102,7 @@ class Calendar extends Base {
                 'orderBy': 'startTime'
             });
         } catch (err) {
+            this.setButtonVisible(true);
             console.error(err.message);
             return;
         }
@@ -104,18 +110,75 @@ class Calendar extends Base {
         const events = response.result.items;
         const output = document.getElementById('events');
         if (!events || events.length == 0) {
-            output.innerHTML = '<p>No upcoming events found.</p>';
+            output.innerHTML = this.eventPage;
             return;
         }
 
-        output.innerHTML = '<h2>Upcoming events:</h2>';
-
+        this.eventPage = '';
+        this.buildEventPage(null);
         for (let i = 0; i < events.length; i++) {
             const event = events[i];
-            const when = event.start.dateTime || event.start.date;
-            output.innerHTML += `<p>${event.summary} (${when})</p>`;
+            this.eventPage += this.buildEventPage(this.convert(event));
+        }
+        this.eventPage += this.buildEventPage(null);
+        output.innerHTML = this.eventPage;
+
+    }
+
+    convert(event) {
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const months = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+        ];
+
+        const start = new Date(Date.parse(event.start.dateTime || event.start.date));
+        const end = new Date(Date.parse(event.end.dateTime || event.end.date));
+
+
+        const newEvent = {
+            'year': start.getFullYear(),
+            'month': months[start.getMonth()],
+            'd_o_m': start.getDate(),
+            'day': daysOfWeek[start.getDay()],
+            'recurring': event.recurringEventId? true : false,
+            'allDay': event.start.date ? true : false,
+            'startTime': start.toLocaleTimeString(),
+            'endTime': end.toLocaleTimeString(),
+            'summary': event.summary,
         }
 
+        console.log(JSON.stringify(newEvent));
+        return newEvent;
+    }
+
+    buildEventPage(event) {
+
+        if (!this.lastEvent && !event) return;
+
+        let fragment = '';
+
+        if (!this.lastEvent) fragment += `
+        <div class="Row">
+            <h1 class="bg-primary">${event.month}, ${event.year}</h1>
+`;
+
+        if (!event) fragment += `
+        </div>
+`;
+
+        if (event) fragment += `
+<div class='col-md-4'>
+    <div class="card text-white bg-secondary mb-sm-3">
+         <h3 class="card-title">&nbsp;${event.day} ${event.d_o_m}</h3>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">${event.startTime} - ${event.endTime} ${event.summary}</li>
+          </ul>
+    </div>
+</div>
+`;
+
+        this.lastEvent = event;
+        return fragment;
     }
 
     async init() {
@@ -129,7 +192,7 @@ class Calendar extends Base {
     async run() {
         console.log('run');
         this.setupDisplay();
-        this.handleAuthClick();
+        this.listUpcomingEvents();
     }
 
     stop() {
