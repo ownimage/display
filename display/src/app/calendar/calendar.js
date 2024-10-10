@@ -177,7 +177,7 @@ class Calendar extends Base {
     <div class="card text-white bg-secondary mb-sm-3">
          <h3 class="card-title">&nbsp;${event.day} ${event.d_o_m}</h3>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">${event.startTime} - ${event.endTime} ${event.summary}</li>
+            ${this.formatEventLine(event)}
           </ul>
     </div>
 </div>
@@ -186,6 +186,16 @@ class Calendar extends Base {
         return fragment;
     }
 
+    formatEventLine(event) {
+        if (event.allDay) {
+            return `<li class="list-group-item bg-warning text-black">All day -  ${event.summary}</li>`;
+
+        }
+        else if (event.recurring) {
+            return `<li class="list-group-item bg-info text-dark">${event.startTime} - ${event.endTime} ${event.summary}</li>`;
+        }
+        return `<li class="list-group-item bg-danger">${event.startTime} - ${event.endTime} ${event.summary}</li>`;
+    }
     sameMonth(e1, e2) {
     // same if both exist and both have same month and year
         return e1 && e2 && e1.month === e2.month && e1.year === e2.year;
