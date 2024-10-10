@@ -146,25 +146,31 @@ class Calendar extends Base {
             'endTime': end.toLocaleTimeString(),
             'summary': event.summary,
         }
-
-        console.log(JSON.stringify(newEvent));
         return newEvent;
     }
 
     buildEventPage(event) {
-
-        if (!this.lastEvent && !event) return;
+        console.log(JSON.stringify(event));
+        if (!this.lastEvent && !event) {
+            this.lastEvent = event;
+            return;
+        }
 
         let fragment = '';
 
-        if (!this.lastEvent) fragment += `
+        // close month
+        if (!event || (this.lastEvent && !this.sameMonth(event, this.lastEvent) ) ) fragment += `
+        </div>
+`;
+
+        // open month
+        if (!this.lastEvent || (event && !this.sameMonth(this.lastEvent, event)) ) {
+            this.currentMonth = event.month;
+            fragment += `
         <div class="Row">
             <h1 class="bg-primary">${event.month}, ${event.year}</h1>
 `;
-
-        if (!event) fragment += `
-        </div>
-`;
+        }
 
         if (event) fragment += `
 <div class='col-md-4'>
@@ -176,9 +182,13 @@ class Calendar extends Base {
     </div>
 </div>
 `;
-
         this.lastEvent = event;
         return fragment;
+    }
+
+    sameMonth(e1, e2) {
+    // same if both exist and both have same month and year
+        return e1 && e2 && e1.month === e2.month && e1.year === e2.year;
     }
 
     async init() {
