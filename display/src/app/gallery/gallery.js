@@ -6,7 +6,6 @@ class Gallery extends Base{
         this.hasConfigPage = true;
         this.title = 'Gallery';
 
-        this.contentDiv = contentDiv;
         this.gallery = gallery;
         this.speed = speed;
 

@@ -2,7 +2,6 @@ class Quotes extends Base{
 
     constructor(contentDiv) {
         super('quotes', false);
-        this.contentDiv = contentDiv;
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.title = 'Quotes';

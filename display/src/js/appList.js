@@ -3,8 +3,7 @@ class AppList extends Base { // abstract class
     constructor(name, hasStylesheet, contentDiv, filter, actionString) {
     // filter is of form boolean filter(app) // note the parameter is an app not an appName
     // action is of the form action(app)
-        super(name, hasStylesheet)
-        this.contentDiv = contentDiv;
+        super(name, hasStylesheet);
         this.filter = filter;
         this.actionString = actionString;
     }

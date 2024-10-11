@@ -1,8 +1,7 @@
 class Weather extends Base  {
 
     constructor(contentDiv) {
-        super('weather')
-        this.contentDiv = contentDiv;
+        super('weather');
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.title = 'Weather';

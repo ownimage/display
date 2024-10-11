@@ -31,11 +31,13 @@ class Controller extends Base {
         await Promise.all(promises);
 
 //        this.changeApp(this.getCurrentAppName());
-        this.changeApp('calendar');
+//        this.changeApp('calendar');
+        this.changeApp('appSwitcher');
     }
 
     register(app) {
         this.appList.push(app);
+        this.appList.sort((a, b) => a.name.localeCompare(b.name));
         this.appDictionary[app.name] = app;
     }
 
