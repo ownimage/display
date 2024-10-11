@@ -80,11 +80,8 @@ class Controller extends Base {
             event.stopPropagation();
             let i = Common.eventToTouchArea(event)
             console.log(`Touched area ${Common.eventToTouchArea(event)}`);
-            if (i === 0) this.showPreviousApp();
-            if (i == 1) this.showNextApp();
-            if (i == 2) this.changeApp('appSwitcher');
-            if (i == 3) this.changeApp('consoleLog');
-        }
+            if (i == 0) this.changeApp('appSwitcher');
+         }
     }
 
     async changeApp(appName, event) {

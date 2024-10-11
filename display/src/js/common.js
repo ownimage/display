@@ -17,6 +17,7 @@ class Common {
     static eventToTouchArea(event) {
     // takes an event either pointer or touch and converts it to a number 0..3 to represent which area of the screen
     // was touched.  Id the event is not recognised it returns -1
+        event.stopPropagation();
         let relX = 0.0;
         let relY = 0.0;
 
@@ -30,10 +31,7 @@ class Common {
         }
         else return -1;
 
-        if (relX < 0.5 && relY < 0.5) return 0;
-        if (relX > 0.5 && relY < 0.5) return 1;
-        if (relX < 0.5 && relY > 0.5) return 2;
-        if (relX > 0.5 && relY > 0.5) return 3;
-        return 0;
+        if (relY > 0.9) return 0;
+        return -1;
     }
 }
