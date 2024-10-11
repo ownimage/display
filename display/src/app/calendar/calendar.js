@@ -18,8 +18,7 @@ class Calendar extends Base {
 `
 <div class='container'>
     <div class='col-12'>
-        <h1>Upcoming Google Calendar Events</h1>
-        <button id='button' type='button' class='btn btn-danger w-100' onTouchStart='calendar.refreshToken(event)' onclick='calendar.refreshToken(event)'>Login</button>
+        <button id='button' type='button' class='btn btn-danger w-100 mt-3' onTouchStart='calendar.refreshToken(event)' onclick='calendar.refreshToken(event)'>Login</button>
     </div>
     <div id='events'>
         ${this.eventPage}
@@ -98,7 +97,7 @@ class Calendar extends Base {
                 'timeMin': (new Date()).toISOString(),
                 'showDeleted': false,
                 'singleEvents': true,
-                'maxResults': 10,
+                'maxResults': 20,
                 'orderBy': 'startTime'
             });
         } catch (err) {
@@ -138,7 +137,7 @@ class Calendar extends Base {
         const newEvent = {
             'year': start.getFullYear(),
             'month': months[start.getMonth()],
-            'd_o_m': start.getDate(),
+            'dom': start.getDate(),
             'day': daysOfWeek[start.getDay()],
             'recurring': event.recurringEventId? true : false,
             'allDay': event.start.date ? true : false,
@@ -158,30 +157,33 @@ class Calendar extends Base {
 
         let fragment = '';
 
+        // close day
+        if (!event || (this.lastEvent && !this.sameDay(event, this.lastEvent) ) ) fragment += `
+          </ul>
+    </div>
+</div>
+`;
         // close month
         if (!event || (this.lastEvent && !this.sameMonth(event, this.lastEvent) ) ) fragment += `
         </div>
 `;
 
         // open month
-        if (!this.lastEvent || (event && !this.sameMonth(this.lastEvent, event)) ) {
-            this.currentMonth = event.month;
-            fragment += `
+        if (!this.lastEvent || (event && !this.sameMonth(this.lastEvent, event)) ) fragment += `
         <div class="Row">
             <h1 class="bg-primary">${event.month}, ${event.year}</h1>
 `;
-        }
 
-        if (event) fragment += `
+        // open day
+        if (!this.lastEvent || (event && !this.sameDay(this.lastEvent, event)) ) fragment += `
 <div class='col-md-4'>
     <div class="card text-white bg-secondary mb-sm-3">
-         <h3 class="card-title">&nbsp;${event.day} ${event.d_o_m}</h3>
+         <h3 class="card-title">&nbsp;${event.day} ${event.dom}</h3>
           <ul class="list-group list-group-flush">
-            ${this.formatEventLine(event)}
-          </ul>
-    </div>
-</div>
 `;
+
+        if (event) fragment += `${this.formatEventLine(event)}`;
+
         this.lastEvent = event;
         return fragment;
     }
@@ -196,6 +198,12 @@ class Calendar extends Base {
         }
         return `<li class="list-group-item bg-danger">${event.startTime} - ${event.endTime} ${event.summary}</li>`;
     }
+
+    sameDay(e1, e2) {
+    // same if both exist and both have same month and year
+        return this.sameMonth && e1.dom === e2.dom;
+    }
+
     sameMonth(e1, e2) {
     // same if both exist and both have same month and year
         return e1 && e2 && e1.month === e2.month && e1.year === e2.year;
