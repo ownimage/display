@@ -84,7 +84,7 @@ class Gallery extends Base{
         this.getContentElement().innerHTML =
 `
 <div id='galleryConfig' class='pt-3 container'>
-    <h1 class='text-center'>Gallery Config Page</h1>
+    <h1 class='text-center'>${this.title} Config Page</h1>
     <div class='row mt-3'>
         <div class='col-6'>
             <p class='float-end'>Gallery: </p>
