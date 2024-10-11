@@ -18,7 +18,7 @@ class Calendar extends Base {
 `
 <div class='container'>
     <div class='col-12'>
-        <button id='button' type='button' class='btn btn-danger w-100 mt-3' onTouchStart='calendar.refreshToken(event)' onclick='calendar.refreshToken(event)'>Login</button>
+        <button id='button' type='button' class='btn btn-danger w-100 mt-5' onTouchStart='calendar.refreshToken(event)' onclick='calendar.refreshToken(event)'>Login</button>
     </div>
     <div id='events'>
         ${this.eventPage}
@@ -115,16 +115,46 @@ class Calendar extends Base {
 
         this.eventPage = '';
         this.buildEventPage(null);
-        for (let i = 0; i < events.length; i++) {
-            const event = events[i];
-            this.eventPage += this.buildEventPage(this.convert(event));
-        }
+        let myEvents = events.map(this.convert);
+        this.expandMultiDayEvent(myEvents);
+        myEvents.forEach((currentValue, index, arr) => {this.eventPage += this.buildEventPage(currentValue);});
         this.eventPage += this.buildEventPage(null);
         output.innerHTML = this.eventPage;
 
     }
 
+    expandMultiDayEvent(events) {
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const months = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+        ];
+
+        events.forEach((event, index, arr) => {
+            for (let i = 1; i < event.numDays; i++) {
+                let newEvent = {};
+                newEvent.startDate = new Date(event.startDate.getTime() + i * 86400000);
+                newEvent.year= newEvent.startDate.getFullYear()
+                newEvent.month = months[newEvent.startDate.getMonth()];
+                newEvent.dom = newEvent.startDate.getDate();
+                newEvent.day = daysOfWeek[newEvent.startDate.getDay()];
+                newEvent.recurring = event.recurring;
+                newEvent.allDay = event.allDay;
+                newEvent.numDays = 1;
+                newEvent.startTime = event.startTime;
+                newEvent.endTime = event.endTime;
+                newEvent.summary = event.summary;
+
+                events.push(newEvent);
+            }
+            event.numDays = 1;
+
+
+        });
+        events.sort((a, b) => { return a.startDate.getTime() - b.startDate.getTime();});
+    }
+
     convert(event) {
+
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const months = ["January", "February", "March", "April", "May", "June",
                         "July", "August", "September", "October", "November", "December"
@@ -135,12 +165,18 @@ class Calendar extends Base {
 
 
         const newEvent = {
+            'startDate': start,
+            'year': start.getFullYear(),
+            'month': months[start.getMonth()],
+            'dom': start.getDate(),
+            'day': daysOfWeek[start.getDay()],
             'year': start.getFullYear(),
             'month': months[start.getMonth()],
             'dom': start.getDate(),
             'day': daysOfWeek[start.getDay()],
             'recurring': event.recurringEventId? true : false,
             'allDay': event.start.date ? true : false,
+            'numDays': Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)),
             'startTime': start.toLocaleTimeString(),
             'endTime': end.toLocaleTimeString(),
             'summary': event.summary,

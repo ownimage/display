@@ -16,7 +16,7 @@ class Common {
 
     static eventToTouchArea(event) {
     // takes an event either pointer or touch and converts it to a number 0..3 to represent which area of the screen
-    // was touched.  Id the event is not recognised it returns 0
+    // was touched.  Id the event is not recognised it returns -1
         let relX = 0.0;
         let relY = 0.0;
 
@@ -28,7 +28,7 @@ class Common {
             relX = event.touches[0].clientX / window.innerWidth;
             relY = event.touches[0].clientY / window.innerHeight;
         }
-        else return null;
+        else return -1;
 
         if (relX < 0.5 && relY < 0.5) return 0;
         if (relX > 0.5 && relY < 0.5) return 1;
