@@ -6,8 +6,10 @@ class Calendar extends Base {
         super('calendar')
         calendar = this;
         this.hasAppPage = true;
-        this.hasConfigPage = false;
+        this.hasConfigPage = true;
         this.title = 'Calendar App';
+
+        this.fetchSize = 100;
 
         this.tokenClient = null;
         this.eventPage = `<div class='col-12'><h1>No events to show.</h1></div>`;
@@ -97,7 +99,7 @@ class Calendar extends Base {
                 'timeMin': (new Date()).toISOString(),
                 'showDeleted': false,
                 'singleEvents': true,
-                'maxResults': 20,
+                'maxResults': this.fetchSize,
                 'orderBy': 'startTime'
             });
         } catch (err) {
@@ -207,13 +209,13 @@ class Calendar extends Base {
         // open month
         if (!this.lastEvent || (event && !this.sameMonth(this.lastEvent, event)) ) fragment += `
         <div class="Row">
-            <h1 class="bg-primary">${event.month}, ${event.year}</h1>
+            <h1 class="bg-primary mb-3 pb-1">${event.month}, ${event.year}</h1>
 `;
 
         // open day
         if (!this.lastEvent || (event && !this.sameDay(this.lastEvent, event)) ) fragment += `
 <div class='col-md-4'>
-    <div class="card text-white bg-secondary mb-sm-3">
+    <div class="card text-white bg-secondary mb-3">
          <h3 class="card-title">&nbsp;${event.day} ${event.dom}</h3>
           <ul class="list-group list-group-flush">
 `;
@@ -243,6 +245,28 @@ class Calendar extends Base {
     sameMonth(e1, e2) {
     // same if both exist and both have same month and year
         return e1 && e2 && e1.month === e2.month && e1.year === e2.year;
+    }
+
+    async showConfigPage() {
+        this.getContentElement().innerHTML =
+`
+<div id='calendarConfig' class='pt-3 container'>
+    <h1 class='text-center'>${this.title} Config Page</h1>
+    <div class='row mt-3'>
+        <div class='col-6'>
+            <p class='float-end'>Fetch size: </p>
+        </div>
+        <div class='col-6'>
+            <input id='fetchSize' type='range' class='custom-range' min='20' max='300' value='${this.fetchSize}'>
+        </div>
+        <button type='button btn-block' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
+    </div>
+</div>
+`;
+
+        document.getElementById('fetchSize').addEventListener('change', (event) => {
+            this.fetchSize = event.target.value;
+        });
     }
 
     async init() {
