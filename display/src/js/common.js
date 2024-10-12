@@ -35,7 +35,7 @@ class Common {
         }
         else return -1;
 
-        if (relY > 0.9) return 0;
+        if (relY > 0.9) return 1;
         return -1;
     }
 }

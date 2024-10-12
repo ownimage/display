@@ -88,8 +88,11 @@ class Controller extends Base {
         if (this.handleEventsActive) {
             event.stopPropagation();
             let i = Common.eventToTouchArea(event)
-            console.log(`Touched area ${Common.eventToTouchArea(event)}`);
-            if (i == 0) this.changeApp('appSwitcher');
+            console.log(`Touched area ${i}`);
+            if (i == 1) {
+                event.preventDefault();
+                this.changeApp('appSwitcher');
+            }
          }
     }
 
@@ -111,13 +114,6 @@ class Controller extends Base {
     showPreviousApp() {
         this.currentAppNum = (this.currentAppNum + this.appList.length - 1) % this.appList.length;
         this.changeApp(this.getCurrentAppName());
-    }
-
-    back(event){
-        event.stopPropagation();
-        this.handleEventsActive = false;
-        this.changeApp('clock');
-        console.log('back');
     }
 
     showConfig(appName) {
