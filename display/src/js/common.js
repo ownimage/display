@@ -18,7 +18,6 @@ class Common {
     // takes an event either pointer or touch and converts it to a number 0..3 to represent which area of the screen
     // was touched.  Id the event is not recognised it returns -1
         event.stopPropagation();
-        event.preventDefault();
         if (this.lastEvent === event) return; // debounce event
 
         this.lastEvent = event;
