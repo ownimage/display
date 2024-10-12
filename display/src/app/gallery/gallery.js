@@ -1,13 +1,13 @@
 class Gallery extends Base{
 
-    constructor(contentDiv, gallery='test', speed=3000) {
+    constructor(contentDiv, gallery='test', delay=3000) {
         super('gallery', true);
         this.hasAppPage = true;
         this.hasConfigPage = true;
         this.title = 'Gallery';
 
         this.gallery = gallery;
-        this.speed = speed;
+        this.delay = delay;
 
         this.isInit = false;
 
@@ -70,7 +70,7 @@ class Gallery extends Base{
     async scheduled_rotate() {
         if (this.images.length != 0) {
             this.rotate_image()
-            this.rotateInterval = setInterval(() => this.rotate_image(), this.speed);
+            this.rotateInterval = setInterval(() => this.rotate_image(), this.delay);
         }
     }
 
@@ -95,10 +95,10 @@ class Gallery extends Base{
     </div>
     <div class='row mt-3'>
         <div class='col-6'>
-            <p class='float-end'>Speed: </p>
+            <p class='float-end'>Delay: </p>
         </div>
         <div class='col-6'>
-            <input id='speed' type='range' class='custom-range' min='3000' max='30000' value='${this.speed}'>
+            <input id='delay' type='range' class='custom-range' min='3000' max='30000' value='${this.delay}'>
         </div>
         <button type='button btn-block' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
     </div>
@@ -107,8 +107,8 @@ class Gallery extends Base{
         document.getElementById('gallerySelect').addEventListener('change', (event) => {
             this.setGallery(event.target.value);
         });
-        document.getElementById('speed').addEventListener('change', (event) => {
-            this.speed = event.target.value;
+        document.getElementById('delay').addEventListener('change', (event) => {
+            this.delay = event.target.value;
         });
     }
     
