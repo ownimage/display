@@ -60,6 +60,11 @@ class Base {
         }
     }
 
+    addListener(id, fn) {
+        document.getElementById(id).addEventListener('click', () => { console.log('click'); fn(); });
+        document.getElementById(id).addEventListener('touchstart', () => { console.log('touchstart'); fn(); });
+    }
+
     async init(){
     }
 

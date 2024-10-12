@@ -28,6 +28,7 @@ ${this.generateCards(appList)}
 </div>
 </div>
 `;
+        this.addListeners(appList);
     }
 
     generateCards(appList) {
@@ -45,9 +46,7 @@ ${this.generateCards(appList)}
     generateCard(app) {
         return `
         <div class='col-md-4'>
-            <div class='card text-white bg-secondary mb-3'
-                    onclick='AppList.handleEvent(event, "${app.name}", "${this.actionString}")'
-                    onTouchStart='AppList.handleEvent(event, "${app.name}", "${this.actionString}")'>
+            <div id='card-${app.name}' class='card text-white bg-secondary mb-3'>
                 <img src='app/${app.name}/${app.name}.jpg' class='card-img-top' alt='${app.title}'>
                 <div class='mt-5'>
                     <h3 class='heading text-center'>${app.title}</h3>
@@ -55,6 +54,14 @@ ${this.generateCards(appList)}
             </div>
         </div>
 `;
+    }
+
+    addListeners(appList) {
+        for (const app of appList) {
+            if (this.filter(app)) {
+                this.addListener(`card-${app.name}`, () => controller.appAction(app.name, this.actionString) );
+            }
+        }
     }
 
     static handleEvent(event, appName, actionString) {

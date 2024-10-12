@@ -20,13 +20,15 @@ class Calendar extends Base {
 `
 <div class='container'>
     <div class='col-12'>
-        <button id='button' type='button' class='btn btn-danger w-100 mt-5' onTouchStart='calendar.refreshToken(event)' onclick='calendar.refreshToken(event)'>Login</button>
+        <button id='button' type='button' class='btn btn-danger w-100 mt-5'>Login</button>
     </div>
     <div id='events'>
         ${this.eventPage}
     </div>
 </div>
-`}
+`;
+        this.addListener('button', () => calendar.refreshToken(event));
+    }
 
     refreshToken(event) {
         if (event) { event.stopPropagation(); }

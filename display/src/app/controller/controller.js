@@ -35,6 +35,15 @@ class Controller extends Base {
         this.changeApp('appSwitcher');
     }
 
+    clearLog() {
+//        this.logArray = [];
+        console.log('Console log cleared');
+    }
+
+    toggleHandleEvents() {
+        this.handleEventsActive =!this.handleEventsActive;
+    }
+
     register(app) {
         this.appList.push(app);
         this.appList.sort((a, b) => a.name.localeCompare(b.name));
@@ -85,6 +94,7 @@ class Controller extends Base {
     }
 
     async changeApp(appName, event) {
+        console.log(`Changing to app ${appName}`);
         if (event) { event.stopPropagation();}
         this.handleEventsActive = true;
         this.previousApp = this.currentApp;
@@ -115,8 +125,7 @@ class Controller extends Base {
         this.appDictionary[appName].showConfigPage();
     }
 
-    appAction(appName, actionString, event) {
-        if (event) event.stopPropagation();
+    appAction(appName, actionString) {
         if (actionString == 'show') {
             this.changeApp(appName, event);
         }

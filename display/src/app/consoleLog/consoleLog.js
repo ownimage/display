@@ -3,7 +3,7 @@ class ConsoleLog extends Base {
     constructor() {
         super('consoleLog', true)
         this.hasAppPage = true;
-        this.hasConfigPage = false;
+        this.hasConfigPage = true;
         this.title = 'Console Log';
     }
 
@@ -17,6 +17,19 @@ class ConsoleLog extends Base {
     </div>
 </div>
 `;
+    }
+
+    async showConfigPage() {
+        this.getContentElement().innerHTML =
+`
+<div class='pt-3 container'>
+    <div class='col-12'>
+        <button id='button' type='button' class='btn btn-secondary w-100 mt-5'>Clear console.log</button>
+        <button type='button' class='btn btn-primary w-100 mt-5' onclick='controller.changeApp("config", event)'>OK</button>
+</div>
+`;
+
+        this.addListener('button', (event) => { controller.clearLog(); });
     }
 
     async run() {
