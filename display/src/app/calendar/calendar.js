@@ -230,11 +230,11 @@ class Calendar extends Base {
 
     formatEventLine(event) {
         if (event.allDay) {
-            return `<li class="list-group-item bg-warning text-black">All day -  ${event.summary}</li>`;
+            return `<li class="list-group-item bg-warning text-black">${event.summary}<i class="float-end mx-1 fa-regular fa-calendar"></i><i class="bi bi-calendar2-day"></i></li>`;
 
         }
         else if (event.recurring) {
-            return `<li class="list-group-item bg-info text-dark">${event.startTime} - ${event.endTime} ${event.summary}</li>`;
+            return `<li class="list-group-item bg-info text-dark">${event.startTime} - ${event.endTime} ${event.summary}<i class="float-end mx-1 fa-solid fa-repeat"></i></li>`;
         }
         return `<li class="list-group-item bg-danger">${event.startTime} - ${event.endTime} ${event.summary}</li>`;
     }

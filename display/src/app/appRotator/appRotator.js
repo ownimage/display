@@ -1,7 +1,7 @@
 class AppRotator extends Base{
 
     constructor(contentDiv, gallery='test', delay=3000) {
-        super('appRotator', true);
+        super('appRotator', false);
         this.hasAppPage = true;
         this.hasConfigPage = true;
         this.title = 'App Rotator';
@@ -45,6 +45,16 @@ class AppRotator extends Base{
 `
 <div id='appRotatorConfig' class='pt-3 container'>
     <h1 class='text-center'>${this.title} Config Page</h1>
+    <div class='row'>
+        <div class='col-4'>${this.selectDropDown('x', this.appRotatorConfig, 'clock', 'Label')}</div>
+        <div class='col-4'>X</div>
+        <div class='col-4'>X</div>
+    </div>
+    <div class='row'>
+        <div class='col-4'>X</div>
+        <div class='col-4'>X</div>
+        <div class='col-4'>X</div>
+    </div>
 </div>
 `;}
 
