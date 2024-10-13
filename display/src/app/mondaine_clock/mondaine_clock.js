@@ -57,6 +57,7 @@ class MondaineClock extends Base {
     <div>
         <svg height='${clock_desired_size}' width='${clock_desired_size}' xmlns='http://www.w3.org/2000/svg'>
             <g transform='translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})'>
+                ${this.outerRing()}
                 ${dial}
                 ${this.drawHand('hour', 175, 60, 12, 17)}
                 ${this.drawHand('minute', 236, 56, 10, 15)}
@@ -65,12 +66,32 @@ class MondaineClock extends Base {
                     <circle id='second-circle' cx='170' cy='0' r='21' />
                     <circle id='second-center' cx='0' cy='0' r='12' />
                 </g>
+                <circle id='center' cx='0' cy='0' r='6' />
             </g>
         </svg>
     <div>
 </div>
 `;
     }
+
+    outerRing() {
+        return `
+                    <defs>
+                        <filter id='brushedAluminum'>
+                            <feTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' result='noise'/>
+                            <feDisplacementMap in='SourceGraphic' in2='noise' scale='5'/>
+                        </filter>
+                        <linearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='0%'>
+                            <stop offset='0%' style='stop-color:#ddd;stop-opacity:1' />
+                            <stop offset='100%' style='stop-color:#bbb;stop-opacity:1' />
+                        </linearGradient>
+                        <mask id='ringMask'>
+                            <circle cx='0' cy='0' r='287' fill='white'/>
+                            <circle cx='0' cy='0' r='265' fill='black'/>
+                        </mask>
+                    </defs>
+                    <circle id='outer' cx='0' cy='0' r='575' fill='url(#grad1)' filter='url(#brushedAluminum)' mask='url(#ringMask)'/>
+`;}
 
     async run() {
         this.setupDisplay();
