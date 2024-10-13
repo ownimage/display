@@ -13,18 +13,18 @@ class MondaineClock extends Base {
         const seconds = now.getSeconds();
         const seconds_angle = seconds * 6 - 90;
         const seconds_transform = `rotate(${seconds_angle})`
-        document.getElementById('mondaine-second').setAttribute('transform', seconds_transform);
-        document.getElementById('mondaine-second-circle').setAttribute('transform', seconds_transform);
+        document.getElementById('second').setAttribute('transform', seconds_transform);
+        document.getElementById('second-circle').setAttribute('transform', seconds_transform);
 
         const minutes = now.getMinutes();
         const minutes_angle = minutes * 6 - 90;
         const minutes_transform = `rotate(${minutes_angle})`
-        document.getElementById('mondaine-minute').setAttribute('transform', minutes_transform);
+        document.getElementById('minute').setAttribute('transform', minutes_transform);
 
         const hours = now.getHours();
         const hours_angle = (hours + minutes/60) * 30 - 90;
         const hours_transform = `rotate(${hours_angle})`
-        document.getElementById('mondaine-hour').setAttribute('transform', hours_transform);
+        document.getElementById('hour').setAttribute('transform', hours_transform);
     }
 
     drawHand(id, length, tail=0, tip_width=0, tail_width=0) {
@@ -58,10 +58,13 @@ class MondaineClock extends Base {
         <svg height='${clock_desired_size}' width='${clock_desired_size}' xmlns='http://www.w3.org/2000/svg'>
             <g transform='translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})'>
                 ${dial}
-                ${this.drawHand('mondaine-hour', 222, 33, 12, 17)}
-                ${this.drawHand('mondaine-minute', 236, 56, 10, 15)}
-                ${this.drawHand('mondaine-second', 170, 78, 3, 3)}
-                <circle id='mondaine-second-circle' cx='170' cy='0' r='21' />
+                ${this.drawHand('hour', 175, 60, 12, 17)}
+                ${this.drawHand('minute', 236, 56, 10, 15)}
+                <g class='second'>
+                    ${this.drawHand('second', 170, 80, 3, 3)}
+                    <circle id='second-circle' cx='170' cy='0' r='21' />
+                    <circle id='second-center' cx='0' cy='0' r='12' />
+                </g>
             </g>
         </svg>
     <div>
