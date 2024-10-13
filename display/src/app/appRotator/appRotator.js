@@ -7,13 +7,13 @@ class AppRotator extends Base{
         this.title = 'App Rotator';
 
         this.count = 0;
-        this.appList = ['clock', 'mondaine_clock'];
+        this.appRotatorConfig = ['clock', 'mondaine_clock'];
 }
 
     rotate_app() {
-        if (this.appList.length != 0) {
+        if (this.appRotatorConfig.length != 0) {
             if (this.currentApp) { this.currentApp.stop(); }
-            const appName = this.appList[this.count % this.appList.length];
+            const appName = this.appRotatorConfig[this.count % this.appRotatorConfig.length];
             this.currentApp = controller.appDictionary[appName];
             this.currentApp.run();
             this.count++;
@@ -30,7 +30,7 @@ class AppRotator extends Base{
     }
 
     async scheduled_rotate() {
-        if (this.appList.length != 0) {
+        if (this.appRotatorConfig.length != 0) {
             this.rotate_app()
             this.rotateInterval = setInterval(() => this.rotate_app(), 10000);
         }
@@ -40,8 +40,8 @@ class AppRotator extends Base{
         clearInterval(this.rotateInterval);
     }
 
-    async run() {
-        await this.init();
+    async run(config) {
+        this.appList = config.appList;
         this.create_display();
         this.scheduled_rotate();
     }
