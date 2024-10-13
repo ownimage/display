@@ -10,22 +10,22 @@
   justify-content: center;
   align-items: center;
 }
-#hour {
+#clock #hour {
     fill: white;
     stroke: black;
     stroke-width: 1
 }
-#minute {
+#clock #minute {
     fill: white;
     stroke: black;
     stroke-width: 1
 }
-#second {
+#clock #second {
     fill: red;
     stroke: black;
     stroke-width: 1
 }
-.tick {
+#clock .tick {
     fill: white;
     stroke: black;
     stroke-width: 0

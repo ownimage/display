@@ -1,0 +1,39 @@
+#mondaine-clock {
+    background: white;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+#mondaine-clock #clock div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#mondaine-clock #hour {
+    fill: black;
+    stroke: black;
+    stroke-width: 1;
+    filter: drop-shadow(-3px -5px 2px rgb(0 0 0 / 0.4));
+}
+#mondaine-clock #minute {
+    fill: black;
+    stroke: black;
+    stroke-width: 1;
+    filter: drop-shadow(-4px -6px 2px rgb(0 0 0 / 0.4));
+}
+#mondaine-clock .second  {
+    fill: red;
+    stroke-width: 0;
+    filter: drop-shadow(-5px -7px 4px rgb(0 0 0 / 0.4));
+}
+#mondaine-clock #center {
+    fill: red;
+    stroke-width: 0;
+    filter: drop-shadow(3px 3px 2px rgb(0 0 0 / 0.4));
+}
+#mondaine-clock .tick {
+    fill: black;
+    stroke: black;
+    stroke-width: 0
+}
