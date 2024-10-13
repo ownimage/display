@@ -32,7 +32,7 @@ class Controller extends Base {
 
 //        this.changeApp(this.getCurrentAppName());
 //        this.changeApp('calendar');
-        this.changeApp('appSwitcher');
+        this.changeApp('mondaine_clock');
     }
 
     clearLog() {
