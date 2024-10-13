@@ -40,6 +40,14 @@ class AppRotator extends Base{
         clearInterval(this.rotateInterval);
     }
 
+    async showConfigPage() {
+        this.getContentElement().innerHTML =
+`
+<div id='appRotatorConfig' class='pt-3 container'>
+    <h1 class='text-center'>${this.title} Config Page</h1>
+</div>
+`;}
+
     async run(config) {
         this.appList = config.appList;
         this.create_display();
