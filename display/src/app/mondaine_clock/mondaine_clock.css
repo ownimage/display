@@ -20,7 +20,7 @@
     fill: black;
     stroke: black;
     stroke-width: 1;
-    filter: drop-shadow(4px -6px 2px rgb(0 0 0 / 0.4));
+    filter: drop-shadow(-4px -6px 2px rgb(0 0 0 / 0.4));
 }
 #mondaine-clock .second  {
     fill: red;

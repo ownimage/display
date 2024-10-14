@@ -11,38 +11,40 @@
 <body>
     <div id="root"></div>
     <script type="text/babel">
-        const { useState } = React;
+    const { useState } = React;
 
-        function App() {
-            const [text, setText] = useState('');
+    function App() {
+        const s = useState('');
+        const text = s[0];
+        const setText = s[1];
 
-            return (
-                <div>
-                    <h1>Change Config Outside</h1>
-                    <TwoWayBindingComponent text={text} setText={setText} />
-                    <button onClick={() => setText('External Change')}>Change Text</button>
-                </div>
-            );
-        }
+        return (
+            <div>
+                <h1>Change Config Outside</h1>
+                <TwoWayBindingComponent text={text} setText={setText} />
+                <button onClick={() => setText('External Change')}>Change Text</button>
+            </div>
+        );
+    }
 
-        function TwoWayBindingComponent({ text, setText }) {
-            const handleChange = (event) => {
-                setText(event.target.value);
-            };
+    function TwoWayBindingComponent({ text, setText }) {
+        const handleChange = (event) => {
+            setText(event.target.value);
+        };
 
-            return (
-                <div>
-                    <input
-                        type="text"
-                        value={text}
-                        onChange={handleChange}
-                    />
-                    <p>Current text: {text}</p>
-                </div>
-            );
-        }
+        return (
+            <div>
+                <input
+                    type="text"
+                    value={text}
+                    onChange={handleChange}
+                />
+                <p>Current text: {text}</p>
+            </div>
+        );
+    }
 
-        ReactDOM.render(<App />, document.getElementById('root'));
+    ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
 </html>
