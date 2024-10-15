@@ -44,44 +44,40 @@ class AppRotator extends Base{
     <div id='root'></div>
 </div>
 `;
-        let script = document.createElement('script');
-        script.type = 'text/babel';
-        script.textContent = `
-    const { useState } = React;
 
-    function App() {
-        const [text, setText] = useState('');
+        const { useState } = React;
 
-        return (
-            <div>
-                <h1>Change Config Outside</h1>
-                <TwoWayBindingComponent text={text} setText={setText} />
-                <button onClick={() => setText('External Change')}>Change Text</button>
-            </div>
-        );
-    }
+        function App() {
+            const [text, setText] = useState('');
 
-    function TwoWayBindingComponent({ text, setText }) {
-        const handleChange = (event) => {
-            setText(event.target.value);
-        };
+            return (
+                <div>
+                    <h1>Change Config Outside</h1>
+                    <TwoWayBindingComponent text={text} setText={setText} />
+                    <button onClick={() => setText('External Change')}>Change Text</button>
+                </div>
+            );
+        }
 
-        return (
-            <div>
-                <input
-                    type="text"
-                    value={text}
-                    onChange={handleChange}
-                />
-                <p>Current text: {text}</p>
-            </div>
-        );
-    }
+        function TwoWayBindingComponent({ text, setText }) {
+            const handleChange = (event) => {
+                setText(event.target.value);
+            };
 
-    ReactDOM.render(<App />, document.getElementById('root'));
-`;
-        document.getElementById('appRotatorConfig').appendChild(script);
-        Babel.transformScriptTags();
+            return (
+                <div>
+                    <input
+                        type="text"
+                        value={text}
+                        onChange={handleChange}
+                    />
+                    <p>Current text: {text}</p>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+
     }
 
 
