@@ -30,7 +30,7 @@ class Controller extends Base {
         });
         await Promise.all(promises);
 
-        this.changeApp('mondaine_clock');
+        this.changeApp('appRotator');
     }
 
     clearLog() {
@@ -42,7 +42,8 @@ class Controller extends Base {
         this.handleEventsActive =!this.handleEventsActive;
     }
 
-    register(app) {
+    async register(app) {
+        await app.init();
         this.appList.push(app);
         this.appList.sort((a, b) => a.name.localeCompare(b.name));
         this.appDictionary[app.name] = app;

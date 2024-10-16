@@ -7,17 +7,6 @@ class AppRotator extends Base{
         this.title = 'App Rotator';
 
         this.count = 0;
-        this.appRotatorConfig = [
-            {appName: 'clock', min: 0, sec: 10},
-            {appName:'calendar', min: 1, sec: 0},
-            {appName:'mondaine_clock', min: 0, sec: 10},
-            {appName:'gallery', min: 0, sec: 20}
-        ];
-}
-
-    test() {
-//        alert('hello');
-        this.rotate_app();
     }
 
     rotate_app(context) {
@@ -100,6 +89,9 @@ class AppRotator extends Base{
 //
 //    }
 
+    process_json(json) {
+        this.appRotatorConfig = json;
+    }
 
     stop() {
         this.rotateActive = false;
@@ -110,6 +102,10 @@ class AppRotator extends Base{
         this.create_display();
         this.rotateActive = true;
         this.rotate_app(this);
+    }
+
+   async init() {
+        await this.fetch_content_json().then(j => this.process_json(j));
     }
 
 }

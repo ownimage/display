@@ -272,7 +272,6 @@ class Calendar extends Base {
     }
 
     async init() {
-        console.log('init');
         await this.loadScript('https://apis.google.com/js/api.js');
         await this.loadScript('https://accounts.google.com/gsi/client');
         this.gapiLoaded();
@@ -290,10 +289,6 @@ class Calendar extends Base {
 
 }
 
-(()=>{
-    let calendar = new Calendar();
-    calendar.init()
-    .then( () => controller.register(calendar) );
-})();
+controller.register(new Calendar());
 
 

@@ -9,8 +9,6 @@ class Gallery extends Base{
         this.gallery = gallery;
         this.delay = delay;
 
-        this.isInit = false;
-
         this.count = 0;
         this.galleries = []
         this.images = [];
@@ -136,11 +134,7 @@ class Gallery extends Base{
     }
 
     async init() {
-        if (!this.isInit) {
-            this.isInit = true;
-            await this.fetch_content_json()
-                .then(j => this.process_json(j));
-        }
+        await this.fetch_content_json().then(j => this.process_json(j));
     }
 }
 

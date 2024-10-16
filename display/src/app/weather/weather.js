@@ -6,8 +6,6 @@ class Weather extends Base  {
         this.hasConfigPage = false;
         this.title = 'Weather';
 
-        this.isInit = false;
-
         this.url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chester-le-street?unitGroup=metric&key=TNYUBN3FLWYRKV8SGQ8UGG945&contentType=json'
 
     }
@@ -38,7 +36,6 @@ class Weather extends Base  {
 `}
 
     async run() {
-        await this.init();
         this.setupDisplay();
     }
 
@@ -46,11 +43,8 @@ class Weather extends Base  {
     }
 
     async init() {
-        if (!this.isInit) {
-            this.isInit = true;
-            let url = (window.location.href.startsWith('http://localhost:')) ? '' : this.url;
-            await this.fetch_content_json(url).then(j => this.process_json(j));
-        }
+        let url = (window.location.href.startsWith('http://localhost:')) ? '' : this.url;
+        await this.fetch_content_json(url).then(j => this.process_json(j));
     }
 
     process_json(json) {
