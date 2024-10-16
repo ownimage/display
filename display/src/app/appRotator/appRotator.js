@@ -7,16 +7,27 @@ class AppRotator extends Base{
         this.title = 'App Rotator';
 
         this.count = 0;
-        this.appRotatorConfig = ['clock', 'mondaine_clock'];
+        this.appRotatorConfig = [
+            {appName: 'clock', min: 0, sec: 10},
+            {appName:'calendar', min: 1, sec: 0},
+            {appName:'mondaine_clock', min: 0, sec: 10},
+            {appName:'gallery', min: 0, sec: 20}
+        ];
 }
 
-    rotate_app() {
-        if (this.appRotatorConfig.length != 0) {
-            if (this.currentApp) { this.currentApp.stop(); }
-            const appName = this.appRotatorConfig[this.count % this.appRotatorConfig.length];
-            this.currentApp = controller.appDictionary[appName];
-            this.currentApp.run();
-            this.count++;
+    test() {
+//        alert('hello');
+        this.rotate_app();
+    }
+
+    rotate_app(context) {
+        if (context.rotateActive && context.appRotatorConfig.length != 0) {
+            if (context.currentApp) { context.currentApp.stop(); }
+            const appConfig = context.appRotatorConfig[context.count % context.appRotatorConfig.length];
+            context.currentApp = controller.appDictionary[appConfig.appName];
+            context.currentApp.run();
+            context.count++;
+            setTimeout(context.rotate_app, (appConfig.min * 60 + appConfig.sec) * 1000, context);
         }
     }
 
@@ -29,39 +40,76 @@ class AppRotator extends Base{
 `;
     }
 
-    async scheduled_rotate() {
-        if (this.appRotatorConfig.length != 0) {
-            this.rotate_app()
-            this.rotateInterval = setInterval(() => this.rotate_app(), 10000);
-        }
-    }
-
-    stop() {
-        clearInterval(this.rotateInterval);
-    }
-
     async showConfigPage() {
         this.getContentElement().innerHTML =
 `
 <div id='appRotatorConfig' class='pt-3 container'>
     <h1 class='text-center'>${this.title} Config Page</h1>
-    <div class='row'>
-        <div class='col-4'>${this.selectDropDown('x', this.appRotatorConfig, 'clock', 'Label')}</div>
-        <div class='col-4'>X</div>
-        <div class='col-4'>X</div>
-    </div>
-    <div class='row'>
-        <div class='col-4'>X</div>
-        <div class='col-4'>X</div>
-        <div class='col-4'>X</div>
-    </div>
+    <div id='root'></div>
 </div>
 `;}
+//const { useState } = React;
+//
+//        function ListEditor() {
+//            const [list, setList] = useState(['Item 1', 'Item 2', 'Item 3']);
+//            const [newItem, setNewItem] = useState('');
+//
+//            const handleAddItem = () => {
+//                if (newItem.trim()) {
+//                    setList([...list, newItem]);
+//                    setNewItem('');
+//                }
+//            };
+//
+//            const handleInputChange = (event) => {
+//                setNewItem(event.target.value);
+//            };
+//
+//            const handleEditItem = (index, newValue) => {
+//                const updatedList = [...list];
+//                updatedList[index] = newValue;
+//                setList(updatedList);
+//            };
+//
+//            return (
+//                <div>
+//                    <h1>List Editor</h1>
+//                    <ul>
+//                        {list.map((item, index) => (
+//                            <li key={index}>
+//                                <input
+//                                    type="text"
+//                                    value={item}
+//                                    onChange={(event) => handleEditItem(index, event.target.value)}
+//                                />
+//                            </li>
+//                        ))}
+//                    </ul>
+//                    <input
+//                        type="text"
+//                        value={newItem}
+//                        onChange={handleInputChange}
+//                        placeholder="Add new item"
+//                    />
+//                    <button onClick={handleAddItem}>Add Item</button>
+//                </div>
+//            );
+//        }
+//
+//        ReactDOM.render(<ListEditor />, document.getElementById('root'));
+//
+//    }
+
+
+    stop() {
+        this.rotateActive = false;
+    }
 
     async run(config) {
         this.appList = config.appList;
         this.create_display();
-        this.scheduled_rotate();
+        this.rotateActive = true;
+        this.rotate_app(this);
     }
 
 }
