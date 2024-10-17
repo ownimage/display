@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Way Binding in React</title>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+const { useState } = React;
+
+function ListEditor() {
+    const [list, setList] = useState(['Item 1', 'Item 2', 'Item 3']);
+    const [newItem, setNewItem] = useState('');
+
+    const handleAddItem = () => {
+        if (newItem.trim()) {
+            setList([...list, newItem]);
+            setNewItem('');
+        }
+    };
+
+    const handleInputChange = (event) => {
+        setNewItem(event.target.value);
+    };
+
+    const handleEditItem = (index, newValue) => {
+        const updatedList = [...list];
+        updatedList[index] = newValue;
+        setList(updatedList);
+    };
+
+    return (
+        <div>
+            <h1>List Editor</h1>
+            <ul>
+                {list.map((item, index) => (
+                    <li key={index}>
+                        <input
+                            type="text"
+                            value={item}
+                            onChange={(event) => handleEditItem(index, event.target.value)}
+                        />
+                    </li>
+                ))}
+            </ul>
+            <input
+                type="text"
+                value={newItem}
+                onChange={handleInputChange}
+                placeholder="Add new item"
+            />
+            <button onClick={handleAddItem}>Add Item</button>
+        </div>
+    );
+}
+
+ReactDOM.render(<ListEditor />, document.getElementById('root'));
+
+</script>
+</body>
+</html>

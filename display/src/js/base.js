@@ -65,6 +65,18 @@ class Base {
         document.getElementById(id).addEventListener('touchstart', () => { console.log('touchstart'); fn(); });
     }
 
+    selectDropDown(id, list, selected, label) {
+        var html = `
+<select id='${id}' class='form-select' aria-label='${label}'>
+  <option selected>${selected}</option>
+`;
+        list.forEach(o => html += `<option value='${o}'${o == selected ? 'selected' : ''}>${o}</option>`)
+        html += `
+    </select>
+`;
+        return html;
+    }
+
     async init(){
     }
 

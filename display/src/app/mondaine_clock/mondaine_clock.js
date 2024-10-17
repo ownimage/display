@@ -10,8 +10,9 @@ class MondaineClock extends Base {
     updateDisplay() {
         const now = new Date();
 
-        const seconds = now.getSeconds();
-        const seconds_angle = seconds * 6 - 90;
+        const seconds = now.getSeconds() + now.getMilliseconds() / 1000.0;
+        var seconds_angle = (seconds / 58.0) * 360 - 90;
+        if (seconds >= 58) seconds_angle = -90;
         const seconds_transform = `rotate(${seconds_angle})`
         document.getElementById('second').setAttribute('transform', seconds_transform);
         document.getElementById('second-circle').setAttribute('transform', seconds_transform);
@@ -95,8 +96,7 @@ class MondaineClock extends Base {
 
     async run() {
         this.setupDisplay();
-        this.updateDisplay();
-        this.intervalId = setInterval(() => this.updateDisplay(), 1000);
+        this.intervalId = setInterval(() => this.updateDisplay(), 50);
     }
 
     stop() {

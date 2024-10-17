@@ -53,7 +53,7 @@ class Clock extends Base {
             <g transform='translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})'>
                 ${dial}
                 ${this.drawHand('hour', 120, 10, 10, 5, 2)}
-                ${this.drawHand('minute', 175, 10, 30, 5, 2)}
+                ${this.drawHand('minute', 175, 10, 30, 3, 2)}
                 ${this.drawHand('second', 200, 10, 50, 0, 0)}
             </g>
         </svg>

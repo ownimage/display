@@ -14,18 +14,18 @@
     fill: black;
     stroke: black;
     stroke-width: 1;
-    filter: drop-shadow(-3px -5px 2px rgb(0 0 0 / 0.4));
+    filter: drop-shadow(4px 4px 2px rgb(0 0 0 / 0.4));
 }
 #mondaine-clock #minute {
     fill: black;
     stroke: black;
     stroke-width: 1;
-    filter: drop-shadow(-4px -6px 2px rgb(0 0 0 / 0.4));
+    filter: drop-shadow(5px 5px 3px rgb(0 0 0 / 0.4));
 }
 #mondaine-clock .second  {
     fill: red;
     stroke-width: 0;
-    filter: drop-shadow(-5px -7px 4px rgb(0 0 0 / 0.4));
+    filter: drop-shadow(6px 6px 4px rgb(0 0 0 / 0.4));
 }
 #mondaine-clock #center {
     fill: red;

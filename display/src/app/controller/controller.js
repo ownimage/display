@@ -30,13 +30,11 @@ class Controller extends Base {
         });
         await Promise.all(promises);
 
-//        this.changeApp(this.getCurrentAppName());
-//        this.changeApp('calendar');
-        this.changeApp('mondaine_clock');
+        this.changeApp('appRotator');
     }
 
     clearLog() {
-//        this.logArray = [];
+        this.logArray = [];
         console.log('Console log cleared');
     }
 
@@ -44,14 +42,11 @@ class Controller extends Base {
         this.handleEventsActive =!this.handleEventsActive;
     }
 
-    register(app) {
+    async register(app) {
+        await app.init();
         this.appList.push(app);
         this.appList.sort((a, b) => a.name.localeCompare(b.name));
         this.appDictionary[app.name] = app;
-    }
-
-    getCurrentAppName() {
-        return this.appList[this.currentAppNum % this.appList.length].name;
     }
 
     redirectConsoleLog() {
@@ -106,19 +101,9 @@ class Controller extends Base {
         this.currentApp.run({'appList': this.appList});
     }
 
-    showNextApp() {
-        this.currentAppNum = (this.currentAppNum + 1) % this.appList.length;
-        this.changeApp(this.getCurrentAppName());
-    }
-
-    showPreviousApp() {
-        this.currentAppNum = (this.currentAppNum + this.appList.length - 1) % this.appList.length;
-        this.changeApp(this.getCurrentAppName());
-    }
-
     showConfig(appName) {
         this.handleEventsActive = false;
-        this.appDictionary[appName].showConfigPage();
+        this.appDictionary[appName].showConfigPage({'appList': this.appList});
     }
 
     appAction(appName, actionString) {
