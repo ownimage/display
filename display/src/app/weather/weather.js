@@ -3,15 +3,16 @@ class Weather extends Base  {
     constructor(contentDiv) {
         super('weather');
         this.hasAppPage = true;
-        this.hasConfigPage = false;
+        this.hasConfigPage = true;
         this.title = 'Weather';
 
-        this.url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chester-le-street?unitGroup=metric&key=TNYUBN3FLWYRKV8SGQ8UGG945&contentType=json'
+        this.delay = 3000;
 
+        this.url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chester-le-street?unitGroup=metric&key=TNYUBN3FLWYRKV8SGQ8UGG945&contentType=json'
     }
 
-        setupDisplay() {
-            this.getContentElement().innerHTML =
+    setupDisplay() {
+        this.getContentElement().innerHTML =
 `
 <div id="carouselExample" class="carousel slide vh-100 vw-100" data-bs-ride="carousel">
   <div class="carousel-inner h-100 w-100">
@@ -36,11 +37,38 @@ class Weather extends Base  {
 </div>
 `}
 
+    async showConfigPage() {
+        this.getContentElement().innerHTML =
+`
+<div id='weatherConfig' class='pt-3 container'>
+    <h1 class='text-center'>${this.title} Config Page</h1>
+    <div class='row mt-3'>
+        <div class='col-4'>
+            <p class='float-end'>Delay: </p>
+        </div>
+        <div class='col-4'>
+            <input id='delay' type='range' class='custom-range' min='3000' max='30000' value='${this.delay}'>
+        </div>
+        <div class='col-4'>
+            <p id='delayText'>${this.delay}</p>
+        </div>
+        <button type='button btn-block' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
+    </div>
+</div>
+`;
+        const setText = () => { document.getElementById('delayText').textContent = `${this.delay/1000} s`; }
+        setText();
+        document.getElementById('delay').addEventListener('input', (event) => {
+            this.delay = +event.target.value;
+            setText();
+        });
+    }
+
     async run() {
         this.setupDisplay();
         var myCarousel = document.getElementById('carouselExample');
         var carousel = new bootstrap.Carousel(myCarousel, {
-          interval: 20000,
+          interval: this.delay,
           wrap: true
         });
     }

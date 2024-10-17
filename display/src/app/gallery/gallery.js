@@ -84,29 +84,36 @@ class Gallery extends Base{
 <div id='galleryConfig' class='pt-3 container'>
     <h1 class='text-center'>${this.title} Config Page</h1>
     <div class='row mt-3'>
-        <div class='col-6'>
+        <div class='col-4'>
             <p class='float-end'>Gallery: </p>
         </div>
-        <div class='col-6'>
+        <div class='col-8'>
             ${this.getGalleriesSelectionBox()}
         </div>
     </div>
-    <div class='row mt-3'>
-        <div class='col-6'>
+    <div class='row mt-4'>
+        <div class='col-4'>
             <p class='float-end'>Delay: </p>
         </div>
-        <div class='col-6'>
+        <div class='col-4'>
             <input id='delay' type='range' class='custom-range' min='3000' max='30000' value='${this.delay}'>
+        </div>
+        <div class='col-4'>
+            <p id='delayText'>${this.delay}</p>
         </div>
         <button type='button btn-block' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
     </div>
 </div>
 `;
+        const setText = () => { document.getElementById('delayText').textContent = `${this.delay/1000} s`; }
+        setText();
+
         document.getElementById('gallerySelect').addEventListener('change', (event) => {
             this.setGallery(event.target.value);
         });
-        document.getElementById('delay').addEventListener('change', (event) => {
-            this.delay = event.target.value;
+        document.getElementById('delay').addEventListener('input', (event) => {
+            this.delay = +event.target.value;
+            setText();
         });
     }
     
