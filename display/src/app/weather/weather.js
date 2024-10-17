@@ -14,10 +14,10 @@ class Weather extends Base  {
     setupDisplay() {
         this.getContentElement().innerHTML =
 `
-<div id="carouselExample" class="carousel slide vh-100 vw-100 container" data-bs-ride="carousel">
+<div id='carouselExample' class='carousel slide vh-100 vw-100 container' data-bs-ride='carousel'>
 
-  <div class="carousel-inner h-100 w-100">
-    <div class="carousel-item active h-100 w-100">
+  <div class='carousel-inner h-100 w-100'>
+    <div class='carousel-item active h-100 w-100'>
     <div class='row mt-5'>
             <div class='col-6'>
                 <div class='card text-white bg-secondary mb-3'>
@@ -59,7 +59,7 @@ class Weather extends Base  {
 
 
     </div>
-    <div class="carousel-item h-100 w-100">
+    <div class='carousel-item h-100 w-100'>
         <h1> something else</h1>
 
     </div>
