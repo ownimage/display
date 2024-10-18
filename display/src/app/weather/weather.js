@@ -48,7 +48,7 @@ class Weather extends Base  {
             <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
         </div>
     </div>
-        <div class='col-6'>
+        <div class='col-6 m-3'>
             <div class='row''>
                 <div class='card text-white bg-secondary mb-3 col-6'>
                     <p>Sunrise: ${this.weather.currentConditions.sunrise}</p>
@@ -57,7 +57,16 @@ class Weather extends Base  {
                     <p>Sunset: ${this.weather.currentConditions.sunset}</p>
                 </div>
                 <div class='card text-white bg-secondary mb-3 col-6'>
-                    <p>MoonPhase: ${this.weather.currentConditions.moonphase}</p>
+                    <h1 class='text-center'>Moon</h1>
+                    <h3 class='text-center'>${this.getMoonPhaseDescription(this.weather.currentConditions.moonphase)}</h3>
+                    <svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
+                      <defs>
+                        <clipPath id='moonClip'>
+                          <path id='moonPath'></path>
+                        </clipPath>
+                      </defs>
+                      <circle cx='100' cy='100' r='50' fill='white' clip-path='url(#moonClip)'/>
+                    <svg>
                 </div>
                 <div class='card text-white bg-secondary mb-3 col-6'>
                     <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
@@ -76,7 +85,9 @@ class Weather extends Base  {
     </div>
   </div>
 </div>
-`}
+`;
+        this.drawMoon(this.weather.currentConditions.moonphase);
+    }
 
     async showConfigPage() {
         this.getContentElement().innerHTML =
@@ -105,6 +116,53 @@ class Weather extends Base  {
         });
     }
 
+    getMoonPhaseDescription(phase) {
+        if (phase === 0 || phase === 1) {
+            return 'New Moon';
+        } else if (phase > 0 && phase < 0.25) {
+            return 'Waxing Crescent';
+        } else if (phase === 0.25) {
+            return 'First Quarter';
+        } else if (phase > 0.25 && phase < 0.5) {
+            return 'Waxing Gibbous';
+        } else if (phase === 0.5) {
+            return 'Full Moon';
+        } else if (phase > 0.5 && phase < 0.75) {
+            return 'Waning Gibbous';
+        } else if (phase === 0.75) {
+            return 'Last Quarter';
+        } else if (phase > 0.75 && phase < 1) {
+            return 'Waning Crescent';
+        } else {
+            return 'Unknown Phase';
+        }
+    }
+
+    drawMoon(phase) { // phase 0 to 1
+      const moonPath = document.getElementById('moonPath');
+      const moonRadius = 50;
+      const cx = 100;
+      const cy = 100;
+      const angle = Math.PI * 2 * phase;
+      const x = cx + moonRadius * Math.cos(angle);
+      const y = cy + moonRadius * Math.sin(angle);
+
+      let d = '';
+      if (phase <= 0.5) {
+        d = `M ${cx - moonRadius}, ${cy}
+             A ${moonRadius}, ${moonRadius} 0 0, 1 ${cx + moonRadius}, ${cy} 
+             A ${moonRadius * Math.cos(angle)}, ${moonRadius} 0 0, 0 ${x}, ${y} 
+             A ${moonRadius * Math.cos(angle)}, ${moonRadius} 0 0, 1 ${cx - moonRadius}, ${cy}`;
+      } else {
+        d = `M ${cx - moonRadius}, ${cy}
+             A ${moonRadius}, ${moonRadius} 0 0, 1 ${cx + moonRadius}, ${cy} 
+             A ${moonRadius * Math.cos(angle)}, ${moonRadius} 0 0, 1 ${x}, ${y} 
+             A ${moonRadius * Math.cos(angle)}, ${moonRadius} 0 0, 0 ${cx - moonRadius}, ${cy}`;
+      }
+
+      moonPath.setAttribute('d', d);
+    }
+
     async run() {
         this.setupDisplay();
         var myCarousel = document.getElementById('carouselExample');
@@ -119,6 +177,7 @@ class Weather extends Base  {
 
     async init() {
         let url = (window.location.href.startsWith('http://localhost:')) ? '' : this.url;
+        url = this.url;
         await this.fetch_content_json(url).then(j => this.process_json(j));
     }
 
