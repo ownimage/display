@@ -21,7 +21,7 @@ class Weather extends Base  {
     <div class='row mt-5'>
             <div class='col-6'>
                 <div class='card text-white bg-secondary mb-3'>
-                    <img src='app/weather/icons/svg/${this.weather.currentConditions.icon}.svg'</img>
+                    <img src='app/weather/icons/weather/${this.weather.currentConditions.icon}.svg'</img>
                     <div class='mt-5'>
 
                         <h3 class='heading text-center'>Current temperature: ${this.weather.currentConditions.temp}</h3>
@@ -50,13 +50,15 @@ class Weather extends Base  {
     </div>
         <div class='col-6 m-3'>
             <div class='row''>
-                <div class='card text-white bg-secondary mb-3 col-6'>
-                    <p>Sunrise: ${this.weather.currentConditions.sunrise}</p>
+                <div class='card text-white bg-secondary m-3 col-6'>
+                    <h1 class='text-center'>Sunrise: ${this.weather.currentConditions.sunrise}</h1>
+                    <img class='mx-auto' src='app/weather/icons/sun/sunrise.png' width='200' height='200'</img>
                 </div>
-                <div class='card text-white bg-secondary mb-3 col-6'>
-                    <p>Sunset: ${this.weather.currentConditions.sunset}</p>
+                <div class='card text-white bg-secondary m-3 col-6'>
+                    <h1 class='text-center'>Sunset: ${this.weather.currentConditions.sunset}</h1>
+                    <img class='mx-auto' src='app/weather/icons/sun/sunset.png' width='200' height='200'</img>
                 </div>
-                <div class='card text-white bg-secondary mb-3 col-6'>
+                <div class='card text-white bg-secondary m-3 col-6'>
                     <h1 class='text-center'>Moon</h1>
                     <h3 class='text-center'>${this.getMoonPhaseDescription(this.weather.currentConditions.moonphase)}</h3>
                     <svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
@@ -68,7 +70,7 @@ class Weather extends Base  {
                       <circle cx='100' cy='100' r='50' fill='white' clip-path='url(#moonClip)'/>
                     <svg>
                 </div>
-                <div class='card text-white bg-secondary mb-3 col-6'>
+                <div class='card text-white bg-secondary m-3 col-6'>
                     <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
                 </div>
             </div>
@@ -140,7 +142,7 @@ class Weather extends Base  {
 
     drawMoon(phase) { // phase 0 to 1
       const moonPath = document.getElementById('moonPath');
-      const moonRadius = 50;
+      const moonRadius = 100;
       const cx = 100;
       const cy = 100;
       const angle = Math.PI * 2 * phase;
@@ -166,10 +168,10 @@ class Weather extends Base  {
     async run() {
         this.setupDisplay();
         var myCarousel = document.getElementById('carouselExample');
-        var carousel = new bootstrap.Carousel(myCarousel, {
-          interval: this.delay,
-          wrap: true
-        });
+//        var carousel = new bootstrap.Carousel(myCarousel, {
+//          interval: this.delay,
+//          wrap: true
+//        });
     }
 
     stop() {
@@ -177,7 +179,7 @@ class Weather extends Base  {
 
     async init() {
         let url = (window.location.href.startsWith('http://localhost:')) ? '' : this.url;
-        url = this.url;
+//        url = this.url;
         await this.fetch_content_json(url).then(j => this.process_json(j));
     }
 
