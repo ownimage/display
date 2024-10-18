@@ -39,22 +39,33 @@ class Weather extends Base  {
                 </div>
             </div>
     </div>
-        <div class='row'>
-                <div class='col-6'>
-                    <div class='card text-white bg-secondary mb-3'>
-                      <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
-                      <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
-                      <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
-                    </div>
-                </div>
-                <div class='col-6'>
-                    <div class='card text-white bg-secondary mb-3'>
-                      <p>Sunrise: ${this.weather.currentConditions.sunrise}</p>
-                      <p>Sunset: ${this.weather.currentConditions.sunset}</p>
-                      <p>MoonPhase: ${this.weather.currentConditions.moonphase}</p>
-                    </div>
-                </div>
+
+
+<div class='row'>
+    <div class='col-6'>
+        <div class='card text-white bg-secondary mb-3'>
+            <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
+            <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
         </div>
+    </div>
+        <div class='col-6'>
+            <div class='row''>
+                <div class='card text-white bg-secondary mb-3 col-6'>
+                    <p>Sunrise: ${this.weather.currentConditions.sunrise}</p>
+                </div>
+                <div class='card text-white bg-secondary mb-3 col-6'>
+                    <p>Sunset: ${this.weather.currentConditions.sunset}</p>
+                </div>
+                <div class='card text-white bg-secondary mb-3 col-6'>
+                    <p>MoonPhase: ${this.weather.currentConditions.moonphase}</p>
+                </div>
+                <div class='card text-white bg-secondary mb-3 col-6'>
+                    <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
