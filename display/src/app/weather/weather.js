@@ -16,76 +16,81 @@ class Weather extends Base  {
 `
 <div id='carouselExample' class='carousel slide vh-100 vw-100 container' data-bs-ride='carousel'>
 
-  <div class='carousel-inner h-100 w-100'>
-    <div class='carousel-item active h-100 w-100'>
-    <div class='row mt-5'>
-            <div class='col-6'>
-                <div class='card text-white bg-secondary mb-3'>
-                    <img src='app/weather/icons/weather/${this.weather.currentConditions.icon}.svg'</img>
-                    <div class='mt-5'>
-
-                        <h3 class='heading text-center'>Current temperature: ${this.weather.currentConditions.temp}</h3>
-                              <p>Conditions: ${this.weather.currentConditions.conditions}</p>
+    <div class='carousel-inner h-100 w-100'>
+        <div class='carousel-item active h-100 w-100'>
+            <div class='row mt-5'>
+                <div class='col-6'>
+                    <div class='card text-white bg-secondary mb-3'>
+                        <img src='app/weather/icons/weather/${this.weather.currentConditions.icon}.svg'</img>
+                        <div class='mt-5'>
+                            <h1 class='heading text-center'>${this.weather.currentConditions.temp}&deg;C</h1>
+                            <h3 class='text-center'>${this.weather.currentConditions.conditions}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-6'>
+                    <div class='card text-white bg-secondary mb-3'>
+                        <p>Wind Speed: ${this.weather.currentConditions.windspeed}</p>
+                        <p>Wind Gust: ${this.weather.currentConditions.windgust}</p>
+                        <p>Wind Dir: ${this.weather.currentConditions.winddir}</p>
+                        <p>Pressure: ${this.weather.currentConditions.pressure}</p>
                     </div>
                 </div>
             </div>
-            <div class='col-6'>
-                <div class='card text-white bg-secondary mb-3'>
-                            <p>Wind Speed: ${this.weather.currentConditions.windspeed}</p>
 
-                           <p>Wind Gust: ${this.weather.currentConditions.windgust}</p>
-                           <p>Wind Dir: ${this.weather.currentConditions.winddir}</p>
-                           <p>Pressure: ${this.weather.currentConditions.pressure}</p>
+            <div class='row'>
+                <div class='col-6'>
+                    <div class='card text-white bg-secondary mb-3'>
+                        <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
+                        <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
+                    </div>
+                </div>
+                <div class='col-6'>
+                    <div class='row mb-3'>
+                        <div class='col-6'>
+                            <div class='card text-white bg-secondary'>
+                                <h1 class='text-center'>Sunrise</h1>
+                                <img class='mx-auto' src='app/weather/icons/sun/sunrise.png' width='200' height='200'</img>
+                                <h1 class='text-center'>${this.weather.currentConditions.sunrise}</h1>
+                            </div>
+                        </div>
+                        <div class='col-6'>
+                            <div class='card text-white bg-secondary'>
+                                <h1 class='text-center'>Sunset</h1>
+                                <img class='mx-auto' src='app/weather/icons/sun/sunset.png' width='200' height='200'</img>
+                                <h1 class='text-center'>${this.weather.currentConditions.sunset}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col-6'>
+                            <div class='card text-white bg-secondary'>
+                                <h1 class='text-center'>Moon</h1>
+                                <svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
+                                    <defs>
+                                        <clipPath id='moonClip'>
+                                        <path id='moonPath'></path>
+                                        </clipPath>
+                                    </defs>
+                                    <circle cx='100' cy='100' r='50' fill='white' clip-path='url(#moonClip)'/>
+                                <svg>
+                                <h3 class='text-center'>${this.getMoonPhaseDescription(this.weather.currentConditions.moonphase)}</h3>
+                            </div>
+                        </div>
+                        <div class='col-6'>
+                            <div class='card text-white bg-secondary'>
+                                <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-    </div>
-
-
-<div class='row'>
-    <div class='col-6'>
-        <div class='card text-white bg-secondary mb-3'>
-            <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
-            <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
         </div>
-    </div>
-        <div class='col-6 m-3'>
-            <div class='row''>
-                <div class='card text-white bg-secondary m-3 col-6'>
-                    <h1 class='text-center'>Sunrise: ${this.weather.currentConditions.sunrise}</h1>
-                    <img class='mx-auto' src='app/weather/icons/sun/sunrise.png' width='200' height='200'</img>
-                </div>
-                <div class='card text-white bg-secondary m-3 col-6'>
-                    <h1 class='text-center'>Sunset: ${this.weather.currentConditions.sunset}</h1>
-                    <img class='mx-auto' src='app/weather/icons/sun/sunset.png' width='200' height='200'</img>
-                </div>
-                <div class='card text-white bg-secondary m-3 col-6'>
-                    <h1 class='text-center'>Moon</h1>
-                    <h3 class='text-center'>${this.getMoonPhaseDescription(this.weather.currentConditions.moonphase)}</h3>
-                    <svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
-                      <defs>
-                        <clipPath id='moonClip'>
-                          <path id='moonPath'></path>
-                        </clipPath>
-                      </defs>
-                      <circle cx='100' cy='100' r='50' fill='white' clip-path='url(#moonClip)'/>
-                    <svg>
-                </div>
-                <div class='card text-white bg-secondary m-3 col-6'>
-                    <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
-                </div>
+            <div class='carousel-item h-100 w-100'>
+                <h1> something else</h1>
             </div>
         </div>
     </div>
-</div>
-
-
-
-    </div>
-    <div class='carousel-item h-100 w-100'>
-        <h1> something else</h1>
-
-    </div>
-  </div>
 </div>
 `;
         this.drawMoon(this.weather.currentConditions.moonphase);
