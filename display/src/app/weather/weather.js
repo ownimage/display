@@ -21,19 +21,16 @@ class Weather extends Base  {
             <div class='row mt-5'>
                 <div class='col-6'>
                     <div class='card text-white bg-secondary mb-3'>
-                        <img src='app/weather/icons/weather/${this.weather.currentConditions.icon}.svg'</img>
-                        <div class='mt-5'>
-                            <h1 class='heading text-center'>${this.weather.currentConditions.temp}&deg;C</h1>
-                            <h3 class='text-center'>${this.weather.currentConditions.conditions}</h3>
-                        </div>
+                        <h1 class='text-center'>${this.weather.currentConditions.temp}&deg;C</h1>
+                        <img class='mx-auto' src='app/weather/icons/weather/${this.weather.currentConditions.icon}.svg' width='200' height='200'</img>
+                        <h3 class='text-center'>${this.weather.currentConditions.conditions}</h3>
                     </div>
                 </div>
                 <div class='col-6'>
                     <div class='card text-white bg-secondary mb-3'>
-                        <p>Wind Speed: ${this.weather.currentConditions.windspeed}</p>
-                        <p>Wind Gust: ${this.weather.currentConditions.windgust}</p>
-                        <p>Wind Dir: ${this.weather.currentConditions.winddir}</p>
-                        <p>Pressure: ${this.weather.currentConditions.pressure}</p>
+                        <h1 class='text-center'>Wind</h1>
+                        ${this.drawWind()}
+                        <h3 class='text-center'>${this.weather.currentConditions.windspeed} mph / ${this.weather.currentConditions.windgust} mph @ ${this.weather.currentConditions.winddir}&deg;</h3>
                     </div>
                 </div>
             </div>
@@ -43,6 +40,7 @@ class Weather extends Base  {
                     <div class='card text-white bg-secondary mb-3'>
                         <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
                         <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
+                        <p>Pressure: ${this.weather.currentConditions.pressure}</p>
                     </div>
                 </div>
                 <div class='col-6'>
@@ -143,6 +141,38 @@ class Weather extends Base  {
         } else {
             return 'Unknown Phase';
         }
+    }
+
+    drawWind(speed=50, gust=85) {
+        const speedLength = 100;
+        const gustLength = 120;
+        const arrowHeadLength = 30;
+        const arrowHeadWidth = 15;
+        return `
+<svg class='mx-auto' width='200' height='200' xmlns='http://www.w3.org/2000/svg'>
+
+    <circle cx='200' cy='0' r='35' fill='none' stroke='navy' stroke-width='4'/>
+    <circle cx='200' cy='0' r='70' fill='none' stroke='navy' stroke-width='4'/>
+    <circle cx='200' cy='0' r='105' fill='none' stroke='navy' stroke-width='4'/>
+    <circle cx='200' cy='0' r='140' fill='none' stroke='navy' stroke-width='4'/>
+    <circle cx='200' cy='0' r='175' fill='none' stroke='navy' stroke-width='4'/>
+
+
+    <g transform="translate(200,0) rotate(135)">
+        <path d='M0,0 L${gustLength-arrowHeadLength/2},0' stroke='black' stroke-width='8'/>
+        <path d='M${gustLength},0 L${gustLength-arrowHeadLength},${arrowHeadWidth} L${gustLength-arrowHeadLength},${-arrowHeadWidth} Z'
+            fill='black' stroke='white' stroke-width='2'/>
+        <path d='M${speedLength},0 L${speedLength-arrowHeadLength},${arrowHeadWidth} L${speedLength-arrowHeadLength},${-arrowHeadWidth} Z'
+            fill='black' stroke='white' stroke-width='2'/>
+    </g>
+
+    <text x='165' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>5</text>
+    <text x='130' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>10</text>
+    <text x='95' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>20</text>
+    <text x='60' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>40</text>
+    <text x='25' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>80</text>
+</svg>
+`;
     }
 
     drawMoon(phase) { // phase 0 to 1
