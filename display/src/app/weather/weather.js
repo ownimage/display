@@ -21,7 +21,7 @@ class Weather extends Base  {
     <div class='row mt-5'>
             <div class='col-6'>
                 <div class='card text-white bg-secondary mb-3'>
-                    <img src='app/weather/icons/${this.weather.currentConditions.icon}.png'</img>
+                    <img src='app/weather/icons/svg/${this.weather.currentConditions.icon}.svg'</img>
                     <div class='mt-5'>
 
                         <h3 class='heading text-center'>Current temperature: ${this.weather.currentConditions.temp}</h3>
