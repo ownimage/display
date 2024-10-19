@@ -1,7 +1,7 @@
 class Weather extends Base  {
 
     constructor(contentDiv) {
-        super('weather');
+        super('weather', true);
         this.hasAppPage = true;
         this.hasConfigPage = true;
         this.title = 'Weather';
@@ -14,7 +14,7 @@ class Weather extends Base  {
     setupDisplay() {
         this.getContentElement().innerHTML =
 `
-<div id='carouselExample' class='carousel slide vh-100 vw-100 container' data-bs-ride='carousel'>
+<div id='weather' class='carousel slide vh-100 vw-100 container' data-bs-ride='carousel'>
 
     <div class='carousel-inner h-100 w-100'>
         <div class='carousel-item active h-100 w-100'>
@@ -26,7 +26,7 @@ class Weather extends Base  {
                         <h3 class='text-center'>${this.weather.currentConditions.conditions}</h3>
                     </div>
                 </div>
-                <div class='col-6'>
+                <div class='wind col-6'>
                     <div class='card text-white bg-secondary mb-3'>
                         <h1 class='text-center'>Wind</h1>
                         ${this.drawWind()}
@@ -151,26 +151,27 @@ class Weather extends Base  {
         return `
 <svg class='mx-auto' width='200' height='200' xmlns='http://www.w3.org/2000/svg'>
 
-    <circle cx='200' cy='0' r='35' fill='none' stroke='navy' stroke-width='4'/>
-    <circle cx='200' cy='0' r='70' fill='none' stroke='navy' stroke-width='4'/>
-    <circle cx='200' cy='0' r='105' fill='none' stroke='navy' stroke-width='4'/>
-    <circle cx='200' cy='0' r='140' fill='none' stroke='navy' stroke-width='4'/>
-    <circle cx='200' cy='0' r='175' fill='none' stroke='navy' stroke-width='4'/>
-
-
-    <g transform="translate(200,0) rotate(135)">
-        <path d='M0,0 L${gustLength-arrowHeadLength/2},0' stroke='black' stroke-width='8'/>
-        <path d='M${gustLength},0 L${gustLength-arrowHeadLength},${arrowHeadWidth} L${gustLength-arrowHeadLength},${-arrowHeadWidth} Z'
-            fill='black' stroke='white' stroke-width='2'/>
-        <path d='M${speedLength},0 L${speedLength-arrowHeadLength},${arrowHeadWidth} L${speedLength-arrowHeadLength},${-arrowHeadWidth} Z'
-            fill='black' stroke='white' stroke-width='2'/>
+    <g class='windSpeedBars'>
+        <circle cx='200' cy='0' r='35'/>
+        <circle cx='200' cy='0' r='70'/>
+        <circle cx='200' cy='0' r='105'/>
+        <circle cx='200' cy='0' r='140'/>
+        <circle cx='200' cy='0' r='175'/>
     </g>
 
-    <text x='165' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>5</text>
-    <text x='130' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>10</text>
-    <text x='95' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>20</text>
-    <text x='60' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>40</text>
-    <text x='25' y='30' text-anchor='middle' font-size='1.6em' fill='white' stroke='white' stroke-width='2'>80</text>
+    <g transform="translate(200,0) rotate(135)">
+        <path class='arrow' d='M0,0 L${gustLength-arrowHeadLength/2},0'/>
+        <path class='arrowHead' d='M${gustLength},0 L${gustLength-arrowHeadLength},${arrowHeadWidth} L${gustLength-arrowHeadLength},${-arrowHeadWidth} Z'/>
+        <path class='arrowHead' d='M${speedLength},0 L${speedLength-arrowHeadLength},${arrowHeadWidth} L${speedLength-arrowHeadLength},${-arrowHeadWidth} Z'</g>
+    </g>
+
+    <g class='windLabels'>
+        <text x='165' y='30'>5</text>
+        <text x='130' y='30'>10</text>
+        <text x='95' y='30'>20</text>
+        <text x='60' y='30'>40</text>
+        <text x='25' y='30'>80</text>
+    </g>
 </svg>
 `;
     }

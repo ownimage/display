@@ -1,0 +1,21 @@
+#weather .wind .windSpeedBars {
+    fill: none;
+    stroke: navy;
+    stroke-width: 4;
+}
+#weather .wind .windLabels {
+    text-anchor: middle;
+    font-size: 1.6em;
+    fill: white;
+    stroke: white;
+    stroke-width: 2;
+}
+#weather .wind .arrow {
+    stroke: black;
+    stroke-width: 8;
+}
+#weather .wind .arrowHead {
+    fill: black;
+    stroke: white;
+    stroke-width: 2;
+}
