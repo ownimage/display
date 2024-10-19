@@ -148,15 +148,25 @@ class Weather extends Base  {
         const gustLength = 120;
         const arrowHeadLength = 30;
         const arrowHeadWidth = 15;
+
+        let windFrom = 100;
+
+        let cx = 200;
+        let cy = 0;
+        let windSpeedBars = [35, 70, 105, 140, 175];
+        let labels = [
+            { x: 165, y: 30, text: 5 },
+            { x: 130, y: 30, text: 10 },
+            { x: 95, y: 30, text: 20 },
+            { x: 60, y: 30, text: 40 },
+            { x: 25, y: 30, text: 80 },
+        ];
+
         return `
 <svg class='mx-auto' width='200' height='200' xmlns='http://www.w3.org/2000/svg'>
 
     <g class='windSpeedBars'>
-        <circle cx='200' cy='0' r='35'/>
-        <circle cx='200' cy='0' r='70'/>
-        <circle cx='200' cy='0' r='105'/>
-        <circle cx='200' cy='0' r='140'/>
-        <circle cx='200' cy='0' r='175'/>
+        ${windSpeedBars.map(b => `<circle cx='${cx}' cy='${cy}' r='${b}'/>`).join('\n')}
     </g>
 
     <g transform="translate(200,0) rotate(135)">
@@ -166,11 +176,7 @@ class Weather extends Base  {
     </g>
 
     <g class='windLabels'>
-        <text x='165' y='30'>5</text>
-        <text x='130' y='30'>10</text>
-        <text x='95' y='30'>20</text>
-        <text x='60' y='30'>40</text>
-        <text x='25' y='30'>80</text>
+        ${labels.map(l => `<text x='${l.x}' y='${l.y}'>${l.text}</text>`).join('\n')}
     </g>
 </svg>
 `;
