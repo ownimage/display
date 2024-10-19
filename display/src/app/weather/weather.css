@@ -5,10 +5,11 @@
 }
 #weather .wind .windLabels {
     text-anchor: middle;
+    dominant-baseline: middle;
     font-size: 1.6em;
-    fill: white;
-    stroke: white;
-    stroke-width: 2;
+    fill: #CCCCCC;
+    stroke: #CCCCCC;
+    stroke-width: 1;
 }
 #weather .wind .arrow {
     stroke: black;

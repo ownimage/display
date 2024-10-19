@@ -19,6 +19,7 @@ class Weather extends Base  {
     <div class='carousel-inner h-100 w-100'>
         <div class='carousel-item active h-100 w-100'>
             <div class='row mt-5'>
+
                 <div class='col-6'>
                     <div class='card text-white bg-secondary mb-3'>
                         <h1 class='text-center'>${this.weather.currentConditions.temp}&deg;C</h1>
@@ -29,63 +30,56 @@ class Weather extends Base  {
                 <div class='wind col-6'>
                     <div class='card text-white bg-secondary mb-3'>
                         <h1 class='text-center'>Wind</h1>
-                        ${this.drawWind()}
+                        ${this.drawWindCard(this.weather.currentConditions.windspeed,this.weather.currentConditions.windgust, this.weather.currentConditions.winddir) }
                         <h3 class='text-center'>${this.weather.currentConditions.windspeed} mph / ${this.weather.currentConditions.windgust} mph @ ${this.weather.currentConditions.winddir}&deg; ${this.getWindDirLabel(this.weather.currentConditions.winddir)}</h3>
                     </div>
                 </div>
-            </div>
 
-            <div class='row'>
-                <div class='col-6'>
-                    <div class='card text-white bg-secondary mb-3'>
-                        <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
-                        <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
-                        <p>Pressure: ${this.weather.currentConditions.pressure}</p>
-                    </div>
-                </div>
-                <div class='col-6'>
-                    <div class='row mb-3'>
-                        <div class='col-6'>
-                            <div class='card text-white bg-secondary'>
-                                <h1 class='text-center'>Sunrise</h1>
-                                <img class='mx-auto' src='app/weather/icons/sun/sunrise.png' width='200' height='200'</img>
-                                <h1 class='text-center'>${this.weather.currentConditions.sunrise}</h1>
-                            </div>
-                        </div>
-                        <div class='col-6'>
-                            <div class='card text-white bg-secondary'>
-                                <h1 class='text-center'>Sunset</h1>
-                                <img class='mx-auto' src='app/weather/icons/sun/sunset.png' width='200' height='200'</img>
-                                <h1 class='text-center'>${this.weather.currentConditions.sunset}</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-6'>
-                            <div class='card text-white bg-secondary'>
-                                <h1 class='text-center'>Moon</h1>
-                                <svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
-                                    <defs>
-                                        <clipPath id='moonClip'>
-                                        <path id='moonPath'></path>
-                                        </clipPath>
-                                    </defs>
-                                    <circle cx='100' cy='100' r='50' fill='white' clip-path='url(#moonClip)'/>
-                                <svg>
-                                <h3 class='text-center'>${this.getMoonPhaseDescription(this.weather.currentConditions.moonphase)}</h3>
-                            </div>
-                        </div>
-                        <div class='col-6'>
-                            <div class='card text-white bg-secondary'>
-                                <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-            <div class='carousel-item h-100 w-100'>
-                <h1> something else</h1>
+            <div class='row mt-2'>
+                <div class='col-4'>
+                    <div class='card text-white bg-secondary'>
+                        <h1 class='text-center'>Moon</h1>
+                        <svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
+                            <defs>
+                                <clipPath id='moonClip'>
+                                <path id='moonPath'></path>
+                                </clipPath>
+                            </defs>
+                            <circle cx='100' cy='100' r='50' fill='white' clip-path='url(#moonClip)'/>
+                        <svg>
+                        <h3 class='text-center'>${this.getMoonPhaseDescription(this.weather.currentConditions.moonphase)}</h3>
+                    </div>
+                </div>
+
+                <div class='col-4'>
+                    <div class='card text-white bg-secondary'>
+                        <h1 class='text-center'>Sunrise</h1>
+                        <img class='mx-auto' src='app/weather/icons/sun/sunrise.png' width='200' height='200'</img>
+                        <h1 class='text-center'>${this.weather.currentConditions.sunrise}</h1>
+                    </div>
+                </div>
+                <div class='col-4'>
+                    <div class='card text-white bg-secondary'>
+                        <h1 class='text-center'>Sunset</h1>
+                        <img class='mx-auto' src='app/weather/icons/sun/sunset.png' width='200' height='200'</img>
+                        <h1 class='text-center'>${this.weather.currentConditions.sunset}</h1>
+                    </div>
+                </div>
+                <div class='row mt-5'>
+                    <div class='col-6'>
+                        <div class='card text-white bg-secondary mb-3'>
+                            <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
+                            <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
+                            <p>Pressure: ${this.weather.currentConditions.pressure}</p>
+                        </div>
+                    </div>
+                    <div class='col-6'>
+                        <div class='card text-white bg-secondary'>
+                            <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -146,7 +140,7 @@ class Weather extends Base  {
             return windDirLabels[Math.floor(((windDir/360 + 31/32) * 16) % 16)];
     }
 
-    drawWind(speed=50, gust=80, windFrom=0) {
+    drawWindCard(speed=50, gust=80, windFrom=0) {
         const speedScale = 35; //difference in size that doubling the speed makes
 
         const speedLength = calcSpeedLength(speed, speedScale);
@@ -154,9 +148,22 @@ class Weather extends Base  {
         const arrowHeadLength = 30;
         const arrowHeadWidth = 15;
 
-        let cx = 200;
-        let cy = 0;
+        const translate = [
+            {x: 0, y: 200}, {x: 0, y: 200}, {x: 0, y: 0}, {x: 0, y: 0},
+            {x: 200, y: 0}, {x: 200, y: 0}, {x: 200, y: 200}, {x: 200, y: 200}
+        ];
+        const index = Math.floor(((windFrom + 180) /45) % 8);
+        console.log(index);
+
+        let cx = translate[index].x;
+        let cy = translate[index].y;
         let windSpeedBars = [35, 70, 105, 140, 175];
+
+
+        function calcSpeedLength(speed, speedScale, firstSpeedBar=5) {
+            return speedScale * ( 1 + (Math.log(speed) / Math.LN2) - (Math.log(firstSpeedBar) / Math.LN2));
+        }
+
         let labels = [
             { x: 165, y: 30, text: 5 },
             { x: 130, y: 30, text: 10 },
@@ -164,27 +171,17 @@ class Weather extends Base  {
             { x: 60, y: 30, text: 40 },
             { x: 25, y: 30, text: 80 },
         ];
-
-        function calcSpeedLength(speed, speedScale, firstSpeedBar=5) {
-            return speedScale * ( 1 + (Math.log(speed) / Math.LN2) - (Math.log(firstSpeedBar) / Math.LN2));
-        }
-
-        if (windFrom >= 0 && windFrom < 45) { // NNE
-        }
-        if (windFrom >= 45 && windFrom < 90) { // ENE
-        }
-        if (windFrom >= 0 && windFrom < 45) { // ESE
-        }
-        if (windFrom >= 0 && windFrom < 45) { // SSE
-        }
-        if (windFrom >= 0 && windFrom < 45) { // SSW
-        }
-        if (windFrom >= 0 && windFrom < 45) { // WSW
-        }
-        if (windFrom >= 0 && windFrom < 45) { // WNW
-        }
-        if (windFrom >= 0 && windFrom < 45) { // NNW
-        }
+        const labelTransforms = [
+            l => { return { x: 200-l.x, y: 190, text: l.text } },
+            l => { return { x: 15, y: l.x, text: l.text } },
+            l => { return { x: 15, y: 200-l.x, text: l.text } },
+            l => { return { x: 200-l.x, y: 15, text: l.text } },
+            l => { return { x: l.x, y: 15, text: l.text } },
+            l => { return { x: 185, y: 200-l.x, text: l.text } },
+            l => { return { x: l.x, y: 190, text: l.text } },
+            l => { return { x: 185, y: l.x, text: l.text } },
+        ];
+        labels = labels.map(labelTransforms[index]);
 
 
         return `
@@ -194,15 +191,16 @@ class Weather extends Base  {
         ${windSpeedBars.map(b => `<circle cx='${cx}' cy='${cy}' r='${b}'/>`).join('\n')}
     </g>
 
-    <g transform="translate(200,0) rotate(135)">
+    <g class='windLabels'>
+        ${labels.map(l => `<text x='${l.x}' y='${l.y}'>${l.text}</text>`).join('\n')}
+    </g>
+
+    <g transform="translate(${cx},${cy}) rotate(${windFrom + 90})">
         <path class='arrow' d='M0,0 L${gustLength-arrowHeadLength/2},0'/>
         <path class='arrowHead' d='M${gustLength},0 L${gustLength-arrowHeadLength},${arrowHeadWidth} L${gustLength-arrowHeadLength},${-arrowHeadWidth} Z'/>
         <path class='arrowHead' d='M${speedLength},0 L${speedLength-arrowHeadLength},${arrowHeadWidth} L${speedLength-arrowHeadLength},${-arrowHeadWidth} Z'</g>
     </g>
 
-    <g class='windLabels'>
-        ${labels.map(l => `<text x='${l.x}' y='${l.y}'>${l.text}</text>`).join('\n')}
-    </g>
 </svg>
 `;
     }
