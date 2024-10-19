@@ -146,9 +146,11 @@ class Weather extends Base  {
             return windDirLabels[Math.floor(((windDir/360 + 31/32) * 16) % 16)];
     }
 
-    drawWind(speed=50, gust=85, windFrom=0) {
-        const speedLength = 100;
-        const gustLength = 120;
+    drawWind(speed=50, gust=80, windFrom=0) {
+        const speedScale = 35; //difference in size that doubling the speed makes
+
+        const speedLength = calcSpeedLength(speed, speedScale);
+        const gustLength = calcSpeedLength(gust, speedScale);;
         const arrowHeadLength = 30;
         const arrowHeadWidth = 15;
 
@@ -162,6 +164,10 @@ class Weather extends Base  {
             { x: 60, y: 30, text: 40 },
             { x: 25, y: 30, text: 80 },
         ];
+
+        function calcSpeedLength(speed, speedScale, firstSpeedBar=5) {
+            return speedScale * ( 1 + (Math.log(speed) / Math.LN2) - (Math.log(firstSpeedBar) / Math.LN2));
+        }
 
         if (windFrom >= 0 && windFrom < 45) { // NNE
         }
