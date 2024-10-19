@@ -30,7 +30,7 @@ class Weather extends Base  {
                     <div class='card text-white bg-secondary mb-3'>
                         <h1 class='text-center'>Wind</h1>
                         ${this.drawWind()}
-                        <h3 class='text-center'>${this.weather.currentConditions.windspeed} mph / ${this.weather.currentConditions.windgust} mph @ ${this.weather.currentConditions.winddir}&deg;</h3>
+                        <h3 class='text-center'>${this.weather.currentConditions.windspeed} mph / ${this.weather.currentConditions.windgust} mph @ ${this.weather.currentConditions.winddir}&deg; ${this.getWindDirLabel(this.weather.currentConditions.winddir)}</h3>
                     </div>
                 </div>
             </div>
@@ -143,13 +143,22 @@ class Weather extends Base  {
         }
     }
 
-    drawWind(speed=50, gust=85) {
+    getWindDirLabel(windDir) {
+        const windDirLabels = [
+                'N', 'NNE', 'NE', 'ENE',
+                'E', 'ESE', 'SE', 'SSE',
+                'S', 'SSW', 'SW', 'WSW',
+                'W', 'WNW', 'NW', 'NNW'
+            ];
+
+            return windDirLabels[Math.floor(((windDir/360 + 31/32) * 16) % 16)];
+    }
+
+    drawWind(speed=50, gust=85, windFrom=0) {
         const speedLength = 100;
         const gustLength = 120;
         const arrowHeadLength = 30;
         const arrowHeadWidth = 15;
-
-        let windFrom = 100;
 
         let cx = 200;
         let cy = 0;
@@ -161,6 +170,24 @@ class Weather extends Base  {
             { x: 60, y: 30, text: 40 },
             { x: 25, y: 30, text: 80 },
         ];
+
+        if (windFrom >= 0 && windFrom < 45) { // NNE
+        }
+        if (windFrom >= 45 && windFrom < 90) { // ENE
+        }
+        if (windFrom >= 0 && windFrom < 45) { // ESE
+        }
+        if (windFrom >= 0 && windFrom < 45) { // SSE
+        }
+        if (windFrom >= 0 && windFrom < 45) { // SSW
+        }
+        if (windFrom >= 0 && windFrom < 45) { // WSW
+        }
+        if (windFrom >= 0 && windFrom < 45) { // WNW
+        }
+        if (windFrom >= 0 && windFrom < 45) { // NNW
+        }
+
 
         return `
 <svg class='mx-auto' width='200' height='200' xmlns='http://www.w3.org/2000/svg'>
