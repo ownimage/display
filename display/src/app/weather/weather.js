@@ -122,25 +122,17 @@ class Weather extends Base  {
     }
 
     getMoonPhaseDescription(phase) {
+        const phases = [
+            'New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous',
+            'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'
+        ];
+
         if (phase === 0 || phase === 1) {
-            return 'New Moon';
-        } else if (phase > 0 && phase < 0.25) {
-            return 'Waxing Crescent';
-        } else if (phase === 0.25) {
-            return 'First Quarter';
-        } else if (phase > 0.25 && phase < 0.5) {
-            return 'Waxing Gibbous';
-        } else if (phase === 0.5) {
-            return 'Full Moon';
-        } else if (phase > 0.5 && phase < 0.75) {
-            return 'Waning Gibbous';
-        } else if (phase === 0.75) {
-            return 'Last Quarter';
-        } else if (phase > 0.75 && phase < 1) {
-            return 'Waning Crescent';
-        } else {
-            return 'Unknown Phase';
+            return phases[0]; // 'New Moon'
         }
+
+        const index = Math.floor(phase * 8) % 8;
+        return phases[index];
     }
 
     getWindDirLabel(windDir) {
