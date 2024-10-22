@@ -1,6 +1,7 @@
 Add readme
 
-can I dynamically add the stylesheets?
+Gallery does not go all the way to the bottom
+MOndain clock not horizontally centered
 
 should have an analog clock
 on ipad when running as an app the quote bar does not go all the way to the bottom

@@ -56,8 +56,8 @@ class MondaineClock extends Base {
 `
 <div id='mondaine-clock'>
     <div>
-        <svg height='${clock_desired_size}' width='${clock_desired_size}' xmlns='http://www.w3.org/2000/svg'>
-            <g transform='translate(${clock_desired_size/2},${clock_desired_size/2}) scale(${scale})'>
+        <svg height='${window.innerHeight}' width='${window.innerWidth}' xmlns='http://www.w3.org/2000/svg'>
+            <g transform='translate(${window.innerWidth/2},${window.innerHeight/2}) scale(${scale})'>
                 ${this.outerRing()}
                 ${dial}
                 ${this.drawHand('hour', 175, 60, 12, 17)}
