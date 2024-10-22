@@ -8,6 +8,8 @@ class Weather extends Base  {
 
         this.delay = 3000;
 
+        this.testMoonPhase = 0.5;
+
         this.url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chester-le-street?unitGroup=metric&key=TNYUBN3FLWYRKV8SGQ8UGG945&contentType=json'
     }
 
@@ -15,6 +17,11 @@ class Weather extends Base  {
         this.getContentElement().innerHTML =
 `
 <div id='weather' class='carousel slide vh-100 vw-100 container' data-bs-ride='carousel'>
+
+    <div class='row'>
+        <label for='testMoonPhase' class='form-label'>Moon Phase</label>
+        <input type='range' class='form-range' id='testMoonPhase' min='0' max='1' step='0.01' value='${this.testMoonPhase}'>
+    </div>
 
     <div class='carousel-inner h-100 w-100'>
         <div class='carousel-item active h-100 w-100'>
@@ -40,15 +47,10 @@ class Weather extends Base  {
                 <div class='col-4'>
                     <div class='card text-white bg-secondary'>
                         <h1 class='text-center'>Moon</h1>
-                        <svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
-                            <defs>
-                                <clipPath id='moonClip'>
-                                <path id='moonPath'></path>
-                                </clipPath>
-                            </defs>
-                            <circle cx='100' cy='100' r='50' fill='white' clip-path='url(#moonClip)'/>
-                        <svg>
-                        <h3 class='text-center'>${this.getMoonPhaseDescription(this.weather.currentConditions.moonphase)}</h3>
+                        <div id='moonsvg' class='mx-auto'>
+                        </div>
+                        <h1 class='text-center'>${this.getMoonPhaseDescription(this.weather.currentConditions.moonphase)}</h1>
+
                     </div>
                 </div>
 
@@ -86,6 +88,12 @@ class Weather extends Base  {
 </div>
 `;
         this.drawMoon(this.weather.currentConditions.moonphase);
+        const tmp = document.getElementById('testMoonPhase');
+        tmp.addEventListener('input', () => {
+            this.testMoonPhase = tmp.value;
+            this.drawMoon(this.testMoonPhase);
+            console.log(`testMoonPhase = ${this.testMoonPhase}`)
+        } );
     }
 
     async showConfigPage() {
@@ -195,7 +203,7 @@ class Weather extends Base  {
         ${labels.map(l => `<text x='${l.x}' y='${l.y}'>${l.text}</text>`).join('\n')}
     </g>
 
-    <g transform="translate(${cx},${cy}) rotate(${windFrom + 90})">
+    <g transform='translate(${cx},${cy}) rotate(${windFrom + 90})'>
         <path class='arrow' d='M0,0 L${gustLength-arrowHeadLength/2},0'/>
         <path class='arrowHead' d='M${gustLength},0 L${gustLength-arrowHeadLength},${arrowHeadWidth} L${gustLength-arrowHeadLength},${-arrowHeadWidth} Z'/>
         <path class='arrowHead' d='M${speedLength},0 L${speedLength-arrowHeadLength},${arrowHeadWidth} L${speedLength-arrowHeadLength},${-arrowHeadWidth} Z'</g>
@@ -205,30 +213,24 @@ class Weather extends Base  {
 `;
     }
 
-    drawMoon(phase) { // phase 0 to 1
-      const moonPath = document.getElementById('moonPath');
-      const moonRadius = 100;
-      const cx = 100;
-      const cy = 100;
-      const angle = Math.PI * 2 * phase;
-      const x = cx + moonRadius * Math.cos(angle);
-      const y = cy + moonRadius * Math.sin(angle);
-
-      let d = '';
-      if (phase <= 0.5) {
-        d = `M ${cx - moonRadius}, ${cy}
-             A ${moonRadius}, ${moonRadius} 0 0, 1 ${cx + moonRadius}, ${cy} 
-             A ${moonRadius * Math.cos(angle)}, ${moonRadius} 0 0, 0 ${x}, ${y} 
-             A ${moonRadius * Math.cos(angle)}, ${moonRadius} 0 0, 1 ${cx - moonRadius}, ${cy}`;
-      } else {
-        d = `M ${cx - moonRadius}, ${cy}
-             A ${moonRadius}, ${moonRadius} 0 0, 1 ${cx + moonRadius}, ${cy} 
-             A ${moonRadius * Math.cos(angle)}, ${moonRadius} 0 0, 1 ${x}, ${y} 
-             A ${moonRadius * Math.cos(angle)}, ${moonRadius} 0 0, 0 ${cx - moonRadius}, ${cy}`;
-      }
-
-      moonPath.setAttribute('d', d);
-    }
+drawMoon(phase) {
+    const moonRadius = 80;
+    const maskRadius = moonRadius * ( 1 +  2 * Math.abs(phase - 0.5) );
+    const offset = (maskRadius + moonRadius) * (2 * (phase - 0.5)); // Offset calculation for phase
+    console.log(`maskRadius: ${maskRadius} offset: ${offset}`);
+    const svg = `
+<svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
+    <defs>
+        <mask id='moonMask'>
+            <rect x='0' y='0' width='100%' height='100%' fill='white'/>
+            <circle cx='100' cy='100' r='${moonRadius}' fill='black'/>
+            <circle cx='${100 + offset}' cy='100' r='${maskRadius}' fill='white'/>
+        </mask>
+    </defs>
+    <circle cx='100' cy='100' r='80' fill='white' mask='url(#moonMask)'/>
+</svg>`;
+    document.getElementById('moonsvg').innerHTML = svg;
+}
 
     async run() {
         this.setupDisplay();
@@ -244,7 +246,7 @@ class Weather extends Base  {
 
     async init() {
         let url = (window.location.href.startsWith('http://localhost:')) ? '' : this.url;
-//        url = this.url;
+        url = this.url;
         await this.fetch_content_json(url).then(j => this.process_json(j));
     }
 

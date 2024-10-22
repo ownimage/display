@@ -20,3 +20,7 @@
     stroke: white;
     stroke-width: 2;
 }
+#weather div#moonsvg circle {
+    stroke: white;
+    stroke-width: 4;
+}
