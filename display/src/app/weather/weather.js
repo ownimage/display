@@ -213,24 +213,41 @@ class Weather extends Base  {
 `;
     }
 
-drawMoon(phase) {
-    const moonRadius = 80;
-    const maskRadius = moonRadius * ( 1 +  2 * Math.abs(phase - 0.5) );
-    const offset = (maskRadius + moonRadius) * (2 * (phase - 0.5)); // Offset calculation for phase
-    console.log(`maskRadius: ${maskRadius} offset: ${offset}`);
-    const svg = `
+    drawMoon(phase) {
+        const moonPhaseRadians = 2 * Math.PI * phase;
+        const moonRadius = 80;
+        console.log(`moonPhaseRadians: ${moonPhaseRadians}`);
+        console.log(`Math.cos(moonPhaseRadians + Math.PI) ${Math.cos(moonPhaseRadians + Math.PI)}`);
+
+        let first = true;
+        let pathData = '';
+
+        for (let drawThetaDegrees = 0; drawThetaDegrees <= 360; drawThetaDegrees += 10) {
+            let drawThetaRadians = Math.PI * drawThetaDegrees / 180;
+            pathData += first ? 'M ' : 'L ';
+            first = false;
+            let x = 0;
+            if (Math.cos(drawThetaRadians) < 0) { // left hand side
+                moonPhaseRadians < Math.PI ?
+                    x = 100 + (moonRadius * Math.cos(drawThetaRadians) ) :
+                    x = 100 - (moonRadius * Math.cos(drawThetaRadians) * Math.cos(moonPhaseRadians) );
+//                    x = -200;
+            }
+            else { // right hand side
+                moonPhaseRadians > Math.PI ?
+                    x = 100 + moonRadius * Math.cos(drawThetaRadians) :
+                    x = 100 - moonRadius * Math.cos(drawThetaRadians) * Math.cos(moonPhaseRadians);
+            }
+
+            const y = 100 + moonRadius * Math.sin(drawThetaRadians)
+            pathData += `${x} ${y} `;
+        }
+        const svg = `
 <svg class='mx-auto' width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>
-    <defs>
-        <mask id='moonMask'>
-            <rect x='0' y='0' width='100%' height='100%' fill='white'/>
-            <circle cx='100' cy='100' r='${moonRadius}' fill='black'/>
-            <circle cx='${100 + offset}' cy='100' r='${maskRadius}' fill='white'/>
-        </mask>
-    </defs>
-    <circle cx='100' cy='100' r='80' fill='white' mask='url(#moonMask)'/>
+    <path d='${pathData}'/>
 </svg>`;
     document.getElementById('moonsvg').innerHTML = svg;
-}
+    }
 
     async run() {
         this.setupDisplay();
