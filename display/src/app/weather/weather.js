@@ -8,8 +8,6 @@ class Weather extends Base  {
 
         this.delay = 3000;
 
-        this.testMoonPhase = 0.5;
-
         this.url = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chester-le-street?unitGroup=metric&key=TNYUBN3FLWYRKV8SGQ8UGG945&contentType=json'
     }
 
@@ -17,11 +15,6 @@ class Weather extends Base  {
         this.getContentElement().innerHTML =
 `
 <div id='weather' class='carousel slide vh-100 vw-100 container' data-bs-ride='carousel'>
-
-    <div class='row'>
-        <label for='testMoonPhase' class='form-label'>Moon Phase</label>
-        <input type='range' class='form-range' id='testMoonPhase' min='0' max='1' step='0.01' value='${this.testMoonPhase}'>
-    </div>
 
     <div class='carousel-inner h-100 w-100'>
         <div class='carousel-item active h-100 w-100'>
@@ -88,12 +81,6 @@ class Weather extends Base  {
 </div>
 `;
         this.drawMoon(this.weather.currentConditions.moonphase);
-        const tmp = document.getElementById('testMoonPhase');
-        tmp.addEventListener('input', () => {
-            this.testMoonPhase = tmp.value;
-            this.drawMoon(this.testMoonPhase);
-            console.log(`testMoonPhase = ${this.testMoonPhase}`)
-        } );
     }
 
     async showConfigPage() {
@@ -216,8 +203,6 @@ class Weather extends Base  {
     drawMoon(phase) {
         const moonPhaseRadians = 2 * Math.PI * phase;
         const moonRadius = 80;
-        console.log(`moonPhaseRadians: ${moonPhaseRadians}`);
-        console.log(`Math.cos(moonPhaseRadians + Math.PI) ${Math.cos(moonPhaseRadians + Math.PI)}`);
 
         let first = true;
         let pathData = '';
@@ -231,7 +216,6 @@ class Weather extends Base  {
                 moonPhaseRadians < Math.PI ?
                     x = 100 + (moonRadius * Math.cos(drawThetaRadians) ) :
                     x = 100 - (moonRadius * Math.cos(drawThetaRadians) * Math.cos(moonPhaseRadians) );
-//                    x = -200;
             }
             else { // right hand side
                 moonPhaseRadians > Math.PI ?
