@@ -255,19 +255,24 @@ class Calendar extends Base {
 <div id='calendarConfig' class='pt-3 container'>
     <h1 class='text-center'>${this.title} Config Page</h1>
     <div class='row mt-3'>
-        <div class='col-6'>
+        <div class='col-4'>
             <p class='float-end'>Fetch size: </p>
         </div>
-        <div class='col-6'>
+        <div class='col-4'>
             <input id='fetchSize' type='range' class='custom-range' min='20' max='300' value='${this.fetchSize}'>
+        </div>
+        <div class='col-4'>
+            <p id='fetchSizeText'>${this.delay}</p>
         </div>
         <button type='button btn-block' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
     </div>
 </div>
 `;
-
-        document.getElementById('fetchSize').addEventListener('change', (event) => {
-            this.fetchSize = event.target.value;
+        const setText = () => { document.getElementById('fetchSizeText').textContent = `${this.fetchSize}`; }
+        setText();
+        document.getElementById('fetchSize').addEventListener('input', (event) => {
+            this.fetchSize = +event.target.value;
+            setText();
         });
     }
 

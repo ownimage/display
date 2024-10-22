@@ -34,7 +34,9 @@ class AppRotator extends Base{
 `
 <div id='appRotatorConfig' class='pt-3 container'>
     <h1 class='text-center'>${this.title} Config Page</h1>
-    <div id='root'></div>
+    <div id='row root mt-3'>
+         <button type='button btn-block col-12' class='btn btn-primary mt-3 w-100' onclick='controller.changeApp("config", event)'>OK</button>
+    </div>
 </div>
 `;}
 //const { useState } = React;
