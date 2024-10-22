@@ -53,7 +53,8 @@ class Base {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const t = await response.text();
-            const j = JSON.parse(t);
+            const cleanJsonString = t.replace(/,(\s*[}\]])/g, '$1');
+            const j = JSON.parse(cleanJsonString);
             return j;
         } catch (error) {
             console.error('Error fetching the HTML file:', error);

@@ -141,7 +141,8 @@ class Gallery extends Base{
     }
 
     async init() {
-        await this.fetch_content_json().then(j => this.process_json(j));
+        const url = window.location.href.startsWith('http://localhost:') ? '' : 'app/gallery/gallery.php';
+        await this.fetch_content_json(url).then(j => this.process_json(j));
     }
 }
 
