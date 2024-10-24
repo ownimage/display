@@ -61,20 +61,6 @@ class Weather extends Base  {
                         <h1 class='text-center'>${this.weather.currentConditions.sunset}</h1>
                     </div>
                 </div>
-                <div class='row mt-5'>
-                    <div class='col-6'>
-                        <div class='card text-white bg-secondary mb-3'>
-                            <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
-                            <p>Solar Radiation: ${this.weather.currentConditions.solarradiation}</p>
-                            <p>Pressure: ${this.weather.currentConditions.pressure}</p>
-                        </div>
-                    </div>
-                    <div class='col-6'>
-                        <div class='card text-white bg-secondary'>
-                            <p>Cloud Cover: ${this.weather.currentConditions.cloudcover}</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -246,13 +232,7 @@ class Weather extends Base  {
     }
 
     async init() {
-        let url = (window.location.href.startsWith('http://localhost:')) ? '' : this.url;
-        url = this.url;
-        await this.fetch_content_json(url).then(j => this.process_json(j));
-    }
-
-    process_json(json) {
-        this.weather = json
+        await this.fetch_content_json(this.url).then(j => this.weather = j);
     }
 
     // icons from https://github.com/visualcrossing/WeatherIcons

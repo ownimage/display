@@ -30,7 +30,7 @@ class Controller extends Base {
         });
         await Promise.all(promises);
 
-        this.changeApp('weather');
+        this.changeApp('appRotator');
     }
 
     clearLog() {
