@@ -42,6 +42,7 @@ class Gallery extends Base{
     setGallery(gallery) {
         this.gallery = gallery;
         this.images = this.galleries[this.gallery];
+        localStorage.setItem("gallery.gallery", gallery);
     }
 
     get_onscreen_image() {
@@ -137,12 +138,14 @@ class Gallery extends Base{
         await this.init();
         this.create_display();
         this.scheduled_rotate();
-        console.log('done');
     }
 
     async init() {
         const url = window.location.href.startsWith('http://localhost:') ? '' : 'app/gallery/gallery.php';
         await this.fetch_content_json(url).then(j => this.process_json(j));
+        if (localStorage.getItem("gallery.gallery") !== null) {
+            this.setGallery(localStorage.getItem("gallery.gallery"));
+        };
     }
 }
 
