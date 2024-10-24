@@ -115,6 +115,7 @@ class Gallery extends Base{
         document.getElementById('delay').addEventListener('input', (event) => {
             this.delay = +event.target.value;
             setText();
+            localStorage.setItem("gallery.delay", this.delay);
         });
     }
     
@@ -146,6 +147,9 @@ class Gallery extends Base{
         if (localStorage.getItem("gallery.gallery") !== null) {
             this.setGallery(localStorage.getItem("gallery.gallery"));
         };
+        if (localStorage.getItem("gallery.delay") !== null) {
+            this.delay = Number(localStorage.getItem("gallery.delay"));
+        }
     }
 }
 
