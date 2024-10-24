@@ -212,15 +212,15 @@ class Weather extends Base  {
             pathData += first ? 'M ' : 'L ';
             first = false;
             let x = 0;
-            if (Math.cos(drawThetaRadians) < 0) { // left hand side
+            if (Math.cos(drawThetaRadians) < 0) { // right hand side
                 moonPhaseRadians < Math.PI ?
-                    x = 100 + (moonRadius * Math.cos(drawThetaRadians) ) :
-                    x = 100 - (moonRadius * Math.cos(drawThetaRadians) * Math.cos(moonPhaseRadians) );
+                    x = 100 - (moonRadius * Math.cos(drawThetaRadians) ) :
+                    x = 100 + (moonRadius * Math.cos(drawThetaRadians) * Math.cos(moonPhaseRadians) );
             }
-            else { // right hand side
+            else { // left hand side
                 moonPhaseRadians > Math.PI ?
-                    x = 100 + moonRadius * Math.cos(drawThetaRadians) :
-                    x = 100 - moonRadius * Math.cos(drawThetaRadians) * Math.cos(moonPhaseRadians);
+                    x = 100 - moonRadius * Math.cos(drawThetaRadians) :
+                    x = 100 + moonRadius * Math.cos(drawThetaRadians) * Math.cos(moonPhaseRadians);
             }
 
             const y = 100 + moonRadius * Math.sin(drawThetaRadians)
