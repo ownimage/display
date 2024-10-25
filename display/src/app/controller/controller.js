@@ -30,7 +30,7 @@ class Controller extends Base {
         });
         await Promise.all(promises);
 
-        this.changeApp('appRotator');
+        setTimeout(() => this.changeApp('appRotator'), 3000);
     }
 
     clearLog() {
@@ -43,7 +43,7 @@ class Controller extends Base {
     }
 
     async register(app) {
-        await app.init();
+        app.init();
         this.appList.push(app);
         this.appList.sort((a, b) => a.name.localeCompare(b.name));
         this.appDictionary[app.name] = app;
