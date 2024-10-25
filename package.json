@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "babel display/src --out-dir dist/display"
+    "build": "babel display/src --out-dir dist"
   },
   "devDependencies": {
     "@babel/cli": "^7.25.7",
