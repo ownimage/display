@@ -1,6 +1,6 @@
 [
-  {"appName": "mondaine_clock", "min": 0, "sec": 10},
-  {"appName": "calendar", "min": 0, "sec": 10},
+  {"appName": "mondaine_clock", "min": 1, "sec": 10},
+  {"appName": "calendar", "min": 1, "sec": 10},
   {"appName": "clock", "min": 0, "sec": 10},
-  {"appName": "gallery", "min": 0, "sec": 10}
+  {"appName": "gallery", "min": 2, "sec": 10}
 ]

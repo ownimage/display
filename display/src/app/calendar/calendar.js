@@ -55,7 +55,7 @@ class Calendar extends Base {
     async initializeGapiClient() {
         console.log('initializeGapiClient');
         await gapi.client.init({
-            apiKey: 'AIzaSyDKUfxX-7Z_uv6qBc6LTNZy8mQNMMJ2JQs',
+            apiKey: this.config.apiKey,
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
         });
         this.gisLoaded()
@@ -64,7 +64,7 @@ class Calendar extends Base {
     gisLoaded() {
         console.log('gisLoaded');
         this.tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: '621701457931-ufnkse0r4vhhr2h6csbemdmcj8hrbii6.apps.googleusercontent.com',
+            client_id: this.config.client_id,
             scope: 'https://www.googleapis.com/auth/calendar.readonly',
             callback: '', // defined later
         });
@@ -79,6 +79,8 @@ class Calendar extends Base {
             if (resp.error !== undefined) {
                 throw (resp);
             }
+            localStorage.setItem('google_token', resp.access_token);
+            localStorage.setItem('google_refresh_token', response.refresh_token);
             await this.listUpcomingEvents();
         };
 
@@ -92,8 +94,14 @@ class Calendar extends Base {
     }
 
     async listUpcomingEvents() {
-        this.setButtonVisible(false);
         console.log('listUpcomingEvents');
+
+        const token = localStorage.getItem('google_token');
+        if (token) {
+            gapi.client.setToken({ access_token: token });
+        }
+
+        this.setButtonVisible(false);
         let response;
         try {
             response = await gapi.client.calendar.events.list({
@@ -276,10 +284,41 @@ class Calendar extends Base {
         });
     }
 
+    autoRefreshToken() {
+        const refreshToken = localStorage.getItem('google_refresh_token');
+        if (refreshToken) {
+            fetch('https://oauth2.googleapis.com/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'client_id': this.config.client_id,
+                    'client_secret': this.config.client_secret,
+                    'refresh_token': refreshToken,
+                    'grant_type': 'refresh_token'
+                })
+            }).then(response => response.json())
+            .then(data => {
+                if (data.access_token) {
+                  localStorage.setItem('google_token', data.access_token);
+                  gapi.client.setToken({ access_token: data.access_token });
+                }
+          }).catch(error => console.error('Error refreshing token:', error));
+        }
+    }
+
+
+    process_json(json) {
+        this.config = json;
+    }
+
     async init() {
+        await this.fetch_content_json().then(j => this.process_json(j));
         await this.loadScript('https://apis.google.com/js/api.js');
         await this.loadScript('https://accounts.google.com/gsi/client');
         this.gapiLoaded();
+        setInterval(this.autoRefreshToken, 50 * 60 * 1000);
     }
 
 
