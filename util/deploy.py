@@ -33,7 +33,7 @@ try:
     # Create an SFTP session
     sftp = ssh.open_sftp()
 
-    put_dir(sftp, '../display/src', '/')
+    put_dir(sftp, '../dist', '/')
 
 except:
     # Close the SFTP session and SSH connection
