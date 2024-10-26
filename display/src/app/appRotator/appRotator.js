@@ -10,9 +10,9 @@ class AppRotator extends Base{
     }
 
     rotate_app(context) {
-        if (context.rotateActive && context.appRotatorConfig.length != 0) {
+        if (context.rotateActive && context.config.length != 0) {
             if (context.currentApp) { context.currentApp.stop(); }
-            const appConfig = context.appRotatorConfig[context.count % context.appRotatorConfig.length];
+            const appConfig = context.config[context.count % context.config.length];
             context.currentApp = controller.appDictionary[appConfig.appName];
             context.currentApp.run();
             context.count++;
@@ -26,8 +26,7 @@ class AppRotator extends Base{
 <div id='appRotator'>
     <h1>App Rotator</h
 </div>
-`;
-    }
+`;}
 
     async showConfigPage() {
         this.getContentElement().innerHTML =
@@ -35,64 +34,120 @@ class AppRotator extends Base{
 <div id='appRotatorConfig' class='pt-3 container'>
     <h1 class='text-center'>${this.title} Config Page</h1>
     <div id='root' class='row mt-3'>
-         <button type='button btn-block col-12' class='btn btn-primary mt-3 w-100' onclick='controller.changeApp("config", event)'>OK</button>
+    </div>
+    <div class='row mt-3'>
+         <button type='button' class='btn btn-primary mt-3 col-12' onclick='controller.changeApp("config", event)'>OK</button>
     </div>
 </div>
 `;
         const { useState } = React;
+        const appRotatorConfig = this.config;
 
-        function ListEditor() {
-            const [list, setList] = useState(['Item 1', 'Item 2', 'Item 3']);
+        function ListEditor(props) {
+            const [list, setList] = useState(props.config);
             const [newItem, setNewItem] = useState('');
 
             const handleAddItem = () => {
-                if (newItem.trim()) {
-                    setList([...list, newItem]);
-                    setNewItem('');
-                }
-            };
-
-            const handleInputChange = (event) => {
-                setNewItem(event.target.value);
+                props.config.push({ appName: 'clock', min: 0, sec: 30});
+                setList([...props.config]);
+                setNewItem('');
             };
 
             const handleEditItem = (index, newValue) => {
                 const updatedList = [...list];
                 updatedList[index] = newValue;
                 setList(updatedList);
+                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
             };
 
+            const handleEditMins = (index, newValue) => {
+                props.config[index].min = newValue;
+                setList([...props.config]);
+                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
+            };
+
+            const handleEditSecs = (index, newValue) => {
+                props.config[index].sec = newValue;
+                setList([...props.config]);
+                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
+            };
+
+            const handleDelete = (index) => {
+                props.config.splice(index, 1);
+                setList([...props.config]);
+                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
+            };
+
+
+            const appSelector = (app) => {
+               return (
+                    <select class='form-select' defaultValue={app}>
+                        <option selected>Select App</option>
+                        {controller.appList
+                            .map((item, index) => (
+                                <option value={item.name}>
+                                    {item.name}
+                                </option>
+                            ))
+                        }
+                    </select>
+            )};
+
             return (
-                <div>
-                    <h1>List Editor</h1>
-                    <ul>
-                        {list.map((item, index) => (
-                            <li key={index}>
-                                <input
-                                    type="text"
-                                    value={item}
-                                    onChange={(event) => handleEditItem(index, event.target.value)}
+                <div class='container'>
+                    {list.map((item, index) => (
+                        <div class='row'>
+                            <div class='col-3'>
+                                {appSelector(item.appName)}
+                            </div>
+                            <input
+                                id='mins'
+                                type='range'
+                                class='custom-range col-2'
+                                min='0'
+                                max='60'
+                                value={item.min}
+                                onChange={(event) => handleEditMins(index, event.target.value)}
                                 />
-                            </li>
-                        ))}
-                    </ul>
-                    <input
-                        type="text"
-                        value={newItem}
-                        onChange={handleInputChange}
-                        placeholder="Add new item"
-                    />
-                    <button onClick={handleAddItem}>Add Item</button>
+                           <div class='col-2'>
+                                <p id='delayText'>{item.min + ' min(s)'}</p>
+                            </div>
+                            <input
+                                id='secs'
+                                type='range'
+                                class='custom-range col-2'
+                                min='0'
+                                max='60'
+                                value={item.sec}
+                                onChange={(event) => handleEditSecs(index, event.target.value)}
+                                />
+                            <div class='col-2'>
+                                <p id='delayText'>{item.sec + ' sec(s)'}</p>
+                            </div>
+                            <button
+                                type='button'
+                                class='btn btn-danger col-1 my-1'
+                                onClick={(event) => handleDelete(index)}
+                            >
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    ))}
+                    <div class='row mt-3'>
+                        <button
+                            type='button'
+                            class='btn btn-success col-6 mt-3'
+                            onClick={(event) => handleAddItem()}
+                        >
+                            &nbsp;<i class="bi bi-plus-square-fill"></i>&nbsp;
+                        </button>
+                    </div>
                 </div>
             );
         }
 
-        ReactDOM.render(<ListEditor />, document.getElementById('root'));
-
-    }
-
-    process_json(json) {
-        this.appRotatorConfig = json;
+        document.getElementById('root').innerHTML = '';
+        ReactDOM.render(<ListEditor config={this.config}/>, document.getElementById('root'));
     }
 
     stop() {
@@ -107,10 +162,15 @@ class AppRotator extends Base{
     }
 
    async init() {
-        await this.fetch_content_json().then(j => this.process_json(j));
+        const s = localStorage.getItem('appRotator.config');
+        if (s) {
+            this.config = JSON.parse(s);
+        } else {
+            await this.fetch_content_json().then(j => this.config = j);
+        }
     }
 
 }
 
-controller.register(new AppRotator() );
+controller.register(new AppRotator());
 
