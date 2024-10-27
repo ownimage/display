@@ -96,7 +96,7 @@ class MondaineClock extends Base {
 
     async run() {
         this.setupDisplay();
-        this.intervalId = setInterval(() => this.updateDisplay(), 50);
+        this.intervalId = setInterval(() => this.updateDisplay(), 200);
     }
 
     stop() {

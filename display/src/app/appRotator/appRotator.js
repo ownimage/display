@@ -148,6 +148,7 @@ class AppRotator extends Base{
 
     stop() {
         this.rotateActive = false;
+        if (this.currentApp) { this.currentApp.stop(); }
     }
 
     async run(config) {
