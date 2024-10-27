@@ -113,9 +113,9 @@ class AppRotator extends Base{
                                 type='range'
                                 class='custom-range col-2'
                                 min='0'
-                                max='60'
-                                value={item.sec}
-                                onChange={(event) => handleEditSecs(index, event.target.value)}
+                                max='12'
+                                value={item.sec / 5}
+                                onChange={(event) => handleEditSecs(index, 5 * event.target.value)}
                                 />
                             <div class='col-2'>
                                 <p id='delayText'>{item.sec + ' sec(s)'}</p>
