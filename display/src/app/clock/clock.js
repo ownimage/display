@@ -3,14 +3,14 @@ class Clock extends Base {
     constructor(contentDiv) {
         super('clock', true);
         this.hasAppPage = true;
-        this.hasConfigPage = false;
+        this.hasConfigPage = true;
         this.title = 'Clock';
     }
 
     updateDisplay() {
         const now = new Date();
 
-        const seconds = now.getSeconds();
+        const seconds = now.getSeconds() + now.getMilliseconds() / 1000.0;
         const seconds_angle = seconds * 6 - 90;
         const seconds_transform = `rotate(${seconds_angle})`
         document.getElementById('second').setAttribute('transform', seconds_transform);
@@ -62,10 +62,57 @@ class Clock extends Base {
 `;
     }
 
+    async showConfigPage() {
+        this.getContentElement().innerHTML = `
+<div id='clockConfig' class='pt-3 container'>
+    <h1 class='text-center'>${this.title} Config Page</h1>
+    <div class='row mt-3'>
+        <div class='col-4'>
+            <p class='float-end'>Frames Per Second </p>
+        </div>
+        <input
+            id='fps'
+            type='range'
+            class='custom-range col-2'
+            min='1'
+            max='10'
+            value={this.config.fps}
+            />
+       <div class='col-2'>
+            <p id='fpsText'>${this.config.fps} fps</p>
+        </div>
+    </div>
+    <div class='row mt-3'>
+         <button type='button btn-block' class='btn btn-primary mt-3' onclick='controller.changeApp("config", event)'>OK</button>
+    </div>
+</div>
+`;
+
+        const handleEditFPS = (fps) => {
+            this.config.fps = fps;
+            document.getElementById('fpsText').textContent = `${this.config.fps} fps`;
+            localStorage.setItem('clock.config', JSON.stringify(this.config));
+        }
+
+        document.getElementById('fps').addEventListener('input', (event) => {
+            handleEditFPS(event.target.value);
+        });
+    }
+
+    async init() {
+        let config = localStorage.getItem('clock.config');
+        if (this.config == null) {
+            this.config = {fps: 5};
+        }
+        else {
+            this.config = JSON.parse(config);
+        }
+    }
+
     async run() {
         this.setupDisplay();
         this.updateDisplay();
-        this.intervalId = setInterval(() => this.updateDisplay(), 1000);
+        this.intervalId = setInterval(() => this.updateDisplay(), 1000 / this.config.fps);
     }
 
     stop() {
@@ -73,6 +120,6 @@ class Clock extends Base {
     }
 }
 
-controller.register(new Clock() );
+controller.register(new Clock());
 
 

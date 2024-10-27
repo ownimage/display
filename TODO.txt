@@ -1,17 +1,10 @@
-Add readme
+clocks should have config for how many ticks per second
+Quote should have config for size
 
-Gallery does not go all the way to the bottom
-MOndain clock not horizontally centered
+should have an digital clock
 
-should have an analog clock
-on ipad when running as an app the quote bar does not go all the way to the bottom
 
 
 Weather
 https://www.visualcrossing.com/resources/blog/replacing-the-google-weather-api/
 
-google calendar
-
-slack ai
-
-need a rotate function
