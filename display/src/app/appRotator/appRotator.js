@@ -45,44 +45,40 @@ class AppRotator extends Base{
 
         function ListEditor(props) {
             const [list, setList] = useState(props.config);
-            const [newItem, setNewItem] = useState('');
+
+            const refreshList = () => {
+                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
+                setList(JSON.parse(localStorage.getItem('appRotator.config')));
+            };
 
             const handleAddItem = () => {
                 props.config.push({ appName: 'clock', min: 0, sec: 30});
-                setList([...props.config]);
-                setNewItem('');
-            };
-
-            const handleEditItem = (index, newValue) => {
-                const updatedList = [...list];
-                updatedList[index] = newValue;
-                setList(updatedList);
-                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
+                refreshList();
             };
 
             const handleEditMins = (index, newValue) => {
                 props.config[index].min = newValue;
-                setList([...props.config]);
-                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
+                refreshList();
             };
 
             const handleEditSecs = (index, newValue) => {
                 props.config[index].sec = newValue;
-                setList([...props.config]);
-                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
+                refreshList();
             };
 
             const handleDelete = (index) => {
                 props.config.splice(index, 1);
-                setList([...props.config]);
-                localStorage.setItem('appRotator.config', JSON.stringify(props.config));
+                refreshList();
             };
 
+            const handleChangeApp = (index, value) => {
+                props.config[index].appName = value;
+                refreshList();
+            };
 
-            const appSelector = (app) => {
+            const appSelector = (index, appName) => {
                return (
-                    <select class='form-select' defaultValue={app}>
-                        <option selected>Select App</option>
+                    <select class='form-select' defaultValue={appName} onChange={(e) => handleChangeApp(index, e.target.value)}>
                         {controller.appList
                             .map((item, index) => (
                                 <option value={item.name}>
@@ -98,7 +94,7 @@ class AppRotator extends Base{
                     {list.map((item, index) => (
                         <div class='row'>
                             <div class='col-3'>
-                                {appSelector(item.appName)}
+                                {appSelector(index, item.appName)}
                             </div>
                             <input
                                 id='mins'
