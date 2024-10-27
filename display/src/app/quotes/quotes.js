@@ -1,7 +1,7 @@
 class Quotes extends Base{
 
     constructor(contentDiv) {
-        super('quotes', false);
+        super('quotes', true);
         this.hasAppPage = true;
         this.hasConfigPage = false;
         this.title = 'Quotes';
@@ -57,7 +57,7 @@ class Quotes extends Base{
 
     async run() {
         if (this.quotes.length < 2) {
-            await Common.fetch_content_json('quotes.json')
+            await this.fetch_content_json()
                 .then(j => this.quotes = j)
         }
         this.count = Math.floor(Math.random() * this.quotes.length);
